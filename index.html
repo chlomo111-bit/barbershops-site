@@ -199,6 +199,24 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .card li{display:flex;gap:10px;font-size:15.5px}
 .card li::before{content:"✓";color:var(--ok);font-weight:900}
 .card .price{font-family:var(--f-display);font-size:22px;color:var(--brass-lt);margin-top:auto;padding-top:10px}
+.plan{max-width:620px;margin:0 auto;border:1.5px solid var(--brass);border-radius:28px;padding:34px 32px;background:linear-gradient(170deg,color-mix(in srgb,var(--brass) 16%,var(--surface)),var(--surface) 50%);display:flex;flex-direction:column;gap:24px;box-shadow:0 30px 80px -40px color-mix(in srgb,var(--brass) 60%,transparent)}
+.plan-top{text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px}
+.plan .tag{font-size:13px;font-weight:800;letter-spacing:.1em;color:var(--brass)}
+.plan-price{display:flex;align-items:baseline;gap:6px;direction:rtl}
+.plan-price .amt{font-family:var(--f-display);font-size:96px;line-height:1;color:var(--text)}
+.plan-price .cur{font-family:var(--f-display);font-size:40px;color:var(--brass-lt)}
+.plan-price .per{font-size:18px;color:var(--muted);font-weight:700}
+.plan-free{color:var(--ok);font-weight:800;font-size:16px}
+.plan-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px}
+.plan-list li{display:flex;gap:10px;font-size:16px}
+.plan-list li::before{content:"✓";color:var(--ok);font-weight:900;flex:none}
+.plan-cta{width:100%}
+.plan-extra{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px;border-radius:16px;border:1px dashed var(--line);background:var(--bg)}
+.plan-extra b{display:block;font-size:15.5px}
+.plan-extra span{color:var(--muted);font-size:14px}
+.plan-extra-price{font-weight:900;color:var(--brass-lt)!important;font-size:18px!important;white-space:nowrap}
+.plan-extra-price small{font-size:12px;color:var(--muted);font-weight:600}
+@media (max-width:520px){.plan{padding:26px 20px}.plan-price .amt{font-size:80px}.plan-extra{flex-direction:column;align-items:flex-start}}
 
 /* faq */
 .faq{max-width:780px;display:flex;flex-direction:column}
@@ -279,7 +297,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
       <a href="#how">איך זה עובד</a>
       <a href="#bot">בוט וואטסאפ</a>
       <a href="#admin">ניהול</a>
-      <a href="#offer">מה מקבלים</a>
+      <a href="#offer">מחיר</a>
       <a href="#faq">שאלות</a>
     </nav>
     <a class="btn gold sm" href="#contact">רוצה אפליקציה</a>
@@ -400,35 +418,30 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
 
 <section id="offer">
   <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">מה מקבלים</span>
-      <h2>אנחנו מקימים, אתה מספר</h2>
-      <p class="lede">לא צריך להבין במחשבים. אנחנו בונים את האפליקציה בעיצוב שלך, מחברים את הבוט ומלמדים אותך להשתמש בפאנל.</p>
+    <div class="sec-head" style="text-align:center">
+      <span class="eyebrow">המחיר</span>
+      <h2>חבילה אחת. הכל כלול.</h2>
+      <p class="lede" style="margin-inline:auto">לא צריך להבין במחשבים. אנחנו בונים, מחברים ומלמדים אותך, ואתה רק עושה תספורות.</p>
     </div>
-    <div class="offer">
-      <div class="card">
-        <span class="tag">התקנה</span>
-        <h3>הקמת האפליקציה</h3>
-        <ul>
-          <li>כתובת משלך: השם-שלך.barbershops.company</li>
-          <li>עיצוב עם הלוגו והצבעים שלך</li>
-          <li>שירותים, מחירים, שעות וחופשות</li>
-          <li>חיבור בוט הוואטסאפ למספר נפרד</li>
-          <li>הדרכה קצרה על הפאנל</li>
-        </ul>
-        <p class="price">מחיר לפי המספרה</p>
+    <div class="plan">
+      <div class="plan-top">
+        <span class="tag">פלטפורמה מלאה למספרה שלך</span>
+        <div class="plan-price"><span class="cur">₪</span><span class="amt">99</span><span class="per">לחודש</span></div>
+        <p class="plan-free">הקמה חינם · בלי התחייבות</p>
       </div>
-      <div class="card hl">
-        <span class="tag">חודשי</span>
-        <h3>שירות שוטף</h3>
-        <ul>
-          <li>הבוט רץ ומחובר כל הזמן</li>
-          <li>תזכורות, אישורים והודעות חזרה</li>
-          <li>שינויים בנוסחים ובהגדרות לפי בקשה</li>
-          <li>עדכונים ותכונות חדשות</li>
-          <li>תמיכה בוואטסאפ</li>
-        </ul>
-        <p class="price">מחיר לפי המספרה</p>
+      <ul class="plan-list">
+        <li>אתר תורים עם השם והכתובת של המספרה שלך</li>
+        <li>הלקוחות קובעים לבד: יום, שעה ושירות</li>
+        <li>בוט וואטסאפ: קוד אימות, אישור ותזכורת שעה לפני</li>
+        <li>ביטול בהודעה אחת, והתור משתחרר ביומן</li>
+        <li>פאנל ניהול: יומן, לקוחות, שעות, חופשות ומחירים</li>
+        <li>ביקורות מאומתות ואייקון על מסך הבית</li>
+        <li>עדכונים ותמיכה בוואטסאפ</li>
+      </ul>
+      <a class="btn gold plan-cta" href="#contact">אני רוצה אפליקציה למספרה שלי</a>
+      <div class="plan-extra">
+        <div><b>רוצה עיצוב בהתאמה אישית?</b><span>לוגו, צבעים ותוספות שמתאימים בדיוק למספרה שלך</span></div>
+        <span class="plan-extra-price">+99 ₪ <small>חד־פעמי</small></span>
       </div>
     </div>
   </div>
@@ -442,6 +455,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
       <details><summary>הבוט שולח מהמספר האישי שלי?</summary><p>מומלץ מספר נפרד לבוט. אתה ממשיך לקבל התראות על תורים חדשים וביטולים במספר שלך, ואפשר להגדיר כמה מספרי מנהל.</p></details>
       <details><summary>אפשר לחסום שעות לבד?</summary><p>כן. מהלשונית "יומן" מוסיפים תור ידני או חוסמים זמן, ומהלשונית "חופשות" סוגרים ימים שלמים.</p></details>
       <details><summary>מה קורה אם הבוט לא מחובר?</summary><p>האתר ממשיך לעבוד. הלקוח שולח בקשה בוואטסאפ, והבוט שולח את האישורים ברגע שהוא חוזר.</p></details>
+      <details><summary>כמה זה עולה?</summary><p>99 ₪ לחודש, הכל כלול, והקמה חינם. אפשר להפסיק מתי שרוצים. מי שרוצה עיצוב בהתאמה אישית (לוגו, צבעים ותוספות) מוסיף 99 ₪ חד־פעמי.</p></details>
       <details><summary>כמה זמן לוקח להקים?</summary><p>אחרי שיש לנו את השירותים, המחירים, השעות והלוגו, ההקמה מהירה. נגיד לך תאריך מדויק בשיחה.</p></details>
       <details><summary>אפשר לשנות מחירים לבד?</summary><p>כן. שירותים, מחירים, משך כל שירות ותוספות משנים מהלשונית "שירותים", ולוחצים "שמור ופרסם".</p></details>
     </div>
