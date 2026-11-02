@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BarberShops · אפליקציית תורים למספרות</title>
+<meta name="description" content="אפליקציה עם השם שלך: הלקוחות קובעים תור לבד, מקבלים אישור ותזכורת בוואטסאפ, ואתה מנהל הכל מהטלפון.">
+<meta name="theme-color" content="#0c0a07">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://barbershops.company/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://barbershops.company/">
+<meta property="og:title" content="BarberShops · אפליקציית תורים למספרות">
+<meta property="og:description" content="הלקוחות קובעים תור לבד. אתה רק עושה תספורות.">
+<meta property="og:image" content="https://barbershops.company/og.jpg">
+<meta property="og:locale" content="he_IL">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img,video{max-width:100%}[hidden]{display:none!important}.legal a{color:var(--muted)}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=Suez+One&display=swap">
+<style>
+/* Layout: RTL long-scroll — barber-pole stripe as the one bold motif; a live phone demo carries the hero; brass on espresso, cream in light */
+:root{
+  --bg:#0c0a07; --bg-2:#15110b; --surface:#1c1710; --line:#3a3020;
+  --text:#f6efe2; --muted:#ab9f88; --brass:#d0a858; --brass-lt:#ecd49a; --brass-dk:#8a6d33;
+  --pole-r:#b8432f; --wa:#25d366; --wa-bub:#1f3a2c; --in-bub:#232018;
+  --ok:#86c79a;
+  --f-display:"Suez One","Heebo",Georgia,serif;
+  --f-body:"Heebo",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --r:18px;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --bg:#f7f1e6; --bg-2:#efe6d5; --surface:#fffaf0; --line:#ddcfb3;
+  --text:#1d170e; --muted:#6c604b; --brass:#9a7428; --brass-lt:#b58a33; --brass-dk:#7a5b1c;
+  --pole-r:#a83a27; --wa:#1a9e4b; --wa-bub:#dcf5e3; --in-bub:#ffffff; --ok:#2f8a4a;
+  color-scheme:light;
+}}
+:root[data-theme="light"]{
+  --bg:#f7f1e6; --bg-2:#efe6d5; --surface:#fffaf0; --line:#ddcfb3;
+  --text:#1d170e; --muted:#6c604b; --brass:#9a7428; --brass-lt:#b58a33; --brass-dk:#7a5b1c;
+  --pole-r:#a83a27; --wa:#1a9e4b; --wa-bub:#dcf5e3; --in-bub:#ffffff; --ok:#2f8a4a;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--f-body);font-size:17px;line-height:1.65;direction:rtl}
+a{color:var(--brass-lt)}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+section{padding-block:88px}
+.band{background:var(--bg-2);border-block:1px solid var(--line)}
+h1,h2,h3{text-wrap:balance;margin:0}
+h2{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,4.4vw,46px);line-height:1.15}
+h3{font-size:20px;font-weight:800}
+p{margin:0}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--brass);margin-bottom:14px;display:block}
+.lede{color:var(--muted);max-width:60ch;margin-top:16px;font-size:18px}
+.sec-head{margin-bottom:44px}
+
+/* barber pole stripe — the one bold motif */
+.pole{height:10px;background:repeating-linear-gradient(-45deg,var(--pole-r) 0 14px,var(--text) 14px 28px,#2b4f8a 28px 42px,var(--text) 42px 56px);background-size:79px 10px;animation:pole 2.4s linear infinite}
+@keyframes pole{to{background-position:79px 0}}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--bg)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:19px;letter-spacing:.01em;direction:ltr}
+.logo i{width:12px;height:30px;border-radius:6px;background:repeating-linear-gradient(-45deg,var(--pole-r) 0 5px,var(--text) 5px 10px,#2b4f8a 10px 15px,var(--text) 15px 20px);border:1.5px solid var(--brass)}
+.logo b{color:var(--brass)}
+.top nav{display:flex;gap:22px;font-size:15px}
+.top nav a{color:var(--muted);text-decoration:none}
+.top nav a:hover{color:var(--text)}
+@media (max-width:820px){.top nav{display:none}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 24px;border-radius:999px;font:inherit;font-weight:800;font-size:16px;text-decoration:none;cursor:pointer;border:1.5px solid transparent;transition:transform .15s,background .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.gold{background:var(--brass);color:#1a1309}
+.btn.line{border-color:var(--line);color:var(--text);background:transparent}
+.btn.sm{min-height:40px;padding:0 18px;font-size:14px}
+
+/* hero */
+.hero{padding-block:72px 88px}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(40px,6.4vw,76px);line-height:1.04}
+.hero h1 em{font-style:normal;color:var(--brass)}
+.hero .lede{font-size:19px}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.facts{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:30px;color:var(--muted);font-size:15px;padding:0;list-style:none}
+.facts li{display:flex;align-items:center;gap:8px}
+.facts li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--brass)}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.phone-col{order:2}}
+
+/* phone demo */
+.phone-col{display:flex;flex-direction:column;align-items:center;gap:14px}
+.phone{width:100%;max-width:330px;aspect-ratio:9/18.5;border-radius:44px;padding:12px;background:linear-gradient(160deg,#2a2419,#0e0b07);box-shadow:0 30px 80px -30px rgba(0,0,0,.6),inset 0 0 0 1.5px #4a3d27}
+.screen{height:100%;border-radius:34px;overflow:hidden;background:#0b0a08;color:#f5efe3;display:flex;flex-direction:column;position:relative;font-size:14px}
+.notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:88px;height:22px;border-radius:12px;background:#000;z-index:3}
+.s-head{padding:42px 18px 14px;background:radial-gradient(ellipse at top,#2a2112,#0b0a08 75%);text-align:center}
+.s-head small{display:block;color:#c9a45c;font-size:11px;letter-spacing:.14em;font-weight:700}
+.s-head strong{font-family:var(--f-display);font-weight:400;font-size:24px;display:block;margin-top:2px}
+.s-body{flex:1;padding:4px 16px 16px;display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.s-step{font-size:12px;color:#a89e8a;display:flex;justify-content:space-between}
+.s-step b{color:#ecd49a}
+.s-title{font-weight:800;font-size:17px}
+.days{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.day,.slot,.svc{border:1px solid #3a311f;background:#15120d;color:#f5efe3;border-radius:12px;font:inherit;cursor:pointer;transition:border-color .15s,background .15s}
+.day{padding:8px 0;font-size:12px;line-height:1.25}
+.day b{display:block;font-size:17px}
+.day:disabled{opacity:.35;cursor:not-allowed}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.slot{padding:9px 0;font-weight:700;font-variant-numeric:tabular-nums}
+.slot:disabled{opacity:.3;text-decoration:line-through;cursor:not-allowed}
+.svc{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;text-align:right;font-weight:600}
+.svc span{color:#c9a45c;font-weight:800}
+.day[aria-pressed="true"],.slot[aria-pressed="true"],.svc[aria-pressed="true"]{border-color:#c9a45c;background:#2a2112}
+.code{display:flex;gap:8px;justify-content:center;direction:ltr}
+.code input{width:46px;height:54px;text-align:center;font:inherit;font-size:22px;font-weight:800;border-radius:12px;border:1px solid #3a311f;background:#15120d;color:#f5efe3}
+.s-cta{margin-top:auto;min-height:46px;border:0;border-radius:999px;background:#c9a45c;color:#1a1309;font:inherit;font-weight:800;cursor:pointer}
+.s-cta:disabled{opacity:.35;cursor:not-allowed}
+.s-note{font-size:12px;color:#a89e8a;text-align:center}
+.done-ic{width:64px;height:64px;border-radius:50%;margin:10px auto 0;display:grid;place-items:center;background:#1d3a26;color:#86c79a;font-size:30px}
+.mini-wa{background:#1f3a2c;border-radius:14px 14px 4px 14px;padding:10px 12px;font-size:12.5px;white-space:pre-line;line-height:1.5}
+.mini-wa small{display:block;color:#7fb596;font-size:10px;margin-bottom:4px;font-weight:700}
+.demo-hint{font-size:14px;color:var(--muted)}
+.demo-hint button{background:none;border:0;color:var(--brass-lt);font:inherit;cursor:pointer;text-decoration:underline;padding:0 4px}
+
+/* journey */
+.journey{display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:j;list-style:none;padding:0;margin:0}
+.journey li{position:relative;padding:0 0 0 18px;counter-increment:j}
+.journey li::before{content:counter(j);display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--brass);color:var(--brass);font-weight:900;font-size:18px;background:var(--bg);position:relative;z-index:1;margin-bottom:16px}
+.journey li::after{content:"";position:absolute;top:22px;right:44px;left:0;height:1.5px;background:var(--line)}
+.journey li:last-child::after{display:none}
+.journey h3{font-size:18px;margin-bottom:6px}
+.journey p{color:var(--muted);font-size:15px}
+@media (max-width:860px){.journey{grid-template-columns:1fr;gap:26px}.journey li{display:grid;grid-template-columns:44px 1fr;gap:4px 16px;padding:0}.journey li::before{grid-row:span 2;margin:0}.journey li::after{top:44px;bottom:-26px;right:21px;left:auto;width:1.5px;height:auto}}
+
+/* whatsapp */
+.wa-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start}
+@media (max-width:900px){.wa-grid{grid-template-columns:1fr}}
+.wa-list{display:flex;flex-direction:column;gap:6px;list-style:none;padding:0;margin:0}
+.wa-list button{width:100%;text-align:right;display:grid;grid-template-columns:auto 1fr;gap:2px 14px;align-items:center;padding:14px 16px;border-radius:14px;border:1px solid transparent;background:transparent;color:var(--text);font:inherit;cursor:pointer}
+.wa-list button:hover{background:var(--surface)}
+.wa-list button[aria-selected="true"]{background:var(--surface);border-color:var(--line)}
+.wa-list .when{grid-row:span 2;font-size:12px;font-weight:800;color:var(--brass);min-width:76px;letter-spacing:.02em}
+.wa-list strong{font-size:16px}
+.wa-list small{color:var(--muted);font-size:14px}
+.chat{background:var(--surface);border:1px solid var(--line);border-radius:24px;overflow:hidden}
+.chat-top{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.chat-top .av{width:38px;height:38px;border-radius:50%;background:var(--brass);color:#1a1309;display:grid;place-items:center;font-weight:900}
+.chat-top small{display:block;color:var(--wa);font-size:12px;font-weight:700}
+.chat-body{padding:22px 18px;display:flex;flex-direction:column;gap:10px;min-height:300px;background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:18px 18px}
+.bub{max-width:86%;padding:10px 14px 18px;border-radius:16px;white-space:pre-line;font-size:15px;line-height:1.55;position:relative;animation:pop .35s ease both}
+.bub time{position:absolute;bottom:4px;left:12px;font-size:11px;color:var(--muted)}
+.bub.out{align-self:flex-start;background:var(--wa-bub);border-top-right-radius:4px}
+.bub.in{align-self:flex-end;background:var(--in-bub);border:1px solid var(--line);border-top-left-radius:4px}
+.bub .lnk{color:var(--brass-lt);text-decoration:underline}
+@keyframes pop{from{opacity:.0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* admin */
+.adm{display:grid;grid-template-columns:240px 1fr;border:1px solid var(--line);border-radius:24px;overflow:hidden;background:var(--surface)}
+.adm-tabs{display:flex;flex-direction:column;padding:12px;gap:2px;border-left:1px solid var(--line);background:var(--bg-2)}
+.adm-tabs button{text-align:right;padding:12px 14px;border-radius:10px;border:0;background:transparent;color:var(--muted);font:inherit;font-weight:600;cursor:pointer;display:flex;justify-content:space-between}
+.adm-tabs button[aria-selected="true"]{background:var(--surface);color:var(--text);box-shadow:inset -3px 0 0 var(--brass)}
+.adm-tabs button small{font-size:11px;color:var(--brass);font-weight:700;letter-spacing:.06em;direction:ltr}
+.adm-panel{padding:30px 32px;min-width:0}
+.adm-panel h3{font-size:24px;margin-bottom:8px}
+.adm-panel>p{color:var(--muted);max-width:56ch}
+.adm-feat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px;padding:0;list-style:none}
+.adm-feat li{padding:14px 16px;border:1px solid var(--line);border-radius:14px;font-size:15px;background:var(--bg)}
+.adm-feat li b{display:block;font-size:15.5px;margin-bottom:2px}
+.adm-feat li span{color:var(--muted);font-size:14px}
+@media (max-width:820px){.adm{grid-template-columns:1fr}.adm-tabs{flex-direction:row;overflow-x:auto;border-left:0;border-bottom:1px solid var(--line)}.adm-tabs button{white-space:nowrap}.adm-tabs button small{display:none}.adm-tabs button[aria-selected="true"]{box-shadow:inset 0 -3px 0 var(--brass)}.adm-panel{padding:24px 20px}.adm-feat{grid-template-columns:1fr}}
+
+/* small promises */
+.promises{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px 40px}
+.promises div{border-top:1.5px solid var(--brass-dk);padding-top:18px}
+.promises h3{font-size:18px;margin-bottom:6px}
+.promises p{color:var(--muted);font-size:15.5px}
+@media (max-width:820px){.promises{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.promises{grid-template-columns:1fr}}
+
+/* live example */
+.live{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;padding:36px 40px;border-radius:28px;background:linear-gradient(120deg,var(--surface),var(--bg-2));border:1px solid var(--line)}
+.live h2{font-size:clamp(26px,3.4vw,36px)}
+.live .url{direction:ltr;display:inline-block;margin-top:14px;font-weight:700;color:var(--brass-lt);font-size:15px}
+.live ul{margin:14px 0 0;padding:0;list-style:none;color:var(--muted);font-size:15.5px;display:flex;flex-wrap:wrap;gap:6px 20px}
+@media (max-width:760px){.live{grid-template-columns:1fr;padding:28px 22px}}
+
+/* offer */
+.offer{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media (max-width:820px){.offer{grid-template-columns:1fr}}
+.card{border:1px solid var(--line);border-radius:24px;padding:30px;background:var(--surface);display:flex;flex-direction:column;gap:14px}
+.card.hl{border-color:var(--brass);background:linear-gradient(170deg,color-mix(in srgb,var(--brass) 14%,var(--surface)),var(--surface) 55%)}
+.card .tag{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--brass)}
+.card h3{font-size:24px}
+.card ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+.card li{display:flex;gap:10px;font-size:15.5px}
+.card li::before{content:"✓";color:var(--ok);font-weight:900}
+.card .price{font-family:var(--f-display);font-size:22px;color:var(--brass-lt);margin-top:auto;padding-top:10px}
+
+/* faq */
+.faq{max-width:780px;display:flex;flex-direction:column}
+.faq details{border-bottom:1px solid var(--line);padding:6px 0}
+.faq summary{cursor:pointer;list-style:none;padding:16px 0;font-weight:700;font-size:18px;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--brass);font-size:24px;line-height:1;transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--muted);padding-bottom:18px;max-width:64ch}
+
+/* final cta */
+.final{text-align:center}
+.final h2{font-size:clamp(34px,5vw,56px)}
+.final .lede{margin-inline:auto}
+.contact{display:inline-flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px;margin-top:30px}
+.num{direction:ltr;font-weight:800;font-size:20px;letter-spacing:.04em;padding:10px 18px;border:1px dashed var(--line);border-radius:12px;user-select:all}
+.copied{color:var(--ok);font-size:14px;min-height:20px;margin-top:10px}
+footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+
+/* intro video */
+.intro{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:calc(20px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:radial-gradient(ellipse at 50% 20%,color-mix(in srgb,var(--brass) 22%,#0c0a07),#060504 70%);transition:opacity .6s ease,visibility .6s}
+.intro.closing{opacity:0;visibility:hidden}
+.intro-in{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;height:100%;max-height:820px;justify-content:center}
+.intro-frame{position:relative;height:min(78vh,720px);aspect-ratio:9/16;max-width:100%;border-radius:30px;overflow:hidden;box-shadow:0 0 0 2px #4a3d27,0 40px 120px -30px rgba(0,0,0,.9),0 0 90px -20px color-mix(in srgb,var(--brass) 55%,transparent);animation:introPop .7s cubic-bezier(.2,1.3,.4,1) both;background:#0c0a07}
+.intro-frame video{width:100%;height:100%;object-fit:cover;display:block}
+@keyframes introPop{from{opacity:0;transform:translateY(40px) scale(.86) rotate(-3deg)}to{opacity:1;transform:none}}
+.intro-bar{position:absolute;inset:auto 0 0 0;height:5px;background:rgba(255,255,255,.12)}
+.intro-bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(-45deg,#c2452f 0 8px,#f6efe2 8px 16px,#2f5aa0 16px 24px,#f6efe2 24px 32px);background-size:45px 5px;animation:pole 1.2s linear infinite}
+.intro-sound{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;border:0;background:#d0a858;color:#1a1309;font:inherit;font-weight:900;font-size:16px;cursor:pointer;white-space:nowrap;animation:pulse 1.6s ease-in-out infinite}
+.intro-sound svg{width:20px;height:20px}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(208,168,88,.6)}50%{box-shadow:0 0 0 14px rgba(208,168,88,0)}}
+.intro-top{display:flex;gap:10px;width:100%;justify-content:space-between;align-items:center;animation:introPop .7s .15s both}
+.intro-top .logo{color:#f6efe2}
+.intro-skip{min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid #4a3d27;background:rgba(0,0,0,.35);color:#f6efe2;font:inherit;font-weight:700;font-size:15px;cursor:pointer}
+.intro-skip:hover{border-color:#d0a858}
+.watch{display:inline-flex;align-items:center;gap:10px}
+.watch .play{width:30px;height:30px;border-radius:50%;background:var(--pole-r);display:grid;place-items:center;flex:none}
+.watch .play svg{width:12px;height:12px;margin-right:-2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="סרטון היכרות">
+  <div class="intro-in">
+    <div class="intro-top">
+      <div class="logo"><i aria-hidden="true"></i><span>Barber<b>Shops</b></span></div>
+      <button class="intro-skip" type="button" id="introSkip">כניסה לאתר ←</button>
+    </div>
+    <div class="intro-frame">
+      <video id="introVid" src="promo.mp4" poster="promo-poster.jpg" muted playsinline autoplay preload="auto"></video>
+      <button class="intro-sound" type="button" id="introSound"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg><span>להפעלה עם קול</span></button>
+      <div class="intro-bar" aria-hidden="true"><i id="introBar"></i></div>
+    </div>
+  </div>
+</div>
+
+<div class="pole" aria-hidden="true"></div>
+<header class="top">
+  <div class="wrap">
+    <div class="logo"><i aria-hidden="true"></i><span>Barber<b>Shops</b></span></div>
+    <nav aria-label="ניווט">
+      <a href="#how">איך זה עובד</a>
+      <a href="#bot">בוט וואטסאפ</a>
+      <a href="#admin">ניהול</a>
+      <a href="#offer">מה מקבלים</a>
+      <a href="#faq">שאלות</a>
+    </nav>
+    <a class="btn gold sm" href="#contact">רוצה אפליקציה</a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">אפליקציה למספרות וספרים</span>
+      <h1>הלקוחות קובעים תור לבד.<br><em>אתה רק מספר.</em></h1>
+      <p class="lede">אפליקציה עם השם שלך, השירותים והמחירים שלך. הלקוח בוחר יום, שעה ושירות, מאשר עם קוד בוואטסאפ, ומקבל אישור ותזכורת אוטומטית. בלי טלפונים באמצע תספורת, בלי הודעות "יש לך משהו מחר?".</p>
+      <div class="hero-ctas">
+        <a class="btn gold" href="#contact">אני רוצה כזאת למספרה שלי</a>
+        <button class="btn line watch" type="button" id="watchBtn"><span class="play" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M10 6 3 10V2z" fill="#f6efe2"/></svg></span>הסרטון ב-26 שניות</button>
+        <a class="btn line" href="https://ariel.barbershops.company/" target="_blank" rel="noopener">לראות מספרה אמיתית ↗</a>
+      </div>
+      <ul class="facts">
+        <li>עובד מהטלפון, בלי להוריד מהחנות</li>
+        <li>בוט וואטסאפ מובנה</li>
+        <li>פאנל ניהול בעברית</li>
+      </ul>
+    </div>
+
+    <div class="phone-col">
+      <div class="phone" aria-label="הדגמה: קביעת תור">
+        <div class="screen">
+          <div class="notch" aria-hidden="true"></div>
+          <div class="s-head"><small>ספר גברים</small><strong>המספרה שלך</strong></div>
+          <div class="s-body" id="demo"></div>
+        </div>
+      </div>
+      <p class="demo-hint">נסו בעצמכם, זה עובד <button type="button" id="demoReset">התחלה מחדש</button></p>
+    </div>
+  </div>
+</section>
+
+<section id="how" class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">הדרך של הלקוח</span>
+      <h2>חמישה צעדים, פחות מדקה</h2>
+      <p class="lede">הלקוח לא צריך לכתוב לך כלום ואתה לא צריך לאשר כלום. התור נכנס ליומן שלך מעצמו.</p>
+    </div>
+    <ol class="journey">
+      <li><h3>בוחר יום</h3><p>רואה רק ימים פתוחים, עם מספר השעות הפנויות בכל יום.</p></li>
+      <li><h3>בוחר שעה</h3><p>שעות תפוסות חסומות. אין שני לקוחות באותה שעה.</p></li>
+      <li><h3>בוחר שירות</h3><p>תספורת, זקן, ילד, תוספות. כל אחד עם מחיר ומשך.</p></li>
+      <li><h3>מאשר בקוד</h3><p>מקבל קוד בוואטסאפ. ככה אין תורים מזויפים ומספרים שגויים.</p></li>
+      <li><h3>מקבל אישור</h3><p>הודעה עם פרטי התור וקישור "הוספה ליומן". אתה מקבל התראה.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="bot">
+  <div class="wrap wa-grid">
+    <div>
+      <div class="sec-head" style="margin-bottom:28px">
+        <span class="eyebrow">בוט וואטסאפ</span>
+        <h2>המזכירה שעובדת גם בשבת בלילה</h2>
+        <p class="lede">הבוט מחובר למספר וואטסאפ של המספרה ושולח את ההודעות הנכונות בזמן הנכון. את כל הנוסחים אפשר לשנות מהפאנל.</p>
+      </div>
+      <ul class="wa-list" role="tablist" aria-label="הודעות הבוט" id="waList"></ul>
+    </div>
+    <div class="chat">
+      <div class="chat-top"><div class="av">✂</div><div><strong>המספרה שלך</strong><small>מחובר · עונה אוטומטית</small></div></div>
+      <div class="chat-body" id="chatBody" role="tabpanel" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section id="admin" class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">פאנל הניהול שלך</span>
+      <h2>כל המספרה במסך אחד</h2>
+      <p class="lede">נכנסים עם סיסמה מהטלפון או מהמחשב. שמונה לשוניות, כל אחת עושה דבר אחד ברור.</p>
+    </div>
+    <div class="adm">
+      <div class="adm-tabs" role="tablist" aria-label="לשוניות הניהול" id="admTabs"></div>
+      <div class="adm-panel" role="tabpanel" id="admPanel"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">הפרטים הקטנים</span>
+      <h2>מה שספרים ביקשו, כבר בפנים</h2>
+    </div>
+    <div class="promises">
+      <div><h3>אייקון על מסך הבית</h3><p>הלקוח מוסיף את המספרה למסך הבית בשלוש נגיעות, ונכנס כמו לאפליקציה רגילה.</p></div>
+      <div><h3>ביטול בהודעה אחת</h3><p>הלקוח משיב "ביטול" לאישור, התור משתחרר ואתה מקבל הודעה. אפשר לקבוע זמן מינימום לביטול.</p></div>
+      <div><h3>עד 2 תורים לכל מספר</h3><p>אף אחד לא תופס לך חצי יומן. אתה קובע את המגבלה.</p></div>
+      <div><h3>פתיחת יומן מתוזמנת</h3><p>היומן נפתח להזמנות כל שבועיים בשעה שבחרת, למשל יום שישי ב-08:00.</p></div>
+      <div><h3>ביקורות מאומתות</h3><p>רק לקוח שבאמת היה אצלך יכול לכתוב ביקורת, אחרי אימות בקוד. אתה יכול להסתיר כל ביקורת.</p></div>
+      <div><h3>פרטי לקוחות מוצפנים</h3><p>התורים ופרטי הלקוחות שמורים מוצפנים. רק משתמשי הניהול עם סיסמה פותחים אותם.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="live">
+      <div>
+        <span class="eyebrow">כבר עובד</span>
+        <h2>אריאל, ספר גברים בחולון</h2>
+        <p class="lede" style="margin-top:10px">המספרה הראשונה שעובדת עם המערכת. לקוחות קובעים, מקבלים אישור ותזכורת, ואריאל מנהל הכל מהטלפון.</p>
+        <span class="url">ariel.barbershops.company</span>
+        <ul><li>4 שירותים</li><li>תזכורת שעה לפני</li><li>הודעת "מתגעגעים" אחרי 14 יום</li></ul>
+      </div>
+      <a class="btn gold" href="https://ariel.barbershops.company/" target="_blank" rel="noopener">כניסה לאתר של אריאל ↗</a>
+    </div>
+  </div>
+</section>
+
+<section id="offer">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">מה מקבלים</span>
+      <h2>אנחנו מקימים, אתה מספר</h2>
+      <p class="lede">לא צריך להבין במחשבים. אנחנו בונים את האפליקציה בעיצוב שלך, מחברים את הבוט ומלמדים אותך להשתמש בפאנל.</p>
+    </div>
+    <div class="offer">
+      <div class="card">
+        <span class="tag">התקנה</span>
+        <h3>הקמת האפליקציה</h3>
+        <ul>
+          <li>כתובת משלך: השם-שלך.barbershops.company</li>
+          <li>עיצוב עם הלוגו והצבעים שלך</li>
+          <li>שירותים, מחירים, שעות וחופשות</li>
+          <li>חיבור בוט הוואטסאפ למספר נפרד</li>
+          <li>הדרכה קצרה על הפאנל</li>
+        </ul>
+        <p class="price">מחיר לפי המספרה</p>
+      </div>
+      <div class="card hl">
+        <span class="tag">חודשי</span>
+        <h3>שירות שוטף</h3>
+        <ul>
+          <li>הבוט רץ ומחובר כל הזמן</li>
+          <li>תזכורות, אישורים והודעות חזרה</li>
+          <li>שינויים בנוסחים ובהגדרות לפי בקשה</li>
+          <li>עדכונים ותכונות חדשות</li>
+          <li>תמיכה בוואטסאפ</li>
+        </ul>
+        <p class="price">מחיר לפי המספרה</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="band">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">שאלות</span><h2>מה ספרים שואלים אותנו</h2></div>
+    <div class="faq">
+      <details><summary>הלקוחות צריכים להוריד משהו?</summary><p>לא. הלקוח נכנס מקישור, מהביו באינסטגרם או מהסטטוס בוואטסאפ, וקובע תור מהדפדפן. מי שרוצה מוסיף אייקון למסך הבית.</p></details>
+      <details><summary>הבוט שולח מהמספר האישי שלי?</summary><p>מומלץ מספר נפרד לבוט. אתה ממשיך לקבל התראות על תורים חדשים וביטולים במספר שלך, ואפשר להגדיר כמה מספרי מנהל.</p></details>
+      <details><summary>אפשר לחסום שעות לבד?</summary><p>כן. מהלשונית "יומן" מוסיפים תור ידני או חוסמים זמן, ומהלשונית "חופשות" סוגרים ימים שלמים.</p></details>
+      <details><summary>מה קורה אם הבוט לא מחובר?</summary><p>האתר ממשיך לעבוד. הלקוח שולח בקשה בוואטסאפ, והבוט שולח את האישורים ברגע שהוא חוזר.</p></details>
+      <details><summary>כמה זמן לוקח להקים?</summary><p>אחרי שיש לנו את השירותים, המחירים, השעות והלוגו, ההקמה מהירה. נגיד לך תאריך מדויק בשיחה.</p></details>
+      <details><summary>אפשר לשנות מחירים לבד?</summary><p>כן. שירותים, מחירים, משך כל שירות ותוספות משנים מהלשונית "שירותים", ולוחצים "שמור ופרסם".</p></details>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="final">
+  <div class="wrap">
+    <span class="eyebrow">בוא נדבר</span>
+    <h2>רוצה אפליקציה כזאת למספרה שלך?</h2>
+    <p class="lede">שלח הודעה בוואטסאפ עם שם המספרה והעיר. נחזור אליך עם הצעה.</p>
+    <div class="contact">
+      <a class="btn gold" href="https://wa.me/972536670760?text=%D7%94%D7%99%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%90%D7%A4%D7%9C%D7%99%D7%A7%D7%A6%D7%99%D7%94%20%D7%9C%D7%9E%D7%A1%D7%A4%D7%A8%D7%94%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener">שליחת הודעה בוואטסאפ ↗</a>
+      <span class="num" id="num">053-667-0760</span>
+      <button class="btn line sm" type="button" id="copyNum">העתקת המספר</button>
+    </div>
+    <p class="copied" id="copied" aria-live="polite"></p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>BarberShops · אפליקציות תורים למספרות · © 2026 שלמה אסולין</span>
+    <nav class="legal" aria-label="מידע משפטי" style="display:flex;flex-wrap:wrap;gap:8px 18px"><a href="terms.html">תנאי שימוש</a><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">הצהרת נגישות</a></nav>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ---------- phone demo ---------- */
+  var DN=["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","ש׳"];
+  var SV=[["תספורת גבר",70],["תספורת + זקן",70],["תספורת ילד",70],["סידור זקן",30]];
+  var SLOTS=["10:30","11:00","11:30","12:00","16:30","17:00","17:30","18:00","18:30"];
+  var BUSY={"11:00":1,"12:00":1,"17:30":1};
+  var st={step:0,day:null,time:null,svc:null};
+  var el=document.getElementById("demo");
+  function days(){var out=[],d=new Date();for(var i=0;out.length<8;i++){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate()+i);out.push({d:x,closed:x.getDay()===6});}return out;}
+  function head(n,t){return '<div class="s-step"><span>שלב <b>'+n+'</b> מתוך 4</span><span>'+(st.day?st.day:'')+(st.time?' · '+st.time:'')+'</span></div><div class="s-title">'+t+'</div>';}
+  function render(){
+    var h="";
+    if(st.step===0){
+      h=head(1,"באיזה יום?")+'<div class="days">'+days().map(function(o){var lab=DN[o.d.getDay()]+" "+o.d.getDate()+"/"+(o.d.getMonth()+1);return '<button type="button" class="day" data-v="'+lab+'" '+(o.closed?'disabled aria-label="'+lab+' סגור"':'')+' aria-pressed="'+(st.day===lab)+'">'+DN[o.d.getDay()]+'<b>'+o.d.getDate()+'</b></button>';}).join("")+'</div><p class="s-note">שבת סגור · ימים פתוחים בלבד</p>';
+    }else if(st.step===1){
+      h=head(2,"באיזו שעה?")+'<div class="slots">'+SLOTS.map(function(t){return '<button type="button" class="slot" data-v="'+t+'" '+(BUSY[t]?'disabled aria-label="'+t+' תפוס"':'')+' aria-pressed="'+(st.time===t)+'">'+t+'</button>';}).join("")+'</div><p class="s-note">שעות מחוקות כבר תפוסות</p>';
+    }else if(st.step===2){
+      h=head(3,"מה עושים?")+SV.map(function(s,i){return '<button type="button" class="svc" data-v="'+i+'" aria-pressed="'+(st.svc===i)+'">'+s[0]+'<span>'+s[1]+' ₪</span></button>';}).join("")+'<button type="button" class="s-cta" data-next '+(st.svc===null?'disabled':'')+'>המשך</button>';
+    }else if(st.step===3){
+      h=head(4,"קוד אימות")+'<div class="mini-wa"><small>וואטסאפ · המספרה שלך</small>הקוד שלך לקביעת תור: *4821*\nהקוד בתוקף ל-10 דקות.</div><div class="code" id="code">'+[0,1,2,3].map(function(i){return '<input inputmode="numeric" maxlength="1" aria-label="ספרה '+(i+1)+'" id="c'+i+'">';}).join("")+'</div><p class="s-note">בהדגמה: כל 4 ספרות יעבדו</p><button type="button" class="s-cta" data-fill>מלא קוד והמשך</button>';
+    }else{
+      var s=SV[st.svc];
+      h='<div class="done-ic">✓</div><div class="s-title" style="text-align:center">התור נקבע</div><div class="mini-wa"><small>וואטסאפ · המספרה שלך</small>היי, התור שלך נקבע ✅\n'+s[0]+'\n'+st.day+' בשעה '+st.time+'\n\nהוספה ליומן ↗\nלביטול השיבו *ביטול*</div><p class="s-note">והספר קיבל התראה על תור חדש</p>';
+    }
+    el.innerHTML=h;
+    if(st.step===3){var ins=el.querySelectorAll(".code input");ins.forEach(function(inp,i){inp.addEventListener("input",function(){if(inp.value&&ins[i+1])ins[i+1].focus();if([].every.call(ins,function(x){return x.value})){st.step=4;render();}});});}
+  }
+  el.addEventListener("click",function(e){
+    var b=e.target.closest("button");if(!b||b.disabled)return;
+    if(b.hasAttribute("data-next")){st.step=3;render();return;}
+    if(b.hasAttribute("data-fill")){st.step=4;render();return;}
+    var v=b.getAttribute("data-v");
+    if(st.step===0){st.day=v;st.step=1;}
+    else if(st.step===1){st.time=v;st.step=2;}
+    else if(st.step===2){st.svc=+v;}
+    render();
+  });
+  document.getElementById("demoReset").addEventListener("click",function(){st={step:0,day:null,time:null,svc:null};render();});
+  render();
+
+  /* ---------- whatsapp messages ---------- */
+  var WA=[
+    {when:"מיד",t:"אישור תור",d:"פרטי התור + הוספה ליומן",m:[["out","היי דניאל, התור שלך נקבע ✅\nתספורת + סידור זקן\nיום ג׳ 10/11 בשעה 17:00\n📍 הכתובת של המספרה\n\n<span class='lnk'>הוספה ליומן</span>\n\nלביטול התור השיבו *ביטול* להודעה הזו.","17:02"]]},
+    {when:"לספר",t:"התראה על תור חדש",d:"לכל מספרי המנהל",m:[["out","📅 תור חדש נקבע\nדניאל · 050-000-0000\nתספורת + סידור זקן\nיום ג׳ 10/11 בשעה 17:00","17:02"]]},
+    {when:"שעה לפני",t:"תזכורת",d:"הזמן ניתן לשינוי",m:[["out","היי דניאל, תזכורת: התור שלך היום בשעה 17:00 ✂️\n📍 הכתובת של המספרה\nנתראה!","16:00"]]},
+    {when:"בתשובה",t:"ביטול בהודעה",d:"הלקוח משיב ״ביטול״",m:[["in","ביטול","16:05"],["out","התור שלך ב-10/11 בשעה 17:00 בוטל ✅\nלקביעת תור חדש: <span class='lnk'>הקישור שלך</span>","16:05"]]},
+    {when:"אחרי התור",t:"בקשת ביקורת",d:"פעם אחת, רק למי שלא כתב",m:[["out","היי דניאל, תודה שבאת היום 🙏\nנשמח אם תכתוב כמה מילים על החוויה:\n<span class='lnk'>כתיבת ביקורת</span>","18:00"]]},
+    {when:"אחרי 14 יום",t:"״מתגעגעים״",d:"ללקוחות שלא חזרו ואין להם תור",m:[["out","היי דניאל, עברו שבועיים מאז התספורת האחרונה 💈\nהשבוע יש עוד שעות פנויות:\n<span class='lnk'>קביעת תור</span>\n\nלהפסקת ההודעות השיבו *הסר*","11:00"]]},
+  ];
+  var wl=document.getElementById("waList"),cb=document.getElementById("chatBody"),cur=0;
+  wl.innerHTML=WA.map(function(w,i){return '<li><button type="button" role="tab" id="wa'+i+'" aria-selected="'+(i===0)+'" data-i="'+i+'"><span class="when">'+w.when+'</span><strong>'+w.t+'</strong><small>'+w.d+'</small></button></li>';}).join("");
+  function showWa(i){cur=i;[].forEach.call(wl.querySelectorAll("button"),function(b){b.setAttribute("aria-selected",b.dataset.i==i);});cb.setAttribute("aria-labelledby","wa"+i);cb.innerHTML=WA[i].m.map(function(x){return '<div class="bub '+x[0]+'">'+x[1]+'<time>'+x[2]+'</time></div>';}).join("");}
+  wl.addEventListener("click",function(e){var b=e.target.closest("button");if(b)showWa(+b.dataset.i);});
+  showWa(0);
+
+  /* ---------- admin tabs ---------- */
+  var AD=[
+    {k:"biz",n:"עסק",t:"עסק",p:"השם, סוג המספרה, הכתובת והמשפט שמופיע בראש האתר.",f:[["פרטי העסק","שם, כתובת, קהל"],["חוקי הזמנה","כמה ימים קדימה, אורך תור, זמן מינימום"],["פתיחת יומן","כל שבועיים, ביום ובשעה שבחרת"],["יעד יומי","כמה אתה רוצה להכניס ביום"]]},
+    {k:"cal",n:"יומן",t:"יומן",p:"כל התורים הקרובים. מוסיפים תור ידני, חוסמים זמן או מבטלים בלחיצה.",f:[["תורים קרובים","לפי יום ושעה"],["הוספת תור או חסימת זמן","ללקוח שהתקשר, או להפסקה"],["בקשה מוואטסאפ","מדביקים הודעה והטופס מתמלא"],["ביטול","הלקוח מקבל הודעה אוטומטית"]]},
+    {k:"cli",n:"לקוחות",t:"לקוחות",p:"כל מי שקבע אצלך תור, עם ההיסטוריה שלו לפי מספר טלפון.",f:[["היסטוריה לפי טלפון","מתי היה ומה עשה"],["לקוחות שלא חזרו","הבוט שולח להם ״מתגעגעים״"],["הסרה מהודעות","מי שהשיב ״הסר״ לא מקבל עוד"],["פרטים מוצפנים","רק אתה רואה אותם"]]},
+    {k:"wa",n:"וואטסאפ",t:"וואטסאפ",p:"מצב הבוט, מה הוא שולח ובאיזה נוסח. כל טקסט ניתן לעריכה.",f:[["מצב הבוט","מחובר או לא, סריקת QR"],["מה הבוט שולח","הפעלה וכיבוי לכל סוג הודעה"],["נוסח ההודעות","אישור, תזכורת, ביטול, מענה אוטומטי"],["יומן פעילות","מה נשלח ומתי"]]},
+    {k:"hours",n:"שעות",t:"שעות פתיחה",p:"שעת פתיחה וסגירה לכל יום בשבוע, ויום סגור.",f:[["שעות לכל יום","למשל 10:30 עד 19:15"],["יום קצר","שישי עד 14:00"],["יום סגור","שבת, או כל יום אחר"],["משבצות","לפי אורך התור שבחרת"]]},
+    {k:"vac",n:"חופשות",t:"חופשות",p:"סוגרים תאריכים מראש והם נעלמים ללקוחות.",f:[["הוספת חופשה","מתאריך עד תאריך"],["ימים סגורים","רשימה עם הסרה בלחיצה"]]},
+    {k:"svc",n:"שירותים",t:"שירותים ומחירים",p:"מה אתה עושה, כמה זמן זה לוקח וכמה זה עולה.",f:[["שירותים","שם, משך ומחיר"],["תוספות","רק יחד עם שירות, למשל צבע"]]},
+    {k:"gen",n:"כללי",t:"כללי",p:"ביקורות, משתמשי ניהול וסיסמאות.",f:[["ביקורות לקוחות","הצגה, הסתרה ומחיקה"],["משתמשי ניהול","אתה, שותף או עובד, כל אחד עם סיסמה"],["שמור ופרסם","כל שינוי עולה לאתר בלחיצה"],["מספרי מנהל","מי מקבל התראות"]]},
+  ];
+  var at=document.getElementById("admTabs"),ap=document.getElementById("admPanel");
+  at.innerHTML=AD.map(function(a,i){return '<button type="button" role="tab" id="ad'+i+'" aria-selected="'+(i===0)+'" data-i="'+i+'">'+a.n+'<small>'+a.f.length+'</small></button>';}).join("");
+  function showAd(i){[].forEach.call(at.querySelectorAll("button"),function(b){b.setAttribute("aria-selected",b.dataset.i==i);});var a=AD[i];ap.setAttribute("aria-labelledby","ad"+i);ap.innerHTML='<h3>'+a.t+'</h3><p>'+a.p+'</p><ul class="adm-feat">'+a.f.map(function(f){return '<li><b>'+f[0]+'</b><span>'+f[1]+'</span></li>';}).join("")+'</ul>';}
+  at.addEventListener("click",function(e){var b=e.target.closest("button");if(b)showAd(+b.dataset.i);});
+  showAd(0);
+
+  /* ---------- intro video ---------- */
+  var intro=document.getElementById("intro"),vid=document.getElementById("introVid"),bar=document.getElementById("introBar"),snd=document.getElementById("introSound"),closeT=null;
+  function openIntro(withSound){
+    clearTimeout(closeT);intro.hidden=false;intro.classList.remove("closing");document.body.style.overflow="hidden";
+    try{vid.currentTime=0;}catch(e){}
+    vid.muted=!withSound;snd.hidden=!!withSound;
+    var p=vid.play();if(p&&p.catch)p.catch(function(){vid.muted=true;snd.hidden=false;vid.play().catch(function(){});});
+    document.getElementById("introSkip").focus();
+  }
+  function closeIntro(){
+    intro.classList.add("closing");document.body.style.overflow="";
+    closeT=setTimeout(function(){vid.pause();intro.hidden=true;},600);
+  }
+  vid.addEventListener("timeupdate",function(){if(vid.duration)bar.style.width=(vid.currentTime/vid.duration*100)+"%";});
+  vid.addEventListener("ended",closeIntro);
+  snd.addEventListener("click",function(){vid.muted=false;snd.hidden=true;try{vid.currentTime=0;}catch(e){}vid.play().catch(function(){});});
+  document.getElementById("introSkip").addEventListener("click",closeIntro);
+  intro.addEventListener("click",function(e){if(e.target===intro)closeIntro();});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!intro.hidden)closeIntro();});
+  document.getElementById("watchBtn").addEventListener("click",function(){openIntro(true);});
+  openIntro(false);
+
+  /* ---------- copy number ---------- */
+  var cp=document.getElementById("copied");
+  document.getElementById("copyNum").addEventListener("click",function(){
+    var n=document.getElementById("num");
+    function sel(){var r=document.createRange();r.selectNodeContents(n);var s=getSelection();s.removeAllRanges();s.addRange(r);cp.textContent="המספר מסומן, אפשר להעתיק";}
+    try{navigator.clipboard.writeText("0536670760").then(function(){cp.textContent="המספר הועתק";},sel);}catch(e){sel();}
+  });
+})();
+</script>
+</body>
+</html>
