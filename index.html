@@ -263,6 +263,51 @@ footer a{color:var(--ink-soft)}
 .intro-top{display:flex;gap:10px;width:100%;justify-content:space-between;align-items:center}
 .intro-skip{min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid #4a3d27;background:rgba(0,0,0,.35);color:var(--ink);font:inherit;font-weight:700;font-size:15px;cursor:pointer}
 
+
+/* ============ the full reference (everything the flight showed, to read at rest) ============ */
+.ref-nav{position:sticky;top:64px;z-index:5;display:flex;gap:8px;flex-wrap:wrap;padding:12px 0;margin-bottom:8px;background:var(--canvas)}
+.ref-nav a{padding:8px 16px;border-radius:999px;border:1px solid var(--line);color:var(--ink-soft);text-decoration:none;font-weight:700;font-size:14.5px}
+.ref-nav a:hover{color:var(--ink);border-color:var(--gold)}
+.journey{list-style:none;margin:36px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);counter-reset:j}
+.journey li{position:relative;padding-left:18px;counter-increment:j}
+.journey li::before{content:counter(j);display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--accent);color:var(--accent);font-weight:900;font-size:18px;background:var(--canvas);position:relative;z-index:1;margin-bottom:16px}
+.journey li::after{content:"";position:absolute;top:22px;right:44px;left:0;height:1.5px;background:var(--line)}
+.journey li:last-child::after{display:none}
+.journey h3{font-size:18px;margin-bottom:6px;letter-spacing:-.01em;line-height:1.2}
+.journey p{color:var(--ink-soft);font-size:15px}
+@media (max-width:860px){.journey{grid-template-columns:1fr;gap:26px}.journey li{display:grid;grid-template-columns:44px 1fr;gap:4px 16px;padding:0}.journey li::before{grid-row:span 2;margin:0}.journey li::after{top:44px;bottom:-26px;right:21px;left:auto;width:1.5px;height:auto}}
+.wa-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start;margin-top:36px}
+@media (max-width:900px){.wa-grid{grid-template-columns:1fr;gap:24px}}
+.wa-list{display:flex;flex-direction:column;gap:6px;list-style:none;padding:0;margin:0}
+.wa-list button{width:100%;text-align:right;display:grid;grid-template-columns:auto 1fr;gap:2px 14px;align-items:center;padding:14px 16px;border-radius:14px;border:1px solid transparent;background:transparent;color:var(--ink);font:inherit;cursor:pointer;transition:background-color .15s var(--ease)}
+.wa-list button:hover{background:var(--surface)}
+.wa-list button[aria-selected="true"]{background:var(--surface);border-color:var(--line)}
+.wa-list .when{grid-row:span 2;font-size:12px;font-weight:800;color:var(--wa);min-width:80px}
+.wa-list strong{font-size:16px}
+.wa-list small{color:var(--ink-soft);font-size:14px}
+.chat{background:var(--surface);border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--e2),var(--edge)}
+.chat-top{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.chat-top .av{width:38px;height:38px;border-radius:50%;background:var(--gold);color:#1a1309;display:grid;place-items:center;font-weight:900}
+.chat-top small{display:block;color:var(--wa);font-size:12px;font-weight:700}
+.chat-body{padding:22px 18px;display:flex;flex-direction:column;gap:10px;min-height:280px;background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:18px 18px}
+.bub{max-width:86%;padding:10px 14px 20px;border-radius:16px;white-space:pre-line;font-size:15px;line-height:1.55;position:relative;animation:pop .32s var(--ease) both}
+.bub time{position:absolute;bottom:4px;left:12px;font-size:11px;color:var(--ink-soft)}
+.bub.out{align-self:flex-start;background:var(--wa-bub);border-top-right-radius:4px}
+.bub.in{align-self:flex-end;background:var(--in-bub);border:1px solid var(--line);border-top-left-radius:4px}
+.bub .lnk{color:var(--accent);text-decoration:underline}
+.adm{display:grid;grid-template-columns:230px 1fr;border:1px solid var(--line);border-radius:24px;overflow:hidden;background:var(--surface);margin-top:36px;box-shadow:var(--e2),var(--edge)}
+.adm-tabs{display:flex;flex-direction:column;padding:12px;gap:2px;border-left:1px solid var(--line);background:var(--canvas)}
+.adm-tabs button{text-align:right;padding:12px 14px;border-radius:10px;border:0;background:transparent;color:var(--ink-soft);font:inherit;font-weight:600;cursor:pointer}
+.adm-tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:inset -3px 0 0 var(--accent)}
+.adm-panel{padding:30px 32px;min-width:0}
+.adm-panel h3{font-size:26px;margin-bottom:8px}
+.adm-panel>p{color:var(--ink-soft);max-width:56ch}
+.adm-feat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px;padding:0;list-style:none}
+.adm-feat li{padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--canvas)}
+.adm-feat li b{display:block;font-size:15.5px;margin-bottom:2px}
+.adm-feat li span{color:var(--ink-soft);font-size:14px}
+@media (max-width:820px){.adm{grid-template-columns:1fr}.adm-tabs{flex-direction:row;overflow-x:auto;border-left:0;border-bottom:1px solid var(--line)}.adm-tabs button{white-space:nowrap}.adm-tabs button[aria-selected="true"]{box-shadow:inset 0 -3px 0 var(--accent)}.adm-panel{padding:24px 20px}.adm-feat{grid-template-columns:1fr}}
+
 /* ============ phone layout ============ */
 @media (max-width:860px){
   .copy{inset-inline:var(--gut);top:auto;bottom:calc(22px + env(safe-area-inset-bottom,0px));width:auto}
@@ -529,7 +574,49 @@ footer a{color:var(--ink-soft)}
 </section>
 
 <div class="land">
-<section class="sec" id="details">
+<section class="sec" id="how">
+  <div class="wrap">
+    <h2>כל מה שראית, בשקט.</h2>
+    <p class="lede">כאן אפשר לקרוא הכל בקצב שלך: הדרך של הלקוח, ההודעות של הבוט ופאנל הניהול.</p>
+    <nav class="ref-nav" aria-label="קפיצה לחלק">
+      <a href="#how">הדרך של הלקוח</a><a href="#bot">בוט וואטסאפ</a><a href="#admin">פאנל ניהול</a><a href="#offer">מחיר</a>
+    </nav>
+    <ol class="journey">
+      <li><h3>בוחר יום</h3><p>רואה רק ימים פתוחים, עם מספר השעות הפנויות בכל יום.</p></li>
+      <li><h3>בוחר שעה</h3><p>שעות תפוסות חסומות. אין שני לקוחות באותה שעה.</p></li>
+      <li><h3>בוחר שירות</h3><p>תספורת, זקן, ילד, תוספות. כל אחד עם מחיר ומשך.</p></li>
+      <li><h3>מאשר בקוד</h3><p>מקבל קוד בוואטסאפ. ככה אין תורים מזויפים ומספרים שגויים.</p></li>
+      <li><h3>מקבל אישור</h3><p>הודעה עם פרטי התור וקישור ״הוספה ליומן״. אתה מקבל התראה.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="sec" id="bot" style="padding-top:0">
+  <div class="wrap">
+    <h2>הבוט: מה הוא שולח ומתי</h2>
+    <p class="lede">הבוט מחובר למספר וואטסאפ של המספרה ושולח את ההודעה הנכונה בזמן הנכון. את כל הנוסחים אפשר לשנות מהפאנל. לחצו על הודעה כדי לראות אותה.</p>
+    <div class="wa-grid">
+      <ul class="wa-list" role="tablist" aria-label="הודעות הבוט" id="waList"></ul>
+      <div class="chat">
+        <div class="chat-top"><div class="av">✂</div><div><strong>המספרה שלך</strong><small>מחובר · עונה אוטומטית</small></div></div>
+        <div class="chat-body" id="chatBody" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="admin" style="padding-top:0">
+  <div class="wrap">
+    <h2>פאנל הניהול: שמונה לשוניות</h2>
+    <p class="lede">נכנסים עם סיסמה מהטלפון או מהמחשב. לחצו על לשונית כדי לראות מה יש בה.</p>
+    <div class="adm">
+      <div class="adm-tabs" role="tablist" aria-label="לשוניות הניהול" id="admTabs"></div>
+      <div class="adm-panel" role="tabpanel" id="admPanel"></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="details" style="padding-top:0">
   <div class="wrap det">
     <div>
       <h2>מה שספרים ביקשו, כבר בפנים.</h2>
@@ -808,6 +895,38 @@ footer a{color:var(--ink-soft)}
   addEventListener("load",relayout);
   if(document.fonts&&document.fonts.ready) document.fonts.ready.then(relayout);
   layout(); read(); t=target; requestAnimationFrame(frame);
+
+  /* ---------- reference: whatsapp messages ---------- */
+  var WA=[
+    {when:"מיד",t:"אישור תור",d:"פרטי התור + הוספה ליומן",m:[["out","היי דניאל, התור שלך נקבע ✅\nתספורת + סידור זקן\nיום ג׳ 10/11 בשעה 17:00\n📍 הכתובת של המספרה\n\n<span class='lnk'>הוספה ליומן</span>\n\nלביטול התור השיבו *ביטול* להודעה הזו.","17:02"]]},
+    {when:"לספר",t:"התראה על תור חדש",d:"לכל מספרי המנהל",m:[["out","📅 תור חדש נקבע\nדניאל · 050-000-0000\nתספורת + סידור זקן\nיום ג׳ 10/11 בשעה 17:00","17:02"]]},
+    {when:"שעה לפני",t:"תזכורת",d:"הזמן ניתן לשינוי",m:[["out","היי דניאל, תזכורת: התור שלך היום בשעה 17:00 ✂️\n📍 הכתובת של המספרה\nנתראה!","16:00"]]},
+    {when:"בתשובה",t:"ביטול בהודעה",d:"הלקוח משיב ״ביטול״",m:[["in","ביטול","16:05"],["out","התור שלך ב-10/11 בשעה 17:00 בוטל ✅\nלקביעת תור חדש: <span class='lnk'>הקישור שלך</span>","16:05"]]},
+    {when:"אחרי התור",t:"בקשת ביקורת",d:"פעם אחת, רק למי שלא כתב",m:[["out","היי דניאל, תודה שבאת היום 🙏\nנשמח אם תכתוב כמה מילים על החוויה:\n<span class='lnk'>כתיבת ביקורת</span>","18:00"]]},
+    {when:"אחרי 14 יום",t:"״מתגעגעים״",d:"ללקוחות שלא חזרו ואין להם תור",m:[["out","היי דניאל, עברו שבועיים מאז התספורת האחרונה 💈\nהשבוע יש עוד שעות פנויות:\n<span class='lnk'>קביעת תור</span>\n\nלהפסקת ההודעות השיבו *הסר*","11:00"]]}
+  ];
+  var wl=document.getElementById("waList"),cb=document.getElementById("chatBody");
+  wl.innerHTML=WA.map(function(w,i){return '<li><button type="button" role="tab" id="wa'+i+'" aria-selected="'+(i===0)+'" data-i="'+i+'"><span class="when">'+w.when+'</span><strong>'+w.t+'</strong><small>'+w.d+'</small></button></li>';}).join("");
+  function showWa(i){[].forEach.call(wl.querySelectorAll("button"),function(b){b.setAttribute("aria-selected",b.dataset.i==i);});cb.setAttribute("aria-labelledby","wa"+i);cb.innerHTML=WA[i].m.map(function(x){return '<div class="bub '+x[0]+'">'+x[1]+'<time>'+x[2]+'</time></div>';}).join("");}
+  wl.addEventListener("click",function(e){var b=e.target.closest("button");if(b)showWa(+b.dataset.i);});
+  showWa(0);
+
+  /* ---------- reference: admin tabs ---------- */
+  var AD=[
+    {n:"עסק",p:"השם, סוג המספרה, הכתובת והמשפט שמופיע בראש האתר.",f:[["פרטי העסק","שם, כתובת, קהל"],["חוקי הזמנה","כמה ימים קדימה, אורך תור, זמן מינימום"],["פתיחת יומן","כל שבועיים, ביום ובשעה שבחרת"],["יעד יומי","כמה אתה רוצה להכניס ביום"]]},
+    {n:"יומן",p:"כל התורים הקרובים. מוסיפים תור ידני, חוסמים זמן או מבטלים בלחיצה.",f:[["תורים קרובים","לפי יום ושעה"],["הוספת תור או חסימת זמן","ללקוח שהתקשר, או להפסקה"],["בקשה מוואטסאפ","מדביקים הודעה והטופס מתמלא"],["ביטול","הלקוח מקבל הודעה אוטומטית"]]},
+    {n:"לקוחות",p:"כל מי שקבע אצלך תור, עם ההיסטוריה שלו לפי מספר טלפון.",f:[["היסטוריה לפי טלפון","מתי היה ומה עשה"],["לקוחות שלא חזרו","הבוט שולח להם ״מתגעגעים״"],["הסרה מהודעות","מי שהשיב ״הסר״ לא מקבל עוד"],["פרטים מוצפנים","רק אתה רואה אותם"]]},
+    {n:"וואטסאפ",p:"מצב הבוט, מה הוא שולח ובאיזה נוסח. כל טקסט ניתן לעריכה.",f:[["מצב הבוט","מחובר או לא, סריקת QR"],["מה הבוט שולח","הפעלה וכיבוי לכל סוג הודעה"],["נוסח ההודעות","אישור, תזכורת, ביטול, מענה אוטומטי"],["יומן פעילות","מה נשלח ומתי"]]},
+    {n:"שעות",p:"שעת פתיחה וסגירה לכל יום בשבוע, ויום סגור.",f:[["שעות לכל יום","למשל 10:30 עד 19:15"],["יום קצר","שישי עד 14:00"],["יום סגור","שבת, או כל יום אחר"],["משבצות","לפי אורך התור שבחרת"]]},
+    {n:"חופשות",p:"סוגרים תאריכים מראש והם נעלמים ללקוחות.",f:[["הוספת חופשה","מתאריך עד תאריך"],["ימים סגורים","רשימה עם הסרה בלחיצה"]]},
+    {n:"שירותים",p:"מה אתה עושה, כמה זמן זה לוקח וכמה זה עולה.",f:[["שירותים","שם, משך ומחיר"],["תוספות","רק יחד עם שירות, למשל צבע"]]},
+    {n:"כללי",p:"ביקורות, משתמשי ניהול וסיסמאות.",f:[["ביקורות לקוחות","הצגה, הסתרה ומחיקה"],["משתמשי ניהול","אתה, שותף או עובד, כל אחד עם סיסמה"],["שמור ופרסם","כל שינוי עולה לאתר בלחיצה"],["מספרי מנהל","מי מקבל התראות"]]}
+  ];
+  var at=document.getElementById("admTabs"),ap=document.getElementById("admPanel");
+  at.innerHTML=AD.map(function(a,i){return '<button type="button" role="tab" id="ad'+i+'" aria-selected="'+(i===0)+'" data-i="'+i+'">'+a.n+'</button>';}).join("");
+  function showAd(i){[].forEach.call(at.querySelectorAll("button"),function(b){b.setAttribute("aria-selected",b.dataset.i==i);});var a=AD[i];ap.setAttribute("aria-labelledby","ad"+i);ap.innerHTML='<h3>'+a.n+'</h3><p>'+a.p+'</p><ul class="adm-feat">'+a.f.map(function(f){return '<li><b>'+f[0]+'</b><span>'+f[1]+'</span></li>';}).join("")+'</ul>';}
+  at.addEventListener("click",function(e){var b=e.target.closest("button");if(b)showAd(+b.dataset.i);});
+  showAd(0);
 
   /* ---------- intro video (opens once on the first visit of the session) ---------- */
   var intro=document.getElementById("intro"),vid=document.getElementById("introVid"),bar=document.getElementById("introBar"),snd=document.getElementById("introSound"),closeT=null;
