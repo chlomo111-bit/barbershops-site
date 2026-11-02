@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>BarberShops · אפליקציית תורים למספרות</title>
 <meta name="description" content="אפליקציה עם השם שלך: הלקוחות קובעים תור לבד, מקבלים אישור ותזכורת בוואטסאפ, ואתה מנהל הכל מהטלפון.">
-<meta name="theme-color" content="#0c0a07">
+<meta name="theme-color" content="#0b0907">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://barbershops.company/">
 <meta property="og:type" content="website">
@@ -14,422 +14,549 @@
 <meta property="og:description" content="הלקוחות קובעים תור לבד. אתה רק עושה תספורות.">
 <meta property="og:image" content="https://barbershops.company/og.jpg">
 <meta property="og:locale" content="he_IL">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img,video{max-width:100%}[hidden]{display:none!important}.legal a{color:var(--muted)}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&family=Suez+One&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap">
 <style>
-/* Layout: RTL long-scroll — barber-pole stripe as the one bold motif; a live phone demo carries the hero; brass on espresso, cream in light */
+/* BarberShops · scroll-craft build (one continuous flight around a live phone, then a quiet landing) */
 :root{
-  --bg:#0c0a07; --bg-2:#15110b; --surface:#1c1710; --line:#3a3020;
-  --text:#f6efe2; --muted:#ab9f88; --brass:#d0a858; --brass-lt:#ecd49a; --brass-dk:#8a6d33;
-  --pole-r:#b8432f; --wa:#25d366; --wa-bub:#1f3a2c; --in-bub:#232018;
-  --ok:#86c79a;
-  --f-display:"Suez One","Heebo",Georgia,serif;
-  --f-body:"Heebo",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
-  --r:18px;
+  --canvas:#0b0907; --surface:#16120d; --surface-2:#1d1811; --line:#30281c;
+  --ink:#f6efe2; --ink-soft:#b5a890; --accent:#ffc24b; --accent-ink:#1a1206;
+  --gold:#d0a858; --pole-r:#c2452f; --pole-b:#2f5aa0;
+  --wa:#25d366; --wa-bub:#1d3a2b; --in-bub:#26211a; --ok:#8fd0a3;
+  --f:"Heebo",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --ease:cubic-bezier(.23,1,.32,1);
+  --edge:inset 0 1px 0 rgba(255,240,210,.08);
+  --e2:0 18px 40px -18px rgba(5,3,1,.75);
+  --e3:0 40px 90px -30px rgba(5,3,1,.9);
+  --gut:max(16px,env(safe-area-inset-left,0px));
   color-scheme:dark;
 }
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
-  --bg:#f7f1e6; --bg-2:#efe6d5; --surface:#fffaf0; --line:#ddcfb3;
-  --text:#1d170e; --muted:#6c604b; --brass:#9a7428; --brass-lt:#b58a33; --brass-dk:#7a5b1c;
-  --pole-r:#a83a27; --wa:#1a9e4b; --wa-bub:#dcf5e3; --in-bub:#ffffff; --ok:#2f8a4a;
-  color-scheme:light;
-}}
-:root[data-theme="light"]{
-  --bg:#f7f1e6; --bg-2:#efe6d5; --surface:#fffaf0; --line:#ddcfb3;
-  --text:#1d170e; --muted:#6c604b; --brass:#9a7428; --brass-lt:#b58a33; --brass-dk:#7a5b1c;
-  --pole-r:#a83a27; --wa:#1a9e4b; --wa-bub:#dcf5e3; --in-bub:#ffffff; --ok:#2f8a4a;
-  color-scheme:light;
-}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--f-body);font-size:17px;line-height:1.65;direction:rtl}
-a{color:var(--brass-lt)}
-:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:6px}
-.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-section{padding-block:88px}
-.band{background:var(--bg-2);border-block:1px solid var(--line)}
-h1,h2,h3{text-wrap:balance;margin:0}
-h2{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,4.4vw,46px);line-height:1.15}
-h3{font-size:20px;font-weight:800}
-p{margin:0}
-.eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--brass);margin-bottom:14px;display:block}
-.lede{color:var(--muted);max-width:60ch;margin-top:16px;font-size:18px}
-.sec-head{margin-bottom:44px}
-
-/* barber pole stripe — the one bold motif */
-.pole{height:10px;background:repeating-linear-gradient(-45deg,var(--pole-r) 0 14px,var(--text) 14px 28px,#2b4f8a 28px 42px,var(--text) 42px 56px);background-size:79px 10px;animation:pole 2.4s linear infinite}
-@keyframes pole{to{background-position:79px 0}}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--f);font-size:17px;line-height:1.65;letter-spacing:.005em;direction:rtl;overflow-x:hidden}
+::selection{background:var(--accent);color:var(--accent-ink)}
+img,video{max-width:100%}
+[hidden]{display:none!important}
+a{color:var(--accent);text-underline-offset:3px;text-decoration-thickness:1px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+h1,h2,h3{margin:0;text-wrap:balance;font-weight:900;letter-spacing:-.02em;line-height:1.02}
+p{margin:0;text-wrap:pretty}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* top bar */
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--bg)}
-.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
-.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:19px;letter-spacing:.01em;direction:ltr}
-.logo i{width:12px;height:30px;border-radius:6px;background:repeating-linear-gradient(-45deg,var(--pole-r) 0 5px,var(--text) 5px 10px,#2b4f8a 10px 15px,var(--text) 15px 20px);border:1.5px solid var(--brass)}
-.logo b{color:var(--brass)}
-.top nav{display:flex;gap:22px;font-size:15px}
-.top nav a{color:var(--muted);text-decoration:none}
-.top nav a:hover{color:var(--text)}
-@media (max-width:820px){.top nav{display:none}}
+.top{position:fixed;inset:0 0 auto;z-index:40;transition:background-color .2s var(--ease);display:flex;align-items:center;justify-content:space-between;gap:16px;padding:calc(12px + env(safe-area-inset-top,0px)) var(--gut) 12px;background:linear-gradient(to bottom,rgba(11,9,7,.85),rgba(11,9,7,0))}
+.top.solid{background:rgba(11,9,7,.94);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:19px;direction:ltr;color:var(--ink);text-decoration:none}
+.logo i{width:11px;height:28px;border-radius:6px;background:repeating-linear-gradient(-45deg,var(--pole-r) 0 5px,var(--ink) 5px 10px,var(--pole-b) 10px 15px,var(--ink) 15px 20px);border:1.5px solid var(--gold)}
+.logo b{color:var(--gold)}
 
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 24px;border-radius:999px;font:inherit;font-weight:800;font-size:16px;text-decoration:none;cursor:pointer;border:1.5px solid transparent;transition:transform .15s,background .15s}
-.btn:hover{transform:translateY(-2px)}
-.btn.gold{background:var(--brass);color:#1a1309}
-.btn.line{border-color:var(--line);color:var(--text);background:transparent}
-.btn.sm{min-height:40px;padding:0 18px;font-size:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:14px;font:inherit;font-weight:800;font-size:16px;text-decoration:none;cursor:pointer;border:1.5px solid transparent;white-space:nowrap;transition:transform .14s var(--ease),background-color .16s var(--ease),border-color .16s var(--ease)}
+.btn:active{transform:scale(.97)}
+.btn.main{background:var(--accent);color:var(--accent-ink);box-shadow:0 10px 24px -12px rgba(255,194,75,.55),inset 0 1px 0 rgba(255,255,255,.35)}
+.btn.ghost{border-color:#3d3324;color:var(--ink);background:rgba(22,18,13,.6)}
+.btn.sm{min-height:42px;padding:0 18px;font-size:14.5px;border-radius:12px}
+@media (hover:hover) and (pointer:fine){.btn.main:hover{background:#ffcd6b}.btn.ghost:hover{border-color:var(--gold)}}
+.watch .play{width:26px;height:26px;border-radius:50%;background:var(--pole-r);display:grid;place-items:center;flex:none}
+.watch .play svg{width:10px;height:10px;margin-right:-2px}
 
-/* hero */
-.hero{padding-block:72px 88px}
-.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
-.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(40px,6.4vw,76px);line-height:1.04}
-.hero h1 em{font-style:normal;color:var(--brass)}
-.hero .lede{font-size:19px}
-.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
-.facts{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:30px;color:var(--muted);font-size:15px;padding:0;list-style:none}
-.facts li{display:flex;align-items:center;gap:8px}
-.facts li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--brass)}
-@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.phone-col{order:2}}
+/* ============ the flight ============ */
+.flight{position:relative}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;isolation:isolate}
+.bg{position:absolute;inset:0;z-index:0;background:
+  radial-gradient(60vmax 50vmax at var(--gx,30%) var(--gy,45%),rgba(255,194,75,var(--ga,.13)),transparent 60%),
+  radial-gradient(50vmax 40vmax at var(--hx,80%) var(--hy,90%),rgba(37,211,102,var(--wa-a,0)),transparent 60%),
+  radial-gradient(50vmax 40vmax at 85% 10%,rgba(47,90,160,var(--bl-a,.06)),transparent 60%),
+  var(--canvas)}
+.floor{position:absolute;left:-50%;right:-50%;bottom:-10%;height:62%;z-index:0;transform-origin:50% 100%;transform:perspective(700px) rotateX(64deg);
+  background-image:linear-gradient(rgba(255,214,140,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,214,140,.07) 1px,transparent 1px);
+  background-size:64px 64px;background-position:0 var(--fy,0px);
+  -webkit-mask-image:linear-gradient(to top,#000 0%,transparent 85%);mask-image:linear-gradient(to top,#000 0%,transparent 85%)}
+.grain{position:absolute;inset:0;z-index:30;pointer-events:none;opacity:.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-/* phone demo */
-.phone-col{display:flex;flex-direction:column;align-items:center;gap:14px}
-.phone{width:100%;max-width:330px;aspect-ratio:9/18.5;border-radius:44px;padding:12px;background:linear-gradient(160deg,#2a2419,#0e0b07);box-shadow:0 30px 80px -30px rgba(0,0,0,.6),inset 0 0 0 1.5px #4a3d27}
-.screen{height:100%;border-radius:34px;overflow:hidden;background:#0b0a08;color:#f5efe3;display:flex;flex-direction:column;position:relative;font-size:14px}
-.notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:88px;height:22px;border-radius:12px;background:#000;z-index:3}
-.s-head{padding:42px 18px 14px;background:radial-gradient(ellipse at top,#2a2112,#0b0a08 75%);text-align:center}
-.s-head small{display:block;color:#c9a45c;font-size:11px;letter-spacing:.14em;font-weight:700}
-.s-head strong{font-family:var(--f-display);font-weight:400;font-size:24px;display:block;margin-top:2px}
-.s-body{flex:1;padding:4px 16px 16px;display:flex;flex-direction:column;gap:12px;overflow:hidden}
-.s-step{font-size:12px;color:#a89e8a;display:flex;justify-content:space-between}
-.s-step b{color:#ecd49a}
-.s-title{font-weight:800;font-size:17px}
-.days{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
-.day,.slot,.svc{border:1px solid #3a311f;background:#15120d;color:#f5efe3;border-radius:12px;font:inherit;cursor:pointer;transition:border-color .15s,background .15s}
-.day{padding:8px 0;font-size:12px;line-height:1.25}
-.day b{display:block;font-size:17px}
-.day:disabled{opacity:.35;cursor:not-allowed}
-.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
-.slot{padding:9px 0;font-weight:700;font-variant-numeric:tabular-nums}
-.slot:disabled{opacity:.3;text-decoration:line-through;cursor:not-allowed}
-.svc{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;text-align:right;font-weight:600}
-.svc span{color:#c9a45c;font-weight:800}
-.day[aria-pressed="true"],.slot[aria-pressed="true"],.svc[aria-pressed="true"]{border-color:#c9a45c;background:#2a2112}
+/* world: phone + floaters, positioned from JS */
+.world{position:absolute;left:0;top:0;width:0;height:0;z-index:10;perspective:1400px}
+.pw{position:absolute;left:0;top:0;width:300px;height:620px;margin:-310px 0 0 -150px;transform-style:preserve-3d;will-change:transform}
+.phone{position:absolute;inset:0;border-radius:48px;padding:11px;background:linear-gradient(155deg,#3a3122,#14100a 45%,#0a0806);box-shadow:var(--e3),inset 0 0 0 1.5px #4d4029,inset 0 2px 0 rgba(255,236,200,.18)}
+.phone::after{content:"";position:absolute;inset:0;border-radius:48px;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.10),transparent 32%,transparent 70%,rgba(255,255,255,.04));}
+.screen{position:relative;height:100%;border-radius:38px;overflow:hidden;background:#0a0907;color:#f5efe3;font-size:13px;line-height:1.45;direction:rtl}
+.island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:92px;height:26px;border-radius:14px;background:#000;z-index:9}
+.sc{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;visibility:hidden}
+.sc.vis{visibility:visible}
+.app-h{padding:46px 18px 14px;text-align:center;background:radial-gradient(ellipse at top,#2c2213,#0a0907 75%)}
+.app-h small{display:block;color:#d9b469;font-size:10.5px;letter-spacing:.14em;font-weight:700}
+.app-h strong{display:block;font-size:22px;font-weight:900;margin-top:2px;letter-spacing:-.01em}
+.app-b{flex:1;display:flex;flex-direction:column;gap:11px;padding:4px 16px 18px;min-height:0}
+.stp{display:flex;justify-content:space-between;font-size:11.5px;color:#a89e8a}
+.stp b{color:#ffd78a}
+.ttl{font-weight:800;font-size:16.5px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.k{position:relative;border:1px solid #3a311f;background:#15120d;border-radius:12px;color:#f5efe3;text-align:center;padding:8px 0;font-size:11.5px;line-height:1.25;transition:border-color .2s var(--ease),background-color .2s var(--ease)}
+.k b{display:block;font-size:16px}
+.k.off{opacity:.32}
+.k.x{opacity:.3;text-decoration:line-through}
+.k.t{font-weight:700;font-size:13px;padding:9px 0;font-variant-numeric:tabular-nums}
+.k.row{display:flex;justify-content:space-between;align-items:center;padding:11px 13px;text-align:right;font-size:13px;font-weight:600}
+.k.row span{color:#ffd78a;font-weight:800}
+.k.on{border-color:var(--accent);background:#2c2213}
+.tap{position:absolute;left:50%;top:50%;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;border:2px solid var(--accent);background:rgba(255,194,75,.18);opacity:0;pointer-events:none;transform:scale(.5)}
+.cta{position:relative;margin-top:auto;min-height:44px;border-radius:14px;background:#d9b469;color:#1a1309;font-weight:800;display:grid;place-items:center}
+.home-big{position:relative;margin-top:6px;min-height:52px;border-radius:16px;background:var(--accent);color:#1a1206;font-weight:900;font-size:16px;display:grid;place-items:center}
+.next{border:1px solid #3a311f;border-radius:14px;padding:12px 14px;background:#15120d}
+.next small{color:#a89e8a;display:block;font-size:11px}
+.next b{font-size:15px}
+.stars{color:#ffd78a;letter-spacing:2px;font-size:13px}
+.mwa{background:var(--wa-bub);border-radius:14px 14px 4px 14px;padding:9px 11px;font-size:12px;line-height:1.5;white-space:pre-line}
+.mwa small{display:block;color:#86c39f;font-size:9.5px;font-weight:700;margin-bottom:3px}
 .code{display:flex;gap:8px;justify-content:center;direction:ltr}
-.code input{width:46px;height:54px;text-align:center;font:inherit;font-size:22px;font-weight:800;border-radius:12px;border:1px solid #3a311f;background:#15120d;color:#f5efe3}
-.s-cta{margin-top:auto;min-height:46px;border:0;border-radius:999px;background:#c9a45c;color:#1a1309;font:inherit;font-weight:800;cursor:pointer}
-.s-cta:disabled{opacity:.35;cursor:not-allowed}
-.s-note{font-size:12px;color:#a89e8a;text-align:center}
-.done-ic{width:64px;height:64px;border-radius:50%;margin:10px auto 0;display:grid;place-items:center;background:#1d3a26;color:#86c79a;font-size:30px}
-.mini-wa{background:#1f3a2c;border-radius:14px 14px 4px 14px;padding:10px 12px;font-size:12.5px;white-space:pre-line;line-height:1.5}
-.mini-wa small{display:block;color:#7fb596;font-size:10px;margin-bottom:4px;font-weight:700}
-.demo-hint{font-size:14px;color:var(--muted)}
-.demo-hint button{background:none;border:0;color:var(--brass-lt);font:inherit;cursor:pointer;text-decoration:underline;padding:0 4px}
+.code i{width:44px;height:52px;border-radius:12px;border:1px solid #3a311f;background:#15120d;display:grid;place-items:center;font-style:normal;font-size:21px;font-weight:900;color:transparent;transition:color .15s,border-color .15s}
+.code i.on{color:#f5efe3;border-color:var(--accent)}
+.okc{width:66px;height:66px;margin:22px auto 4px;border-radius:50%;display:grid;place-items:center;background:#1c3a26;color:var(--ok);font-size:32px;font-weight:900}
+/* chat */
+.wa-h{display:flex;align-items:center;gap:10px;padding:44px 14px 10px;background:#111a14;border-bottom:1px solid #1f2b22}
+.wa-h .av{width:32px;height:32px;border-radius:50%;background:var(--gold);color:#1a1309;display:grid;place-items:center;font-weight:900;font-size:14px}
+.wa-h b{display:block;font-size:13.5px}
+.wa-h small{color:var(--wa);font-size:10.5px;font-weight:700}
+.wa-b{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:7px;padding:12px 10px 14px;background:#0d100d;background-image:radial-gradient(#1b231c 1px,transparent 1px);background-size:16px 16px}
+.bb{max-width:88%;padding:7px 10px 15px;border-radius:12px;font-size:11.5px;line-height:1.45;position:relative;white-space:pre-line;display:none}
+.bb.vis{display:block;animation:pop .32s var(--ease) both}
+.bb time{position:absolute;bottom:2px;left:8px;font-size:9px;color:#8a9a8f}
+.bb.o{align-self:flex-start;background:var(--wa-bub);border-top-right-radius:4px}
+.bb.i{align-self:flex-end;background:var(--in-bub);border-top-left-radius:4px}
+.bb .tag{display:block;font-size:9.5px;font-weight:800;color:#ffd78a;margin-bottom:2px}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+/* admin on phone */
+.ad-h{padding:44px 14px 10px;display:flex;justify-content:space-between;align-items:center}
+.ad-h b{font-size:16px}
+.ad-h small{color:#a89e8a;font-size:11px}
+.ad-t{display:flex;gap:6px;overflow:hidden;padding:0 14px 10px;border-bottom:1px solid #241e15}
+.ad-t span{flex:none;padding:6px 10px;border-radius:9px;font-size:11px;font-weight:700;color:#a89e8a;background:#15120d}
+.ad-t span.on{color:#1a1206;background:var(--accent)}
+.ad-l{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.ad-l div{display:grid;grid-template-columns:44px 1fr auto;gap:8px;align-items:center;padding:10px 11px;border-radius:12px;background:#15120d;border:1px solid #2a2318;font-size:12px}
+.ad-l time{font-weight:900;color:#ffd78a;font-variant-numeric:tabular-nums}
+.ad-l em{font-style:normal;color:#a89e8a;font-size:11px}
+.goal{margin:4px 14px 0;padding:12px;border-radius:12px;background:#15120d;border:1px solid #2a2318;font-size:11.5px}
+.goal i{display:block;height:6px;border-radius:4px;background:#2a2318;margin-top:8px;overflow:hidden}
+.goal i::after{content:"";display:block;height:100%;width:72%;background:var(--accent);border-radius:4px}
 
-/* journey */
-.journey{display:grid;grid-template-columns:repeat(5,1fr);gap:0;counter-reset:j;list-style:none;padding:0;margin:0}
-.journey li{position:relative;padding:0 0 0 18px;counter-increment:j}
-.journey li::before{content:counter(j);display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--brass);color:var(--brass);font-weight:900;font-size:18px;background:var(--bg);position:relative;z-index:1;margin-bottom:16px}
-.journey li::after{content:"";position:absolute;top:22px;right:44px;left:0;height:1.5px;background:var(--line)}
-.journey li:last-child::after{display:none}
-.journey h3{font-size:18px;margin-bottom:6px}
-.journey p{color:var(--muted);font-size:15px}
-@media (max-width:860px){.journey{grid-template-columns:1fr;gap:26px}.journey li{display:grid;grid-template-columns:44px 1fr;gap:4px 16px;padding:0}.journey li::before{grid-row:span 2;margin:0}.journey li::after{top:44px;bottom:-26px;right:21px;left:auto;width:1.5px;height:auto}}
+/* floaters */
+.fl{position:absolute;left:0;top:0;width:214px;margin:-34px 0 0 -107px;padding:11px 13px;border-radius:16px;background:#1c1811;border:1px solid #352c1e;box-shadow:var(--e2),var(--edge);font-size:13.5px;line-height:1.4;opacity:0;will-change:transform,opacity}
+.fl small{display:flex;align-items:center;gap:6px;color:#9d9179;font-size:11px;font-weight:700;margin-bottom:3px}
+.fl small::before{content:"";width:14px;height:14px;border-radius:4px;background:var(--wa)}
+.fl.call small::before{background:#e5484d}
+.fl b{font-weight:700}
+.chip{position:absolute;left:0;top:0;width:190px;margin:-30px 0 0 -95px;padding:12px 14px;border-radius:14px;background:#1b1710;border:1px solid #3a3020;box-shadow:var(--e2),var(--edge);opacity:0;will-change:transform,opacity}
+.chip b{display:block;font-size:15px;color:var(--accent)}
+.chip span{display:block;font-size:12.5px;color:var(--ink-soft);line-height:1.4}
+.flyb{position:absolute;left:0;top:0;width:250px;margin:-40px 0 0 -125px;background:var(--wa-bub);border-radius:16px 16px 4px 16px;padding:12px 14px 18px;font-size:14px;line-height:1.5;box-shadow:var(--e3);opacity:0;white-space:pre-line;will-change:transform,opacity}
+.flyb small{display:block;color:#86c39f;font-size:11px;font-weight:700;margin-bottom:3px}
 
-/* whatsapp */
-.wa-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start}
-@media (max-width:900px){.wa-grid{grid-template-columns:1fr}}
-.wa-list{display:flex;flex-direction:column;gap:6px;list-style:none;padding:0;margin:0}
-.wa-list button{width:100%;text-align:right;display:grid;grid-template-columns:auto 1fr;gap:2px 14px;align-items:center;padding:14px 16px;border-radius:14px;border:1px solid transparent;background:transparent;color:var(--text);font:inherit;cursor:pointer}
-.wa-list button:hover{background:var(--surface)}
-.wa-list button[aria-selected="true"]{background:var(--surface);border-color:var(--line)}
-.wa-list .when{grid-row:span 2;font-size:12px;font-weight:800;color:var(--brass);min-width:76px;letter-spacing:.02em}
-.wa-list strong{font-size:16px}
-.wa-list small{color:var(--muted);font-size:14px}
-.chat{background:var(--surface);border:1px solid var(--line);border-radius:24px;overflow:hidden}
-.chat-top{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
-.chat-top .av{width:38px;height:38px;border-radius:50%;background:var(--brass);color:#1a1309;display:grid;place-items:center;font-weight:900}
-.chat-top small{display:block;color:var(--wa);font-size:12px;font-weight:700}
-.chat-body{padding:22px 18px;display:flex;flex-direction:column;gap:10px;min-height:300px;background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:18px 18px}
-.bub{max-width:86%;padding:10px 14px 18px;border-radius:16px;white-space:pre-line;font-size:15px;line-height:1.55;position:relative;animation:pop .35s ease both}
-.bub time{position:absolute;bottom:4px;left:12px;font-size:11px;color:var(--muted)}
-.bub.out{align-self:flex-start;background:var(--wa-bub);border-top-right-radius:4px}
-.bub.in{align-self:flex-end;background:var(--in-bub);border:1px solid var(--line);border-top-left-radius:4px}
-.bub .lnk{color:var(--brass-lt);text-decoration:underline}
-@keyframes pop{from{opacity:.0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* copy layer */
+.copy{position:absolute;z-index:20;inset-inline-start:var(--cs,6vw);top:50%;width:min(620px,47vw);opacity:0;visibility:hidden;will-change:transform,opacity}
+.copy.live{visibility:visible}
+.copy h1{font-size:clamp(42px,4.9vw,76px)}
+.copy h1 em,.copy h2 em{font-style:normal;color:var(--accent)}
+.copy h2{font-size:clamp(36px,4.2vw,64px)}
+.copy .sub{margin-top:22px;font-size:19px;color:var(--ink-soft);max-width:40ch}
+.copy .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.copy .eb{display:block;font-size:13px;font-weight:800;letter-spacing:.12em;color:var(--accent);margin-bottom:14px}
+.rail{list-style:none;margin:30px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}
+.rail li{display:grid;grid-template-columns:28px 1fr;gap:0 14px;padding:10px 0;color:#7d725f;transition:color .2s var(--ease)}
+.rail li::before{content:"";grid-row:span 2;width:10px;height:10px;margin:8px 9px 0;border-radius:50%;background:#3a3020;transition:background-color .2s var(--ease),transform .2s var(--ease)}
+.rail li b{font-size:18px;font-weight:800}
+.rail li span{font-size:15px;max-height:0;overflow:hidden;opacity:0;transition:opacity .25s var(--ease)}
+.rail li.on{color:var(--ink)}
+.rail li.on::before{background:var(--accent);transform:scale(1.3)}
+.rail li.on span{max-height:4em;opacity:1;color:var(--ink-soft)}
+.rail li.done{color:#a89c86}
+.rail li.done::before{background:var(--gold)}
+.msgs{list-style:none;margin:26px 0 0;padding:0;display:grid;grid-template-columns:auto 1fr;gap:2px 18px}
+.msgs li{display:contents}
+.msgs .w{font-size:12.5px;font-weight:800;color:#6f6553;padding:9px 0;letter-spacing:.02em;transition:color .2s}
+.msgs .n{font-size:17px;font-weight:700;color:#7d725f;padding:7px 0;transition:color .2s}
+.msgs li.on .w{color:var(--wa)}
+.msgs li.on .n{color:var(--ink)}
+.peak h2{font-size:clamp(60px,8.5vw,132px)}
+.copy.peak{width:min(640px,48vw)}
+.url{display:inline-block;direction:ltr;margin-top:14px;font-weight:700;color:var(--gold)}
+.mini{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px 20px;color:var(--ink-soft);font-size:15.5px}
+.scrim{position:absolute;z-index:15;pointer-events:none;inset:0;opacity:0}
 
-/* admin */
-.adm{display:grid;grid-template-columns:240px 1fr;border:1px solid var(--line);border-radius:24px;overflow:hidden;background:var(--surface)}
-.adm-tabs{display:flex;flex-direction:column;padding:12px;gap:2px;border-left:1px solid var(--line);background:var(--bg-2)}
-.adm-tabs button{text-align:right;padding:12px 14px;border-radius:10px;border:0;background:transparent;color:var(--muted);font:inherit;font-weight:600;cursor:pointer;display:flex;justify-content:space-between}
-.adm-tabs button[aria-selected="true"]{background:var(--surface);color:var(--text);box-shadow:inset -3px 0 0 var(--brass)}
-.adm-tabs button small{font-size:11px;color:var(--brass);font-weight:700;letter-spacing:.06em;direction:ltr}
-.adm-panel{padding:30px 32px;min-width:0}
-.adm-panel h3{font-size:24px;margin-bottom:8px}
-.adm-panel>p{color:var(--muted);max-width:56ch}
-.adm-feat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px;padding:0;list-style:none}
-.adm-feat li{padding:14px 16px;border:1px solid var(--line);border-radius:14px;font-size:15px;background:var(--bg)}
-.adm-feat li b{display:block;font-size:15.5px;margin-bottom:2px}
-.adm-feat li span{color:var(--muted);font-size:14px}
-@media (max-width:820px){.adm{grid-template-columns:1fr}.adm-tabs{flex-direction:row;overflow-x:auto;border-left:0;border-bottom:1px solid var(--line)}.adm-tabs button{white-space:nowrap}.adm-tabs button small{display:none}.adm-tabs button[aria-selected="true"]{box-shadow:inset 0 -3px 0 var(--brass)}.adm-panel{padding:24px 20px}.adm-feat{grid-template-columns:1fr}}
+/* ============ landing (normal flow) ============ */
+.land section{scroll-margin-top:72px}
+.land{position:relative;z-index:2;background:var(--canvas)}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:var(--gut)}
+.sec{padding-block:clamp(72px,10vw,128px) clamp(56px,7vw,96px)}
+.sec h2{font-size:clamp(34px,4.4vw,56px);margin-bottom:18px}
+.lede{color:var(--ink-soft);max-width:60ch;font-size:18px}
+.det{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:start}
+.det ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:34px 40px}
+.det li{border-top:1px solid var(--line);padding-top:16px}
+.det li b{display:block;font-size:18px;margin-bottom:4px}
+.det li span{color:var(--ink-soft);font-size:15.5px}
+@media (max-width:900px){.det{grid-template-columns:1fr;gap:30px}}
+@media (max-width:560px){.det ul{grid-template-columns:1fr;gap:24px}}
 
-/* small promises */
-.promises{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px 40px}
-.promises div{border-top:1.5px solid var(--brass-dk);padding-top:18px}
-.promises h3{font-size:18px;margin-bottom:6px}
-.promises p{color:var(--muted);font-size:15.5px}
-@media (max-width:820px){.promises{grid-template-columns:1fr 1fr}}
-@media (max-width:520px){.promises{grid-template-columns:1fr}}
-
-/* live example */
-.live{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;padding:36px 40px;border-radius:28px;background:linear-gradient(120deg,var(--surface),var(--bg-2));border:1px solid var(--line)}
-.live h2{font-size:clamp(26px,3.4vw,36px)}
-.live .url{direction:ltr;display:inline-block;margin-top:14px;font-weight:700;color:var(--brass-lt);font-size:15px}
-.live ul{margin:14px 0 0;padding:0;list-style:none;color:var(--muted);font-size:15.5px;display:flex;flex-wrap:wrap;gap:6px 20px}
-@media (max-width:760px){.live{grid-template-columns:1fr;padding:28px 22px}}
-
-/* offer */
-.offer{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-@media (max-width:820px){.offer{grid-template-columns:1fr}}
-.card{border:1px solid var(--line);border-radius:24px;padding:30px;background:var(--surface);display:flex;flex-direction:column;gap:14px}
-.card.hl{border-color:var(--brass);background:linear-gradient(170deg,color-mix(in srgb,var(--brass) 14%,var(--surface)),var(--surface) 55%)}
-.card .tag{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--brass)}
-.card h3{font-size:24px}
-.card ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
-.card li{display:flex;gap:10px;font-size:15.5px}
-.card li::before{content:"✓";color:var(--ok);font-weight:900}
-.card .price{font-family:var(--f-display);font-size:22px;color:var(--brass-lt);margin-top:auto;padding-top:10px}
-.plan{max-width:620px;margin:0 auto;border:1.5px solid var(--brass);border-radius:28px;padding:34px 32px;background:linear-gradient(170deg,color-mix(in srgb,var(--brass) 16%,var(--surface)),var(--surface) 50%);display:flex;flex-direction:column;gap:24px;box-shadow:0 30px 80px -40px color-mix(in srgb,var(--brass) 60%,transparent)}
+.plan{max-width:640px;margin:44px auto 0;border:1.5px solid var(--accent);border-radius:28px;padding:36px 34px;background:linear-gradient(170deg,rgba(255,194,75,.12),var(--surface) 46%);display:flex;flex-direction:column;gap:24px;box-shadow:var(--e3),var(--edge)}
 .plan-top{text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px}
-.plan .tag{font-size:13px;font-weight:800;letter-spacing:.1em;color:var(--brass)}
-.plan-price{display:flex;align-items:baseline;gap:6px;direction:rtl}
-.plan-price .amt{font-family:var(--f-display);font-size:96px;line-height:1;color:var(--text)}
-.plan-price .cur{font-family:var(--f-display);font-size:40px;color:var(--brass-lt)}
-.plan-price .per{font-size:18px;color:var(--muted);font-weight:700}
-.plan-free{color:var(--ok);font-weight:800;font-size:16px}
-.plan-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px}
-.plan-list li{display:flex;gap:10px;font-size:16px}
-.plan-list li::before{content:"✓";color:var(--ok);font-weight:900;flex:none}
-.plan-cta{width:100%}
-.plan-extra{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px;border-radius:16px;border:1px dashed var(--line);background:var(--bg)}
-.plan-extra b{display:block;font-size:15.5px}
-.plan-extra span{color:var(--muted);font-size:14px}
-.plan-extra-price{font-weight:900;color:var(--brass-lt)!important;font-size:18px!important;white-space:nowrap}
-.plan-extra-price small{font-size:12px;color:var(--muted);font-weight:600}
-@media (max-width:520px){.plan{padding:26px 20px}.plan-price .amt{font-size:80px}.plan-extra{flex-direction:column;align-items:flex-start}}
+.plan .tg{font-size:13px;font-weight:800;letter-spacing:.1em;color:var(--accent)}
+.price{display:flex;align-items:baseline;gap:8px}
+.price .amt{font-size:104px;font-weight:900;line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.price .cur{font-size:42px;font-weight:900;color:var(--accent)}
+.price .per{font-size:18px;color:var(--ink-soft);font-weight:700}
+.free{color:var(--ok);font-weight:800}
+.plist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:11px}
+.plist li{display:flex;gap:10px;font-size:16px}
+.plist li::before{content:"✓";color:var(--ok);font-weight:900;flex:none}
+.plan .btn{width:100%}
+.extra{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px;border-radius:16px;border:1px dashed #3d3324;background:var(--canvas)}
+.extra b{display:block;font-size:15.5px}
+.extra span{color:var(--ink-soft);font-size:14px}
+.extra .xp{font-weight:900;color:var(--accent);font-size:18px;white-space:nowrap}
+.extra .xp small{font-size:12px;color:var(--ink-soft);font-weight:600}
+@media (max-width:520px){.plan{padding:28px 20px}.price .amt{font-size:84px}.extra{flex-direction:column;align-items:flex-start}}
 
-/* faq */
-.faq{max-width:780px;display:flex;flex-direction:column}
-.faq details{border-bottom:1px solid var(--line);padding:6px 0}
-.faq summary{cursor:pointer;list-style:none;padding:16px 0;font-weight:700;font-size:18px;display:flex;justify-content:space-between;gap:16px}
+.faq{max-width:780px;margin-top:28px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;padding:20px 0;font-weight:700;font-size:18px;display:flex;justify-content:space-between;gap:16px}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";color:var(--brass);font-size:24px;line-height:1;transition:transform .2s}
+.faq summary::after{content:"+";color:var(--accent);font-size:24px;line-height:1;transition:transform .2s var(--ease)}
 .faq details[open] summary::after{transform:rotate(45deg)}
-.faq details p{color:var(--muted);padding-bottom:18px;max-width:64ch}
+.faq details p{color:var(--ink-soft);padding-bottom:20px;max-width:64ch}
 
-/* final cta */
 .final{text-align:center}
-.final h2{font-size:clamp(34px,5vw,56px)}
-.final .lede{margin-inline:auto}
-.lead{max-width:620px;margin:34px auto 0;text-align:right;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:28px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 18px}
+.final .lede{margin:0 auto}
+.lead{max-width:640px;margin:36px auto 0;text-align:right;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:28px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 18px;box-shadow:var(--e2),var(--edge)}
 .lead .full{grid-column:1/-1}
 .lead label{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:15px}
-.lead input,.lead select{font:inherit;font-weight:500;font-size:16px;min-height:50px;padding:0 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--text)}
-.lead input:focus,.lead select:focus{border-color:var(--brass);outline:none}
-.lead .chk{flex-direction:row;align-items:flex-start;gap:10px;font-weight:500;color:var(--muted);font-size:14.5px}
-.lead .chk input{min-height:auto;width:20px;height:20px;margin-top:3px;accent-color:var(--brass)}
+.lead input,.lead select{font:inherit;font-weight:500;font-size:16px;min-height:50px;padding:0 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--canvas);color:var(--ink);caret-color:var(--accent)}
+.lead input:focus,.lead select:focus{border-color:var(--accent);outline:none}
+.lead .chk{flex-direction:row;align-items:flex-start;gap:10px;font-weight:500;color:var(--ink-soft);font-size:14.5px}
+.lead .chk input{min-height:auto;width:20px;height:20px;margin-top:3px;accent-color:var(--accent)}
 .lead .btn{width:100%}
-.lead .err{color:var(--pole-r);font-size:14.5px;min-height:20px;margin:0}
-.lead-ok{max-width:620px;margin:34px auto 0;padding:28px;border-radius:24px;border:1.5px solid var(--ok);background:color-mix(in srgb,var(--ok) 12%,var(--surface));text-align:center}
+.lead .err{color:#ff8a76;font-size:14.5px;min-height:20px}
+.lead-ok{max-width:640px;margin:36px auto 0;padding:28px;border-radius:24px;border:1.5px solid var(--ok);background:rgba(143,208,163,.08);text-align:center}
 .lead-ok h3{font-size:24px;margin-bottom:8px}
-.lead-ok p{color:var(--muted)}
-.or{color:var(--muted);font-size:15px;margin-top:30px}
-@media (max-width:560px){.lead{grid-template-columns:1fr;padding:22px}}
-.contact{display:inline-flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px;margin-top:30px}
-.num{direction:ltr;font-weight:800;font-size:20px;letter-spacing:.04em;padding:10px 18px;border:1px dashed var(--line);border-radius:12px;user-select:all}
+.lead-ok p{color:var(--ink-soft)}
+.or{color:var(--ink-soft);font-size:15px;margin-top:30px}
+.contact{display:inline-flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px;margin-top:12px}
+.num{direction:ltr;font-weight:800;font-size:20px;letter-spacing:.04em;padding:10px 18px;border:1px dashed var(--line);border-radius:12px;user-select:all;font-variant-numeric:tabular-nums}
 .copied{color:var(--ok);font-size:14px;min-height:20px;margin-top:10px}
-footer{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:14px}
+@media (max-width:560px){.lead{grid-template-columns:1fr;padding:22px}}
+footer{border-top:1px solid var(--line);padding-block:28px calc(28px + env(safe-area-inset-bottom,0px));color:var(--ink-soft);font-size:14px}
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+footer nav{display:flex;flex-wrap:wrap;gap:8px 18px}
+footer a{color:var(--ink-soft)}
 
 /* intro video */
-.intro{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:calc(20px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:radial-gradient(ellipse at 50% 20%,color-mix(in srgb,var(--brass) 22%,#0c0a07),#060504 70%);transition:opacity .6s ease,visibility .6s}
+.intro{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:calc(20px + env(safe-area-inset-top,0px)) var(--gut) calc(20px + env(safe-area-inset-bottom,0px));background:radial-gradient(ellipse at 50% 20%,#2b2211,#060504 70%);transition:opacity .5s var(--ease),visibility .5s}
 .intro.closing{opacity:0;visibility:hidden}
-.intro-in{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;height:100%;max-height:820px;justify-content:center}
-.intro-frame{position:relative;height:min(78vh,720px);aspect-ratio:9/16;max-width:100%;border-radius:30px;overflow:hidden;box-shadow:0 0 0 2px #4a3d27,0 40px 120px -30px rgba(0,0,0,.9),0 0 90px -20px color-mix(in srgb,var(--brass) 55%,transparent);animation:introPop .7s cubic-bezier(.2,1.3,.4,1) both;background:#0c0a07}
+.intro-in{display:flex;flex-direction:column;align-items:center;gap:14px;height:100%;max-height:820px;justify-content:center}
+.intro-frame{position:relative;height:min(78vh,720px);aspect-ratio:9/16;max-width:100%;border-radius:30px;overflow:hidden;box-shadow:0 0 0 2px #4a3d27,0 40px 120px -30px rgba(0,0,0,.9);background:#0b0907}
 .intro-frame video{width:100%;height:100%;object-fit:cover;display:block}
-@keyframes introPop{from{opacity:0;transform:translateY(40px) scale(.86) rotate(-3deg)}to{opacity:1;transform:none}}
 .intro-bar{position:absolute;inset:auto 0 0 0;height:5px;background:rgba(255,255,255,.12)}
-.intro-bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(-45deg,#c2452f 0 8px,#f6efe2 8px 16px,#2f5aa0 16px 24px,#f6efe2 24px 32px);background-size:45px 5px;animation:pole 1.2s linear infinite}
-.intro-sound{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;border:0;background:#d0a858;color:#1a1309;font:inherit;font-weight:900;font-size:16px;cursor:pointer;white-space:nowrap;animation:pulse 1.6s ease-in-out infinite}
+.intro-bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(-45deg,var(--pole-r) 0 8px,var(--ink) 8px 16px,var(--pole-b) 16px 24px,var(--ink) 24px 32px)}
+.intro-sound{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;border:0;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:900;font-size:16px;cursor:pointer;white-space:nowrap}
 .intro-sound svg{width:20px;height:20px}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(208,168,88,.6)}50%{box-shadow:0 0 0 14px rgba(208,168,88,0)}}
-.intro-top{display:flex;gap:10px;width:100%;justify-content:space-between;align-items:center;animation:introPop .7s .15s both}
-.intro-top .logo{color:#f6efe2}
-.intro-skip{min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid #4a3d27;background:rgba(0,0,0,.35);color:#f6efe2;font:inherit;font-weight:700;font-size:15px;cursor:pointer}
-.intro-skip:hover{border-color:#d0a858}
-.watch{display:inline-flex;align-items:center;gap:10px}
-.watch .play{width:30px;height:30px;border-radius:50%;background:var(--pole-r);display:grid;place-items:center;flex:none}
-.watch .play svg{width:12px;height:12px;margin-right:-2px}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+.intro-top{display:flex;gap:10px;width:100%;justify-content:space-between;align-items:center}
+.intro-skip{min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid #4a3d27;background:rgba(0,0,0,.35);color:var(--ink);font:inherit;font-weight:700;font-size:15px;cursor:pointer}
+
+/* ============ phone layout ============ */
+@media (max-width:860px){
+  .copy{inset-inline:var(--gut);top:auto;bottom:calc(22px + env(safe-area-inset-bottom,0px));width:auto}
+  .copy.peak{width:auto}
+  .copy h1{font-size:clamp(32px,9vw,46px)}
+  .copy h2{font-size:clamp(28px,7.6vw,40px)}
+  .peak h2{font-size:clamp(48px,14vw,72px)}
+  .copy .sub{font-size:16px;margin-top:12px}
+  .copy .ctas{margin-top:18px;gap:10px}
+  .copy .ctas .btn{flex:1 1 auto;min-height:50px;padding:0 18px}
+  .rail{margin-top:14px;flex-direction:row;gap:6px}
+  .rail li{grid-template-columns:1fr;padding:0;flex:1}
+  .rail li::before{display:none}
+  .rail li b{font-size:12.5px;padding:7px 0;border-top:3px solid #3a3020;transition:border-color .2s}
+  .rail li.on b{border-color:var(--accent)}
+  .rail li.done b{border-color:var(--gold)}
+  .rail li span{display:none}
+  .msgs{margin-top:12px;gap:0 14px}
+  .msgs li:not(.on){display:none}
+  .msgs .w,.msgs .n{padding:2px 0}
+  .scrim{background:linear-gradient(to top,rgba(11,9,7,.97) 0%,rgba(11,9,7,.9) 34%,rgba(11,9,7,0) 58%);opacity:1}
+  .fl{width:180px;margin:-30px 0 0 -90px;font-size:12.5px;padding:9px 11px}
+  .chip{width:150px;margin:-26px 0 0 -75px;padding:9px 11px}
+  .chip b{font-size:13.5px}.chip span{font-size:11px}
+  .flyb{width:210px;margin:-36px 0 0 -105px;font-size:13px}
+  .top .btn{min-height:40px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
 </style>
 </head>
 <body>
 
-<div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="סרטון היכרות">
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="סרטון היכרות" hidden>
   <div class="intro-in">
     <div class="intro-top">
       <div class="logo"><i aria-hidden="true"></i><span>Barber<b>Shops</b></span></div>
       <button class="intro-skip" type="button" id="introSkip">כניסה לאתר ←</button>
     </div>
     <div class="intro-frame">
-      <video id="introVid" src="promo.mp4" poster="promo-poster.jpg" muted playsinline autoplay preload="auto"></video>
+      <video id="introVid" src="promo.mp4" poster="promo-poster.jpg" muted playsinline preload="metadata"></video>
       <button class="intro-sound" type="button" id="introSound"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg><span>להפעלה עם קול</span></button>
       <div class="intro-bar" aria-hidden="true"><i id="introBar"></i></div>
     </div>
   </div>
 </div>
 
-<div class="pole" aria-hidden="true"></div>
 <header class="top">
-  <div class="wrap">
-    <div class="logo"><i aria-hidden="true"></i><span>Barber<b>Shops</b></span></div>
-    <nav aria-label="ניווט">
-      <a href="#how">איך זה עובד</a>
-      <a href="#bot">בוט וואטסאפ</a>
-      <a href="#admin">ניהול</a>
-      <a href="#offer">מחיר</a>
-      <a href="#faq">שאלות</a>
-    </nav>
-    <a class="btn gold sm" href="#contact">רוצה אפליקציה</a>
-  </div>
+  <a class="logo" href="#top" aria-label="BarberShops"><i aria-hidden="true"></i><span>Barber<b>Shops</b></span></a>
+  <a class="btn main sm" href="#contact">אני רוצה אפליקציה</a>
 </header>
 
-<main>
-<section class="hero">
-  <div class="wrap">
-    <div>
-      <span class="eyebrow">אפליקציה למספרות וספרים</span>
-      <h1>הלקוחות קובעים תור לבד.<br><em>אתה רק מספר.</em></h1>
-      <p class="lede">אפליקציה עם השם שלך, השירותים והמחירים שלך. הלקוח בוחר יום, שעה ושירות, מאשר עם קוד בוואטסאפ, ומקבל אישור ותזכורת אוטומטית. בלי טלפונים באמצע תספורת, בלי הודעות "יש לך משהו מחר?".</p>
-      <div class="hero-ctas">
-        <a class="btn gold" href="#contact">אני רוצה כזאת למספרה שלי</a>
-        <button class="btn line watch" type="button" id="watchBtn"><span class="play" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M10 6 3 10V2z" fill="#f6efe2"/></svg></span>הסרטון ב-26 שניות</button>
-        <a class="btn line" href="https://ariel.barbershops.company/" target="_blank" rel="noopener">לראות מספרה אמיתית ↗</a>
+<main id="top">
+<section class="flight" id="flight" aria-label="איך זה עובד">
+  <div class="stage" id="stage">
+    <div class="bg" id="bg" aria-hidden="true"></div>
+    <div class="floor" id="floor" aria-hidden="true"></div>
+
+    <div class="world" id="world" aria-hidden="true">
+      <!-- the noise before: notifications -->
+      <div class="fl call" data-fl="-240,-205,1,0.78"><small>שיחה שלא נענתה</small><b>3 שיחות מ"דניאל"</b></div>
+      <div class="fl" data-fl="175,-250,.86,0.88"><small>וואטסאפ · עכשיו</small><b>יש לך משהו מחר?</b></div>
+      <div class="fl" data-fl="-295,20,.82,0.98"><small>וואטסאפ · עכשיו</small><b>אחי אפשר להזיז ל-5?</b></div>
+      <div class="fl" data-fl="205,15,1.04,1.06"><small>וואטסאפ · לפני דקה</small><b>אתה פתוח בשישי?</b></div>
+      <div class="fl" data-fl="-215,235,.9,1.14"><small>וואטסאפ · לפני 2 דק׳</small><b>כמה עולה תספורת וזקן?</b></div>
+      <div class="fl call" data-fl="175,255,.84,1.22"><small>שיחה שלא נענתה</small><b>מספר לא שמור</b></div>
+
+      <!-- the phone -->
+      <div class="pw" id="pw">
+        <div class="phone"><div class="screen">
+          <div class="island"></div>
+
+          <div class="sc" data-sc="-1 1.95">
+            <div class="app-h"><small>ספר גברים · חולון</small><strong>המספרה שלך</strong></div>
+            <div class="app-b">
+              <div class="stars">★★★★★ <span style="color:#a89e8a;letter-spacing:0">ביקורות מאומתות</span></div>
+              <div class="next"><small>התור הפנוי הבא</small><b>היום · 17:00</b></div>
+              <div class="home-big">קביעת תור</div>
+              <div class="next"><small>שעות פתיחה</small><b>א׳ עד ה׳ · 10:30 עד 19:15</b></div>
+            </div>
+          </div>
+
+          <div class="sc" data-sc="1.95 2.62">
+            <div class="app-h"><small>ספר גברים · חולון</small><strong>המספרה שלך</strong></div>
+            <div class="app-b">
+              <div class="stp"><span>שלב <b>1</b> מתוך 4</span><span></span></div>
+              <div class="ttl">באיזה יום?</div>
+              <div class="g4">
+                <div class="k">א׳<b>9</b></div><div class="k">ב׳<b>10</b></div><div class="k" data-tap="2.4">ג׳<b>11</b><i class="tap"></i></div><div class="k">ד׳<b>12</b></div>
+                <div class="k">ה׳<b>13</b></div><div class="k">ו׳<b>14</b></div><div class="k off">ש׳<b>15</b></div><div class="k">א׳<b>16</b></div>
+              </div>
+              <p class="stp" style="justify-content:center">שבת סגור · ימים פתוחים בלבד</p>
+            </div>
+          </div>
+
+          <div class="sc" data-sc="2.62 3.14">
+            <div class="app-h"><small>ספר גברים · חולון</small><strong>המספרה שלך</strong></div>
+            <div class="app-b">
+              <div class="stp"><span>שלב <b>2</b> מתוך 4</span><span>ג׳ 11/11</span></div>
+              <div class="ttl">באיזו שעה?</div>
+              <div class="g3">
+                <div class="k t">10:30</div><div class="k t x">11:00</div><div class="k t">11:30</div>
+                <div class="k t x">12:00</div><div class="k t">16:30</div><div class="k t" data-tap="2.92">17:00<i class="tap"></i></div>
+                <div class="k t x">17:30</div><div class="k t">18:00</div><div class="k t">18:30</div>
+              </div>
+              <p class="stp" style="justify-content:center">שעות מחוקות כבר תפוסות</p>
+            </div>
+          </div>
+
+          <div class="sc" data-sc="3.14 3.66">
+            <div class="app-h"><small>ספר גברים · חולון</small><strong>המספרה שלך</strong></div>
+            <div class="app-b">
+              <div class="stp"><span>שלב <b>3</b> מתוך 4</span><span>ג׳ 11/11 · 17:00</span></div>
+              <div class="ttl">מה עושים?</div>
+              <div class="k row">תספורת גבר<span>70 ₪</span></div>
+              <div class="k row" data-tap="3.36">תספורת + זקן<span>90 ₪</span><i class="tap"></i></div>
+              <div class="k row">תספורת ילד<span>60 ₪</span></div>
+              <div class="k row">סידור זקן<span>30 ₪</span></div>
+              <div class="cta" data-tap="3.54">המשך<i class="tap"></i></div>
+            </div>
+          </div>
+
+          <div class="sc" data-sc="3.66 4.12">
+            <div class="app-h"><small>ספר גברים · חולון</small><strong>המספרה שלך</strong></div>
+            <div class="app-b">
+              <div class="stp"><span>שלב <b>4</b> מתוך 4</span><span>ג׳ 11/11 · 17:00</span></div>
+              <div class="ttl">קוד אימות</div>
+              <div class="mwa"><small>וואטסאפ · המספרה שלך</small>הקוד שלך לקביעת תור: 4821
+הקוד בתוקף ל-10 דקות.</div>
+              <div class="code"><i data-at="3.76">4</i><i data-at="3.83">8</i><i data-at="3.9">2</i><i data-at="3.97">1</i></div>
+              <p class="stp" style="justify-content:center">הקוד מגיע לוואטסאפ של הלקוח</p>
+            </div>
+          </div>
+
+          <div class="sc" data-sc="4.12 4.95">
+            <div class="app-h"><small>ספר גברים · חולון</small><strong>המספרה שלך</strong></div>
+            <div class="app-b">
+              <div class="okc">✓</div>
+              <div class="ttl" style="text-align:center;font-size:19px">התור נקבע</div>
+              <div class="mwa"><small>וואטסאפ · המספרה שלך</small>היי דניאל, התור שלך נקבע ✅
+תספורת + זקן
+ג׳ 11/11 בשעה 17:00
+
+הוספה ליומן ↗
+לביטול השיבו ביטול</div>
+              <p class="stp" style="justify-content:center">והספר קיבל התראה על תור חדש</p>
+            </div>
+          </div>
+
+          <div class="sc" data-sc="4.95 6.05">
+            <div class="wa-h"><div class="av">✂</div><div><b>המספרה שלך</b><small>מחובר · עונה אוטומטית</small></div></div>
+            <div class="wa-b">
+              <div class="bb o" data-at="5.02"><span class="tag">מיד</span>היי דניאל, התור שלך נקבע ✅
+ג׳ 11/11 בשעה 17:00<time>17:02</time></div>
+              <div class="bb o" data-at="5.18"><span class="tag">לספר</span>📅 תור חדש: דניאל
+תספורת + זקן, ג׳ 17:00<time>17:02</time></div>
+              <div class="bb o" data-at="5.34"><span class="tag">שעה לפני</span>תזכורת: התור שלך היום ב-17:00 ✂️<time>16:00</time></div>
+              <div class="bb i" data-at="5.5">ביטול<time>16:05</time></div>
+              <div class="bb o" data-at="5.54">התור בוטל ✅ לתור חדש: הקישור שלך<time>16:05</time></div>
+              <div class="bb o" data-at="5.68"><span class="tag">אחרי התור</span>תודה שבאת 🙏 נשמח לכמה מילים<time>18:00</time></div>
+              <div class="bb o" data-at="5.84"><span class="tag">אחרי 14 יום</span>עברו שבועיים 💈 יש שעות פנויות השבוע<time>11:00</time></div>
+            </div>
+          </div>
+
+          <div class="sc" data-sc="6.05 7.2">
+            <div class="ad-h"><b>ניהול</b><small>היום · ג׳ 11/11</small></div>
+            <div class="ad-t"><span>עסק</span><span class="on">יומן</span><span>לקוחות</span><span>וואטסאפ</span><span>שעות</span></div>
+            <div class="ad-l">
+              <div><time>10:30</time><span>יוסי</span><em>תספורת</em></div>
+              <div><time>11:30</time><span>מאור</span><em>זקן</em></div>
+              <div><time>16:30</time><span>חסום</span><em>הפסקה</em></div>
+              <div><time>17:00</time><span>דניאל</span><em>תספורת + זקן</em></div>
+              <div><time>18:00</time><span>רון</span><em>ילד</em></div>
+            </div>
+            <div class="goal">יעד יומי <b style="float:left">72%</b><i></i></div>
+          </div>
+
+          <div class="sc" data-sc="7.2 99">
+            <div class="app-h"><small>ספר גברים · חולון</small><strong>אריאל</strong></div>
+            <div class="app-b">
+              <div class="stars">★★★★★ <span style="color:#a89e8a;letter-spacing:0">לקוחות אמיתיים</span></div>
+              <div class="next"><small>התור הפנוי הבא</small><b>מחר · 11:30</b></div>
+              <div class="home-big">קביעת תור</div>
+              <div class="next"><small>הכתובת</small><b style="direction:ltr;display:block;text-align:right">ariel.barbershops.company</b></div>
+            </div>
+          </div>
+        </div></div>
       </div>
-      <ul class="facts">
-        <li>עובד מהטלפון, בלי להוריד מהחנות</li>
-        <li>בוט וואטסאפ מובנה</li>
-        <li>פאנל ניהול בעברית</li>
+
+      <!-- the peak: confirmation leaves the phone -->
+      <div class="flyb" id="flyb"><small>וואטסאפ · המספרה שלך</small>התור שלך נקבע ✅
+ג׳ 11/11 בשעה 17:00</div>
+
+      <!-- admin tabs, in depth around the phone -->
+      <div class="chip" data-ch="-310,-225,.88,0,0"><b>עסק</b><span>פרטים, חוקי הזמנה ופתיחת יומן</span></div>
+      <div class="chip" data-ch="-350,-60,1.05,1,1"><b>יומן</b><span>תורים, תור ידני וחסימת זמן</span></div>
+      <div class="chip" data-ch="-320,110,.84,0,2"><b>לקוחות</b><span>היסטוריה לפי מספר טלפון</span></div>
+      <div class="chip" data-ch="-270,262,1,1,3"><b>וואטסאפ</b><span>מצב הבוט ונוסח ההודעות</span></div>
+      <div class="chip" data-ch="190,-272,.8,0,4"><b>שעות</b><span>שעות פתיחה לכל יום</span></div>
+      <div class="chip" data-ch="222,-118,.96,1,5"><b>חופשות</b><span>סוגרים תאריכים מראש</span></div>
+      <div class="chip" data-ch="210,118,.84,0,6"><b>שירותים</b><span>שירות, משך ומחיר</span></div>
+      <div class="chip" data-ch="182,270,1,1,7"><b>כללי</b><span>ביקורות, משתמשים וסיסמאות</span></div>
+    </div>
+
+    <div class="scrim" aria-hidden="true"></div>
+
+    <!-- copy, windowed against the whole flight -->
+    <div class="copy" data-w="hero">
+      <h1>הלקוחות קובעים תור לבד.<br><em>אתה רק מספר.</em></h1>
+      <p class="sub">אפליקציה עם השם שלך, בוט וואטסאפ ופאנל ניהול. הכל מהטלפון.</p>
+      <div class="ctas">
+        <a class="btn main" href="#contact">אני רוצה אפליקציה</a>
+        <button class="btn ghost watch" type="button" id="watchBtn"><span class="play" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M10 6 3 10V2z" fill="#f6efe2"/></svg></span>הסרטון ב-26 שניות</button>
+      </div>
+    </div>
+
+    <div class="copy" data-w="0.74 1.82">
+      <h2>באמצע תספורת,<br>הטלפון <em>לא מפסיק.</em></h2>
+      <p class="sub">שיחה שלא נענתה, ״יש לך משהו מחר?״, ״אפשר להזיז?״. כל הודעה כזאת עוצרת לך את היד.</p>
+    </div>
+
+    <div class="copy" data-w="1.92 4.06">
+      <h2>עכשיו הלקוח<br><em>עושה את זה לבד.</em></h2>
+      <ol class="rail" id="rail">
+        <li data-a="1.95" data-b="2.62"><b>בוחר יום</b><span>רואה רק ימים פתוחים.</span></li>
+        <li data-a="2.62" data-b="3.14"><b>בוחר שעה</b><span>שעות תפוסות חסומות, אין שני לקוחות באותה שעה.</span></li>
+        <li data-a="3.14" data-b="3.66"><b>בוחר שירות</b><span>כל שירות עם מחיר ומשך.</span></li>
+        <li data-a="3.66" data-b="4.12"><b>מאשר בקוד</b><span>קוד בוואטסאפ, אז אין תורים מזויפים.</span></li>
+      </ol>
+    </div>
+
+    <div class="copy peak" data-w="4.12 4.95 0.22 0.3">
+      <h2>התור <em>נקבע.</em></h2>
+      <p class="sub">ונכנס ליומן שלך. לא ענית לאף טלפון, ולא הנחת את המספריים.</p>
+    </div>
+
+    <div class="copy" data-w="4.98 6.04">
+      <h2>המזכירה שעובדת<br><em>גם בשבת בלילה.</em></h2>
+      <ul class="msgs" id="msgs">
+        <li data-a="5.02" data-b="5.18"><span class="w">מיד</span><span class="n">אישור תור עם הוספה ליומן</span></li>
+        <li data-a="5.18" data-b="5.34"><span class="w">לספר</span><span class="n">התראה על כל תור חדש</span></li>
+        <li data-a="5.34" data-b="5.5"><span class="w">שעה לפני</span><span class="n">תזכורת ללקוח</span></li>
+        <li data-a="5.5" data-b="5.68"><span class="w">בתשובה</span><span class="n">ביטול בהודעה אחת</span></li>
+        <li data-a="5.68" data-b="5.84"><span class="w">אחרי התור</span><span class="n">בקשת ביקורת</span></li>
+        <li data-a="5.84" data-b="6.2"><span class="w">אחרי 14 יום</span><span class="n">״מתגעגעים״ למי שלא חזר</span></li>
       </ul>
     </div>
 
-    <div class="phone-col">
-      <div class="phone" aria-label="הדגמה: קביעת תור">
-        <div class="screen">
-          <div class="notch" aria-hidden="true"></div>
-          <div class="s-head"><small>ספר גברים</small><strong>המספרה שלך</strong></div>
-          <div class="s-body" id="demo"></div>
-        </div>
-      </div>
-      <p class="demo-hint">נסו בעצמכם, זה עובד <button type="button" id="demoReset">התחלה מחדש</button></p>
+    <div class="copy" data-w="6.1 7.12">
+      <h2>כל המספרה<br><em>במסך אחד.</em></h2>
+      <p class="sub">שמונה לשוניות, כל אחת עושה דבר אחד ברור. נכנסים עם סיסמה, מהטלפון או מהמחשב.</p>
     </div>
+
+    <div class="copy" data-w="finale">
+      <span class="eb">כבר עובד</span>
+      <h2>אריאל, ספר גברים<br><em>בחולון.</em></h2>
+      <p class="sub">לקוחות קובעים, מקבלים אישור ותזכורת, ואריאל מנהל הכל מהטלפון.</p>
+      <div class="ctas"><a class="btn ghost" href="https://ariel.barbershops.company/" target="_blank" rel="noopener">כניסה לאתר של אריאל ↗</a></div>
+    </div>
+
+    <div class="grain" aria-hidden="true"></div>
   </div>
 </section>
 
-<section id="how" class="band">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">הדרך של הלקוח</span>
-      <h2>חמישה צעדים, פחות מדקה</h2>
-      <p class="lede">הלקוח לא צריך לכתוב לך כלום ואתה לא צריך לאשר כלום. התור נכנס ליומן שלך מעצמו.</p>
-    </div>
-    <ol class="journey">
-      <li><h3>בוחר יום</h3><p>רואה רק ימים פתוחים, עם מספר השעות הפנויות בכל יום.</p></li>
-      <li><h3>בוחר שעה</h3><p>שעות תפוסות חסומות. אין שני לקוחות באותה שעה.</p></li>
-      <li><h3>בוחר שירות</h3><p>תספורת, זקן, ילד, תוספות. כל אחד עם מחיר ומשך.</p></li>
-      <li><h3>מאשר בקוד</h3><p>מקבל קוד בוואטסאפ. ככה אין תורים מזויפים ומספרים שגויים.</p></li>
-      <li><h3>מקבל אישור</h3><p>הודעה עם פרטי התור וקישור "הוספה ליומן". אתה מקבל התראה.</p></li>
-    </ol>
-  </div>
-</section>
-
-<section id="bot">
-  <div class="wrap wa-grid">
+<div class="land">
+<section class="sec" id="details">
+  <div class="wrap det">
     <div>
-      <div class="sec-head" style="margin-bottom:28px">
-        <span class="eyebrow">בוט וואטסאפ</span>
-        <h2>המזכירה שעובדת גם בשבת בלילה</h2>
-        <p class="lede">הבוט מחובר למספר וואטסאפ של המספרה ושולח את ההודעות הנכונות בזמן הנכון. את כל הנוסחים אפשר לשנות מהפאנל.</p>
-      </div>
-      <ul class="wa-list" role="tablist" aria-label="הודעות הבוט" id="waList"></ul>
+      <h2>מה שספרים ביקשו, כבר בפנים.</h2>
+      <p class="lede">הפרטים הקטנים שעושים את ההבדל בין יומן מלא לבלגן.</p>
     </div>
-    <div class="chat">
-      <div class="chat-top"><div class="av">✂</div><div><strong>המספרה שלך</strong><small>מחובר · עונה אוטומטית</small></div></div>
-      <div class="chat-body" id="chatBody" role="tabpanel" aria-live="polite"></div>
-    </div>
+    <ul>
+      <li><b>אייקון על מסך הבית</b><span>הלקוח מוסיף את המספרה בשלוש נגיעות ונכנס כמו לאפליקציה.</span></li>
+      <li><b>ביטול בהודעה אחת</b><span>משיבים ״ביטול״ והתור משתחרר. אפשר לקבוע זמן מינימום.</span></li>
+      <li><b>עד 2 תורים לכל מספר</b><span>אף אחד לא תופס לך חצי יומן. אתה קובע את המגבלה.</span></li>
+      <li><b>פתיחת יומן מתוזמנת</b><span>היומן נפתח כל שבועיים בשעה שבחרת, למשל שישי ב-08:00.</span></li>
+      <li><b>ביקורות מאומתות</b><span>רק מי שבאמת היה אצלך כותב ביקורת. אתה יכול להסתיר כל אחת.</span></li>
+      <li><b>פרטי לקוחות מוצפנים</b><span>רק משתמשי הניהול עם סיסמה פותחים אותם.</span></li>
+    </ul>
   </div>
 </section>
 
-<section id="admin" class="band">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">פאנל הניהול שלך</span>
-      <h2>כל המספרה במסך אחד</h2>
-      <p class="lede">נכנסים עם סיסמה מהטלפון או מהמחשב. שמונה לשוניות, כל אחת עושה דבר אחד ברור.</p>
-    </div>
-    <div class="adm">
-      <div class="adm-tabs" role="tablist" aria-label="לשוניות הניהול" id="admTabs"></div>
-      <div class="adm-panel" role="tabpanel" id="admPanel"></div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">הפרטים הקטנים</span>
-      <h2>מה שספרים ביקשו, כבר בפנים</h2>
-    </div>
-    <div class="promises">
-      <div><h3>אייקון על מסך הבית</h3><p>הלקוח מוסיף את המספרה למסך הבית בשלוש נגיעות, ונכנס כמו לאפליקציה רגילה.</p></div>
-      <div><h3>ביטול בהודעה אחת</h3><p>הלקוח משיב "ביטול" לאישור, התור משתחרר ואתה מקבל הודעה. אפשר לקבוע זמן מינימום לביטול.</p></div>
-      <div><h3>עד 2 תורים לכל מספר</h3><p>אף אחד לא תופס לך חצי יומן. אתה קובע את המגבלה.</p></div>
-      <div><h3>פתיחת יומן מתוזמנת</h3><p>היומן נפתח להזמנות כל שבועיים בשעה שבחרת, למשל יום שישי ב-08:00.</p></div>
-      <div><h3>ביקורות מאומתות</h3><p>רק לקוח שבאמת היה אצלך יכול לכתוב ביקורת, אחרי אימות בקוד. אתה יכול להסתיר כל ביקורת.</p></div>
-      <div><h3>פרטי לקוחות מוצפנים</h3><p>התורים ופרטי הלקוחות שמורים מוצפנים. רק משתמשי הניהול עם סיסמה פותחים אותם.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="band">
-  <div class="wrap">
-    <div class="live">
-      <div>
-        <span class="eyebrow">כבר עובד</span>
-        <h2>אריאל, ספר גברים בחולון</h2>
-        <p class="lede" style="margin-top:10px">המספרה הראשונה שעובדת עם המערכת. לקוחות קובעים, מקבלים אישור ותזכורת, ואריאל מנהל הכל מהטלפון.</p>
-        <span class="url">ariel.barbershops.company</span>
-        <ul><li>4 שירותים</li><li>תזכורת שעה לפני</li><li>הודעת "מתגעגעים" אחרי 14 יום</li></ul>
-      </div>
-      <a class="btn gold" href="https://ariel.barbershops.company/" target="_blank" rel="noopener">כניסה לאתר של אריאל ↗</a>
-    </div>
-  </div>
-</section>
-
-<section id="offer">
-  <div class="wrap">
-    <div class="sec-head" style="text-align:center">
-      <span class="eyebrow">המחיר</span>
-      <h2>חבילה אחת. הכל כלול.</h2>
-      <p class="lede" style="margin-inline:auto">לא צריך להבין במחשבים. אנחנו בונים, מחברים ומלמדים אותך, ואתה רק עושה תספורות.</p>
-    </div>
-    <div class="plan">
+<section class="sec" id="offer" style="padding-top:0">
+  <div class="wrap" style="text-align:center">
+    <h2>חבילה אחת. הכל כלול.</h2>
+    <p class="lede" style="margin-inline:auto">לא צריך להבין במחשבים. אנחנו בונים, מחברים ומלמדים אותך, ואתה רק עושה תספורות.</p>
+    <div class="plan" style="text-align:right">
       <div class="plan-top">
-        <span class="tag">פלטפורמה מלאה למספרה שלך</span>
-        <div class="plan-price"><span class="cur">₪</span><span class="amt">99</span><span class="per">לחודש</span></div>
-        <p class="plan-free">הקמה חינם · בלי התחייבות</p>
+        <span class="tg">פלטפורמה מלאה למספרה שלך</span>
+        <div class="price"><span class="cur">₪</span><span class="amt">99</span><span class="per">לחודש</span></div>
+        <p class="free">הקמה חינם · בלי התחייבות</p>
       </div>
-      <ul class="plan-list">
+      <ul class="plist">
         <li>אתר תורים עם השם והכתובת של המספרה שלך</li>
         <li>הלקוחות קובעים לבד: יום, שעה ושירות</li>
         <li>בוט וואטסאפ: קוד אימות, אישור ותזכורת שעה לפני</li>
@@ -438,33 +565,32 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
         <li>ביקורות מאומתות ואייקון על מסך הבית</li>
         <li>עדכונים ותמיכה בוואטסאפ</li>
       </ul>
-      <a class="btn gold plan-cta" href="#contact">אני רוצה אפליקציה למספרה שלי</a>
-      <div class="plan-extra">
+      <a class="btn main" href="#contact">אני רוצה אפליקציה</a>
+      <div class="extra">
         <div><b>רוצה עיצוב בהתאמה אישית?</b><span>לוגו, צבעים ותוספות שמתאימים בדיוק למספרה שלך</span></div>
-        <span class="plan-extra-price">+99 ₪ <small>חד־פעמי</small></span>
+        <span class="xp">+99 ₪ <small>חד־פעמי</small></span>
       </div>
     </div>
   </div>
 </section>
 
-<section id="faq" class="band">
+<section class="sec" id="faq" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-head"><span class="eyebrow">שאלות</span><h2>מה ספרים שואלים אותנו</h2></div>
+    <h2>מה ספרים שואלים אותנו</h2>
     <div class="faq">
       <details><summary>הלקוחות צריכים להוריד משהו?</summary><p>לא. הלקוח נכנס מקישור, מהביו באינסטגרם או מהסטטוס בוואטסאפ, וקובע תור מהדפדפן. מי שרוצה מוסיף אייקון למסך הבית.</p></details>
       <details><summary>הבוט שולח מהמספר האישי שלי?</summary><p>מומלץ מספר נפרד לבוט. אתה ממשיך לקבל התראות על תורים חדשים וביטולים במספר שלך, ואפשר להגדיר כמה מספרי מנהל.</p></details>
-      <details><summary>אפשר לחסום שעות לבד?</summary><p>כן. מהלשונית "יומן" מוסיפים תור ידני או חוסמים זמן, ומהלשונית "חופשות" סוגרים ימים שלמים.</p></details>
+      <details><summary>אפשר לחסום שעות לבד?</summary><p>כן. מהלשונית ״יומן״ מוסיפים תור ידני או חוסמים זמן, ומהלשונית ״חופשות״ סוגרים ימים שלמים.</p></details>
       <details><summary>מה קורה אם הבוט לא מחובר?</summary><p>האתר ממשיך לעבוד. הלקוח שולח בקשה בוואטסאפ, והבוט שולח את האישורים ברגע שהוא חוזר.</p></details>
       <details><summary>כמה זה עולה?</summary><p>99 ₪ לחודש, הכל כלול, והקמה חינם. אפשר להפסיק מתי שרוצים. מי שרוצה עיצוב בהתאמה אישית (לוגו, צבעים ותוספות) מוסיף 99 ₪ חד־פעמי.</p></details>
       <details><summary>כמה זמן לוקח להקים?</summary><p>אחרי שיש לנו את השירותים, המחירים, השעות והלוגו, ההקמה מהירה. נגיד לך תאריך מדויק בשיחה.</p></details>
-      <details><summary>אפשר לשנות מחירים לבד?</summary><p>כן. שירותים, מחירים, משך כל שירות ותוספות משנים מהלשונית "שירותים", ולוחצים "שמור ופרסם".</p></details>
+      <details><summary>אפשר לשנות מחירים לבד?</summary><p>כן. שירותים, מחירים, משך כל שירות ותוספות משנים מהלשונית ״שירותים״, ולוחצים ״שמור ופרסם״.</p></details>
     </div>
   </div>
 </section>
 
-<section id="contact" class="final">
+<section class="sec final" id="contact" style="padding-top:0">
   <div class="wrap">
-    <span class="eyebrow">בוא נדבר</span>
     <h2>רוצה אפליקציה כזאת למספרה שלך?</h2>
     <p class="lede">השאר פרטים ושלמה יחזור אליך עם הצעה למספרה שלך.</p>
     <form class="lead" id="leadForm" novalidate>
@@ -475,116 +601,226 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
       <label class="full">מתי נוח שנחזור אליך?<select id="fTime" name="time"><option>מתי שנוח</option><option>בבוקר</option><option>בצהריים</option><option>בערב</option></select></label>
       <label class="chk full"><input type="checkbox" id="fConsent" required><span>אני מסכים/ה ששלמה מ-BarberShops יחזור אליי בוואטסאפ או בטלפון לגבי השירות. <a href="privacy.html">מדיניות פרטיות</a></span></label>
       <p class="err full" id="fErr" aria-live="polite"></p>
-      <button class="btn gold full" type="submit">אני רוצה אפליקציה למספרה שלי</button>
+      <button class="btn main full" type="submit">אני רוצה אפליקציה</button>
     </form>
     <div class="lead-ok" id="leadOk" hidden>
       <h3>כמעט סיימנו ✓</h3>
-      <p>וואטסאפ נפתח עם הפרטים שלך. לחצו "שליחה" כדי שהם יגיעו אלינו, ושלמה יחזור אליך.</p>
+      <p>וואטסאפ נפתח עם הפרטים שלך. לחצו ״שליחה״ כדי שהם יגיעו אלינו, ושלמה יחזור אליך.</p>
       <p style="margin-top:10px"><a href="#" id="leadAgain">וואטסאפ לא נפתח? לחצו כאן</a></p>
     </div>
     <p class="or">או כתבו ישירות בוואטסאפ:</p>
-    <div class="contact" style="margin-top:12px">
-      <a class="btn gold" href="https://wa.me/972536670760?text=%D7%94%D7%99%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%90%D7%A4%D7%9C%D7%99%D7%A7%D7%A6%D7%99%D7%94%20%D7%9C%D7%9E%D7%A1%D7%A4%D7%A8%D7%94%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener">שליחת הודעה בוואטסאפ ↗</a>
+    <div class="contact">
+      <a class="btn main" href="https://wa.me/972536670760?text=%D7%94%D7%99%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%90%D7%A4%D7%9C%D7%99%D7%A7%D7%A6%D7%99%D7%94%20%D7%9C%D7%9E%D7%A1%D7%A4%D7%A8%D7%94%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener">שליחת הודעה בוואטסאפ ↗</a>
       <span class="num" id="num">053-667-0760</span>
-      <button class="btn line sm" type="button" id="copyNum">העתקת המספר</button>
+      <button class="btn ghost sm" type="button" id="copyNum">העתקת המספר</button>
     </div>
     <p class="copied" id="copied" aria-live="polite"></p>
   </div>
 </section>
-</main>
 
 <footer>
   <div class="wrap">
     <span>BarberShops · אפליקציות תורים למספרות · © 2026 שלמה אסולין</span>
-    <nav class="legal" aria-label="מידע משפטי" style="display:flex;flex-wrap:wrap;gap:8px 18px"><a href="terms.html">תנאי שימוש</a><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">הצהרת נגישות</a></nav>
+    <nav aria-label="מידע משפטי"><a href="terms.html">תנאי שימוש</a><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">הצהרת נגישות</a></nav>
   </div>
 </footer>
+</div>
+</main>
 
 <script>
 (function(){
-  /* ---------- phone demo ---------- */
-  var DN=["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","ש׳"];
-  var SV=[["תספורת גבר",70],["תספורת + זקן",70],["תספורת ילד",70],["סידור זקן",30]];
-  var SLOTS=["10:30","11:00","11:30","12:00","16:30","17:00","17:30","18:00","18:30"];
-  var BUSY={"11:00":1,"12:00":1,"17:30":1};
-  var st={step:0,day:null,time:null,svc:null};
-  var el=document.getElementById("demo");
-  function days(){var out=[],d=new Date();for(var i=0;out.length<8;i++){var x=new Date(d.getFullYear(),d.getMonth(),d.getDate()+i);out.push({d:x,closed:x.getDay()===6});}return out;}
-  function head(n,t){return '<div class="s-step"><span>שלב <b>'+n+'</b> מתוך 4</span><span>'+(st.day?st.day:'')+(st.time?' · '+st.time:'')+'</span></div><div class="s-title">'+t+'</div>';}
-  function render(){
-    var h="";
-    if(st.step===0){
-      h=head(1,"באיזה יום?")+'<div class="days">'+days().map(function(o){var lab=DN[o.d.getDay()]+" "+o.d.getDate()+"/"+(o.d.getMonth()+1);return '<button type="button" class="day" data-v="'+lab+'" '+(o.closed?'disabled aria-label="'+lab+' סגור"':'')+' aria-pressed="'+(st.day===lab)+'">'+DN[o.d.getDay()]+'<b>'+o.d.getDate()+'</b></button>';}).join("")+'</div><p class="s-note">שבת סגור · ימים פתוחים בלבד</p>';
-    }else if(st.step===1){
-      h=head(2,"באיזו שעה?")+'<div class="slots">'+SLOTS.map(function(t){return '<button type="button" class="slot" data-v="'+t+'" '+(BUSY[t]?'disabled aria-label="'+t+' תפוס"':'')+' aria-pressed="'+(st.time===t)+'">'+t+'</button>';}).join("")+'</div><p class="s-note">שעות מחוקות כבר תפוסות</p>';
-    }else if(st.step===2){
-      h=head(3,"מה עושים?")+SV.map(function(s,i){return '<button type="button" class="svc" data-v="'+i+'" aria-pressed="'+(st.svc===i)+'">'+s[0]+'<span>'+s[1]+' ₪</span></button>';}).join("")+'<button type="button" class="s-cta" data-next '+(st.svc===null?'disabled':'')+'>המשך</button>';
-    }else if(st.step===3){
-      h=head(4,"קוד אימות")+'<div class="mini-wa"><small>וואטסאפ · המספרה שלך</small>הקוד שלך לקביעת תור: *4821*\nהקוד בתוקף ל-10 דקות.</div><div class="code" id="code">'+[0,1,2,3].map(function(i){return '<input inputmode="numeric" maxlength="1" aria-label="ספרה '+(i+1)+'" id="c'+i+'">';}).join("")+'</div><p class="s-note">בהדגמה: כל 4 ספרות יעבדו</p><button type="button" class="s-cta" data-fill>מלא קוד והמשך</button>';
-    }else{
-      var s=SV[st.svc];
-      h='<div class="done-ic">✓</div><div class="s-title" style="text-align:center">התור נקבע</div><div class="mini-wa"><small>וואטסאפ · המספרה שלך</small>היי, התור שלך נקבע ✅\n'+s[0]+'\n'+st.day+' בשעה '+st.time+'\n\nהוספה ליומן ↗\nלביטול השיבו *ביטול*</div><p class="s-note">והספר קיבל התראה על תור חדש</p>';
-    }
-    el.innerHTML=h;
-    if(st.step===3){var ins=el.querySelectorAll(".code input");ins.forEach(function(inp,i){inp.addEventListener("input",function(){if(inp.value&&ins[i+1])ins[i+1].focus();if([].every.call(ins,function(x){return x.value})){st.step=4;render();}});});}
+  "use strict";
+  var RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var T = 8.2;                      // flight length, in viewport-heights of scroll
+  var flight = document.getElementById("flight");
+  var world = document.getElementById("world");
+  var pw = document.getElementById("pw");
+  var bg = document.getElementById("bg");
+  var floor = document.getElementById("floor");
+  var flyb = document.getElementById("flyb");
+  var W = innerWidth, H = innerHeight, mobile = false, base = 1, cx = 0, cy = 0;
+
+  function clamp(v,a,b){return v<a?a:v>b?b:v;}
+  function rng(t,a,b){return clamp((t-a)/(b-a),0,1);}
+  function ease(x){return x*x*(3-2*x);}
+  function lerp(a,b,k){return a+(b-a)*k;}
+  // plateau window: ramps in over the first share, holds, ramps out over the last share
+  function win(t,a,b,ri,ro){
+    var span=b-a; ri=ri==null?span*.3:ri; ro=ro==null?span*.3:ro;
+    if(t<a||t>b) return 0;
+    return Math.min(ri>0?ease(rng(t,a,a+ri)):1, ro>0?1-ease(rng(t,b-ro,b)):1);
   }
-  el.addEventListener("click",function(e){
-    var b=e.target.closest("button");if(!b||b.disabled)return;
-    if(b.hasAttribute("data-next")){st.step=3;render();return;}
-    if(b.hasAttribute("data-fill")){st.step=4;render();return;}
-    var v=b.getAttribute("data-v");
-    if(st.step===0){st.day=v;st.step=1;}
-    else if(st.step===1){st.time=v;st.step=2;}
-    else if(st.step===2){st.svc=+v;}
-    render();
+
+  /* ---- layout ---- */
+  function layout(){
+    W = innerWidth; H = innerHeight; mobile = W <= 860;
+    flight.style.height = Math.round((T+1)*H) + "px";
+    if(mobile){
+      base = Math.min(H*0.47/620, W*0.6/300);
+      cx = W*0.5; cy = H*0.37;
+    }else{
+      base = Math.min(1.02, H*0.74/620);
+      cx = W*0.3; cy = H*0.53;
+    }
+    world.style.transform = "translate("+cx+"px,"+cy+"px)";
+  }
+
+  /* ---- phone pose keyframes: t, rotateY, rotateX, rotateZ, scale ---- */
+  var POSE = [
+    [0,   -22,10,-2, .96],
+    [0.7, -13, 6,-1, .94],
+    [1.7,  -4, 3, 0, .95],
+    [2.1,   0, 0, 0,1.07],
+    [4.5,   0, 0, 0,1.07],
+    [5.0,  15, 5, 1, .98],
+    [5.9,  11, 4, 1, .98],
+    [6.35,-27,11, 2, .86],
+    [7.0, -25,10, 2, .86],
+    [7.5, -10, 4, 0,1.0],
+    [9,    -6, 3, 0,1.0]
+  ];
+  function pose(t){
+    for(var i=0;i<POSE.length-1;i++){
+      var a=POSE[i], b=POSE[i+1];
+      if(t<=b[0]){ var k=ease(rng(t,a[0],b[0])); return [lerp(a[1],b[1],k),lerp(a[2],b[2],k),lerp(a[3],b[3],k),lerp(a[4],b[4],k)]; }
+    }
+    var l=POSE[POSE.length-1]; return [l[1],l[2],l[3],l[4]];
+  }
+
+  /* ---- collect windowed things ---- */
+  function parse(s){return s.split(/[ ,]+/).map(Number);}
+  var screens=[].map.call(document.querySelectorAll("[data-sc]"),function(el){var v=parse(el.dataset.sc);return {el:el,a:v[0],b:v[1]};});
+  var taps=[].map.call(document.querySelectorAll("[data-tap]"),function(el){return {el:el,ring:el.querySelector(".tap"),at:+el.dataset.tap,on:false};});
+  var ats=[].map.call(document.querySelectorAll("[data-at]"),function(el){return {el:el,at:+el.dataset.at,on:false,bubble:el.classList.contains("bb")};});
+  var fls=[].map.call(document.querySelectorAll("[data-fl]"),function(el){var v=parse(el.dataset.fl);return {el:el,x:v[0],y:v[1],d:v[2],a:v[3]};});
+  var chips=[].map.call(document.querySelectorAll("[data-ch]"),function(el){var v=parse(el.dataset.ch);el.style.zIndex=v[3]?3:0;return {el:el,x:v[0],y:v[1],d:v[2],i:v[4]};});
+  pw.style.zIndex=2;
+  var copies=[].map.call(document.querySelectorAll(".copy"),function(el){
+    var w=el.dataset.w, c={el:el,live:false};
+    if(w==="hero"){c.a=-1;c.b=0.66;c.ri=0;c.ro=0.24;}
+    else if(w==="finale"){c.a=7.22;c.b=99;c.ri=0.3;c.ro=0;}
+    else{var v=parse(w);c.a=v[0];c.b=v[1];c.ri=v[2];c.ro=v[3];}
+    return c;
   });
-  document.getElementById("demoReset").addEventListener("click",function(){st={step:0,day:null,time:null,svc:null};render();});
-  render();
+  var rail=[].map.call(document.querySelectorAll("#rail li"),function(el){return {el:el,a:+el.dataset.a,b:+el.dataset.b,s:""};});
+  var msgs=[].map.call(document.querySelectorAll("#msgs li"),function(el){return {el:el,a:+el.dataset.a,b:+el.dataset.b,s:""};});
 
-  /* ---------- whatsapp messages ---------- */
-  var WA=[
-    {when:"מיד",t:"אישור תור",d:"פרטי התור + הוספה ליומן",m:[["out","היי דניאל, התור שלך נקבע ✅\nתספורת + סידור זקן\nיום ג׳ 10/11 בשעה 17:00\n📍 הכתובת של המספרה\n\n<span class='lnk'>הוספה ליומן</span>\n\nלביטול התור השיבו *ביטול* להודעה הזו.","17:02"]]},
-    {when:"לספר",t:"התראה על תור חדש",d:"לכל מספרי המנהל",m:[["out","📅 תור חדש נקבע\nדניאל · 050-000-0000\nתספורת + סידור זקן\nיום ג׳ 10/11 בשעה 17:00","17:02"]]},
-    {when:"שעה לפני",t:"תזכורת",d:"הזמן ניתן לשינוי",m:[["out","היי דניאל, תזכורת: התור שלך היום בשעה 17:00 ✂️\n📍 הכתובת של המספרה\nנתראה!","16:00"]]},
-    {when:"בתשובה",t:"ביטול בהודעה",d:"הלקוח משיב ״ביטול״",m:[["in","ביטול","16:05"],["out","התור שלך ב-10/11 בשעה 17:00 בוטל ✅\nלקביעת תור חדש: <span class='lnk'>הקישור שלך</span>","16:05"]]},
-    {when:"אחרי התור",t:"בקשת ביקורת",d:"פעם אחת, רק למי שלא כתב",m:[["out","היי דניאל, תודה שבאת היום 🙏\nנשמח אם תכתוב כמה מילים על החוויה:\n<span class='lnk'>כתיבת ביקורת</span>","18:00"]]},
-    {when:"אחרי 14 יום",t:"״מתגעגעים״",d:"ללקוחות שלא חזרו ואין להם תור",m:[["out","היי דניאל, עברו שבועיים מאז התספורת האחרונה 💈\nהשבוע יש עוד שעות פנויות:\n<span class='lnk'>קביעת תור</span>\n\nלהפסקת ההודעות השיבו *הסר*","11:00"]]},
-  ];
-  var wl=document.getElementById("waList"),cb=document.getElementById("chatBody"),cur=0;
-  wl.innerHTML=WA.map(function(w,i){return '<li><button type="button" role="tab" id="wa'+i+'" aria-selected="'+(i===0)+'" data-i="'+i+'"><span class="when">'+w.when+'</span><strong>'+w.t+'</strong><small>'+w.d+'</small></button></li>';}).join("");
-  function showWa(i){cur=i;[].forEach.call(wl.querySelectorAll("button"),function(b){b.setAttribute("aria-selected",b.dataset.i==i);});cb.setAttribute("aria-labelledby","wa"+i);cb.innerHTML=WA[i].m.map(function(x){return '<div class="bub '+x[0]+'">'+x[1]+'<time>'+x[2]+'</time></div>';}).join("");}
-  wl.addEventListener("click",function(e){var b=e.target.closest("button");if(b)showWa(+b.dataset.i);});
-  showWa(0);
+  /* ---- frame ---- */
+  var t=0, target=0, now=0;
+  var topbar=document.querySelector('.top'),solid=false;
+  function read(){ target = clamp((scrollY - flight.offsetTop)/H, 0, T+1); var sd=target>T+0.6; if(sd!==solid){solid=sd;topbar.classList.toggle('solid',sd);} }
 
-  /* ---------- admin tabs ---------- */
-  var AD=[
-    {k:"biz",n:"עסק",t:"עסק",p:"השם, סוג המספרה, הכתובת והמשפט שמופיע בראש האתר.",f:[["פרטי העסק","שם, כתובת, קהל"],["חוקי הזמנה","כמה ימים קדימה, אורך תור, זמן מינימום"],["פתיחת יומן","כל שבועיים, ביום ובשעה שבחרת"],["יעד יומי","כמה אתה רוצה להכניס ביום"]]},
-    {k:"cal",n:"יומן",t:"יומן",p:"כל התורים הקרובים. מוסיפים תור ידני, חוסמים זמן או מבטלים בלחיצה.",f:[["תורים קרובים","לפי יום ושעה"],["הוספת תור או חסימת זמן","ללקוח שהתקשר, או להפסקה"],["בקשה מוואטסאפ","מדביקים הודעה והטופס מתמלא"],["ביטול","הלקוח מקבל הודעה אוטומטית"]]},
-    {k:"cli",n:"לקוחות",t:"לקוחות",p:"כל מי שקבע אצלך תור, עם ההיסטוריה שלו לפי מספר טלפון.",f:[["היסטוריה לפי טלפון","מתי היה ומה עשה"],["לקוחות שלא חזרו","הבוט שולח להם ״מתגעגעים״"],["הסרה מהודעות","מי שהשיב ״הסר״ לא מקבל עוד"],["פרטים מוצפנים","רק אתה רואה אותם"]]},
-    {k:"wa",n:"וואטסאפ",t:"וואטסאפ",p:"מצב הבוט, מה הוא שולח ובאיזה נוסח. כל טקסט ניתן לעריכה.",f:[["מצב הבוט","מחובר או לא, סריקת QR"],["מה הבוט שולח","הפעלה וכיבוי לכל סוג הודעה"],["נוסח ההודעות","אישור, תזכורת, ביטול, מענה אוטומטי"],["יומן פעילות","מה נשלח ומתי"]]},
-    {k:"hours",n:"שעות",t:"שעות פתיחה",p:"שעת פתיחה וסגירה לכל יום בשבוע, ויום סגור.",f:[["שעות לכל יום","למשל 10:30 עד 19:15"],["יום קצר","שישי עד 14:00"],["יום סגור","שבת, או כל יום אחר"],["משבצות","לפי אורך התור שבחרת"]]},
-    {k:"vac",n:"חופשות",t:"חופשות",p:"סוגרים תאריכים מראש והם נעלמים ללקוחות.",f:[["הוספת חופשה","מתאריך עד תאריך"],["ימים סגורים","רשימה עם הסרה בלחיצה"]]},
-    {k:"svc",n:"שירותים",t:"שירותים ומחירים",p:"מה אתה עושה, כמה זמן זה לוקח וכמה זה עולה.",f:[["שירותים","שם, משך ומחיר"],["תוספות","רק יחד עם שירות, למשל צבע"]]},
-    {k:"gen",n:"כללי",t:"כללי",p:"ביקורות, משתמשי ניהול וסיסמאות.",f:[["ביקורות לקוחות","הצגה, הסתרה ומחיקה"],["משתמשי ניהול","אתה, שותף או עובד, כל אחד עם סיסמה"],["שמור ופרסם","כל שינוי עולה לאתר בלחיצה"],["מספרי מנהל","מי מקבל התראות"]]},
-  ];
-  var at=document.getElementById("admTabs"),ap=document.getElementById("admPanel");
-  at.innerHTML=AD.map(function(a,i){return '<button type="button" role="tab" id="ad'+i+'" aria-selected="'+(i===0)+'" data-i="'+i+'">'+a.n+'<small>'+a.f.length+'</small></button>';}).join("");
-  function showAd(i){[].forEach.call(at.querySelectorAll("button"),function(b){b.setAttribute("aria-selected",b.dataset.i==i);});var a=AD[i];ap.setAttribute("aria-labelledby","ad"+i);ap.innerHTML='<h3>'+a.t+'</h3><p>'+a.p+'</p><ul class="adm-feat">'+a.f.map(function(f){return '<li><b>'+f[0]+'</b><span>'+f[1]+'</span></li>';}).join("")+'</ul>';}
-  at.addEventListener("click",function(e){var b=e.target.closest("button");if(b)showAd(+b.dataset.i);});
-  showAd(0);
+  function frame(ts){
+    now = ts||0;
+    if(RM) t = target; else t += (target - t)*0.12;
+    if(Math.abs(target-t)<0.0004) t=target;
+    render();
+    requestAnimationFrame(frame);
+  }
 
-  /* ---------- intro video ---------- */
+  function render(){
+    var m = mobile ? base : base;           // all offsets scale with the phone
+    var p = pose(t), bob = RM?0:Math.sin(now/1100)*4;
+    if(RM){p[0]=0;p[1]=0;p[2]=0;}
+    pw.style.transform = "translateY("+bob.toFixed(2)+"px) scale("+(p[3]*base).toFixed(4)+") rotateY("+p[0].toFixed(2)+"deg) rotateX("+p[1].toFixed(2)+"deg) rotateZ("+p[2].toFixed(2)+"deg)";
+
+    // background travel and light
+    floor.style.setProperty("--fy",(t*140).toFixed(1)+"px");
+    var wa = win(t,4.9,6.1,.3,.3);
+    bg.style.setProperty("--wa-a",(wa*0.12).toFixed(3));
+    bg.style.setProperty("--ga",(0.13 - wa*0.05 + win(t,4.05,4.9,.15,.3)*0.08).toFixed(3));
+    bg.style.setProperty("--gx",(mobile?50:30)+"%");
+    bg.style.setProperty("--gy",(mobile?33:53)+"%");
+    bg.style.setProperty("--bl-a",(0.06+win(t,6.0,7.2,.3,.3)*0.08).toFixed(3));
+
+    // phone screens (crossfade)
+    for(var i=0;i<screens.length;i++){
+      var s=screens[i], o=win(t,s.a-0.05,s.b+0.05,0.1,0.1);
+      if(s.a<0 && t<s.b) o=t>s.b-0.05?1-ease(rng(t,s.b-0.05,s.b+0.05)):1;
+      s.el.style.opacity=o.toFixed(3);
+      s.el.classList.toggle("vis",o>0.001);
+    }
+    // the thumb: tap ring + selected state follow the scroll
+    for(i=0;i<taps.length;i++){
+      var tp=taps[i], k=rng(t,tp.at-0.05,tp.at+0.16), on=t>=tp.at;
+      if(on!==tp.on){tp.on=on;tp.el.classList.toggle("on",on);}
+      tp.ring.style.opacity=(k>0&&k<1?Math.sin(Math.PI*k):0).toFixed(3);
+      tp.ring.style.transform="scale("+(0.45+k*0.9).toFixed(3)+")";
+    }
+    for(i=0;i<ats.length;i++){
+      var a=ats[i], v=t>=a.at;
+      if(v!==a.on){a.on=v;a.el.classList.toggle(a.bubble?"vis":"on",v);}
+    }
+
+    // the noise: notifications arrive, then get pulled into the phone
+    for(i=0;i<fls.length;i++){
+      var f=fls[i], k1=ease(rng(t,f.a,f.a+0.3)), k2=ease(rng(t,1.72,2.08));
+      var sx=f.x*m, sy=f.y*m;
+      if(mobile){ sx*=0.82; sy*=0.86; }
+      var x=RM?sx:sx*(1-k2), y=RM?sy:sy*(1-k2)+(1-k1)*26;
+      var sc=f.d*(mobile?Math.max(.62,m*1.08):1)*(RM?1:(0.92+0.08*k1)*(1-0.78*k2));
+      f.el.style.opacity=(k1*(1-k2)).toFixed(3);
+      f.el.style.transform="translate("+x.toFixed(1)+"px,"+y.toFixed(1)+"px) scale("+sc.toFixed(3)+")";
+      f.el.style.zIndex = f.d>=1?3:1;
+      f.el.style.filter = f.d<.9&&!RM?"blur(.6px)":"none";
+    }
+
+    // the peak: the confirmation leaves the phone
+    var kf=ease(rng(t,4.14,4.5)), out=1-ease(rng(t,4.8,5.0));
+    var fx=(mobile?60:205)*m*kf, fy=(mobile?-205:-200)*m*kf;
+    if(RM){fx=(mobile?60:205)*m;fy=(mobile?-205:-200)*m;}
+    flyb.style.opacity=(kf*out).toFixed(3);
+    flyb.style.transform="translate("+fx.toFixed(1)+"px,"+fy.toFixed(1)+"px) scale("+((mobile?.8:1)*(RM?1:0.7+0.3*kf)).toFixed(3)+")";
+    flyb.style.zIndex=4;
+
+    // admin tabs fan out in depth
+    for(i=0;i<chips.length;i++){
+      var c=chips[i], st=6.12+c.i*0.05, ki=ease(rng(t,st,st+0.3)), ko=ease(rng(t,6.95,7.2));
+      var cx2=c.x*m, cy2=c.y*m;
+      if(mobile){ cx2*=0.66; cy2*=0.78; }
+      var push=RM?0:(1-ki)*0.35;
+      var csc=c.d*(mobile?Math.max(.7,m*1.1):1)*(RM?1:(0.85+0.15*ki));
+      c.el.style.opacity=(ki*(1-ko)).toFixed(3);
+      c.el.style.transform="translate("+(cx2*(1-push)).toFixed(1)+"px,"+(cy2*(1-push)).toFixed(1)+"px) scale("+csc.toFixed(3)+")";
+      c.el.style.filter=c.d<.9&&!RM?"blur(.7px)":"none";
+    }
+
+    // copy windows (only translateY, capped at 4vh across the window)
+    for(i=0;i<copies.length;i++){
+      var cp=copies[i], o2=win(t,cp.a,cp.b,cp.ri,cp.ro);
+      if(cp.a<0) o2 = t<cp.b-cp.ro ? 1 : 1-ease(rng(t,cp.b-cp.ro,cp.b));
+      var prog=cp.b>90?Math.min(rng(t,cp.a,cp.a+1),1):rng(t,Math.max(cp.a,0),cp.b);
+      var ty=RM?0:(2-4*prog)*H/100;
+      var base2 = mobile?0:-50;
+      cp.el.style.opacity=o2.toFixed(3);
+      cp.el.style.transform=mobile?"translateY("+ty.toFixed(1)+"px)":"translateY(calc("+base2+"% + "+ty.toFixed(1)+"px))";
+      var live=o2>0.001; if(live!==cp.live){cp.live=live;cp.el.classList.toggle("live",live);}
+      cp.el.style.pointerEvents=o2>0.5?"auto":"none";
+    }
+    // step rail and message list follow the phone
+    for(i=0;i<rail.length;i++){var r=rail[i], s2=t>=r.b?"done":(t>=r.a?"on":"");if(s2!==r.s){r.s=s2;r.el.className=s2;}}
+    for(i=0;i<msgs.length;i++){var g=msgs[i], s3=(t>=g.a&&t<g.b)?"on":"";if(s3!==g.s){g.s=s3;g.el.className=s3;}}
+  }
+
+  function relayout(){layout();read();}
+  addEventListener("resize",relayout);
+  addEventListener("scroll",read,{passive:true});
+  addEventListener("load",relayout);
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(relayout);
+  layout(); read(); t=target; requestAnimationFrame(frame);
+
+  /* ---------- intro video (opens once on the first visit of the session) ---------- */
   var intro=document.getElementById("intro"),vid=document.getElementById("introVid"),bar=document.getElementById("introBar"),snd=document.getElementById("introSound"),closeT=null;
   function openIntro(withSound){
     clearTimeout(closeT);intro.hidden=false;intro.classList.remove("closing");document.body.style.overflow="hidden";
-    try{vid.currentTime=0;}catch(e){}
+    vid.preload="auto";try{vid.currentTime=0;}catch(e){}
     vid.muted=!withSound;snd.hidden=!!withSound;
-    var p=vid.play();if(p&&p.catch)p.catch(function(){vid.muted=true;snd.hidden=false;vid.play().catch(function(){});});
+    var pr=vid.play();if(pr&&pr.catch)pr.catch(function(){vid.muted=true;snd.hidden=false;vid.play().catch(function(){});});
     document.getElementById("introSkip").focus();
   }
   function closeIntro(){
     intro.classList.add("closing");document.body.style.overflow="";
-    closeT=setTimeout(function(){vid.pause();intro.hidden=true;},600);
+    closeT=setTimeout(function(){vid.pause();intro.hidden=true;},500);
   }
   vid.addEventListener("timeupdate",function(){if(vid.duration)bar.style.width=(vid.currentTime/vid.duration*100)+"%";});
   vid.addEventListener("ended",closeIntro);
@@ -593,7 +829,8 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   intro.addEventListener("click",function(e){if(e.target===intro)closeIntro();});
   document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!intro.hidden)closeIntro();});
   document.getElementById("watchBtn").addEventListener("click",function(){openIntro(true);});
-  openIntro(false);
+  var seen=false;try{seen=sessionStorage.getItem("bs-intro")==="1";sessionStorage.setItem("bs-intro","1");}catch(e){}
+  if(!seen && !/[?&]nointro/.test(location.search)) openIntro(false);
 
   /* ---------- lead form -> WhatsApp ---------- */
   var lf=document.getElementById("leadForm"),lok=document.getElementById("leadOk"),lerr=document.getElementById("fErr"),waUrl="";
@@ -609,17 +846,17 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
     var msg="היי שלמה, אני רוצה אפליקציה למספרה 💈\n\nשם: "+name+"\nמספרה: "+salon+"\nעיר: "+city+"\nטלפון: "+phone+"\nזמן נוח לחזור: "+time;
     waUrl="https://wa.me/972536670760?text="+encodeURIComponent(msg);
     window.open(waUrl,"_blank","noopener");
-    lf.hidden=true;lok.hidden=false;lok.scrollIntoView({behavior:"smooth",block:"center"});
+    lf.hidden=true;lok.hidden=false;lok.scrollIntoView({behavior:RM?"auto":"smooth",block:"center"});
   });
   document.getElementById("leadAgain").addEventListener("click",function(e){e.preventDefault();if(waUrl)location.href=waUrl;});
-  [].forEach.call(document.querySelectorAll('a[href="#contact"]'),function(a){a.addEventListener("click",function(){setTimeout(function(){var f=document.getElementById("fName");if(f&&!lf.hidden)f.focus({preventScroll:true});},500);});});
+  [].forEach.call(document.querySelectorAll('a[href="#contact"]'),function(a){a.addEventListener("click",function(){setTimeout(function(){var f=document.getElementById("fName");if(f&&!lf.hidden)f.focus({preventScroll:true});},600);});});
 
   /* ---------- copy number ---------- */
-  var cp=document.getElementById("copied");
+  var cpd=document.getElementById("copied");
   document.getElementById("copyNum").addEventListener("click",function(){
     var n=document.getElementById("num");
-    function sel(){var r=document.createRange();r.selectNodeContents(n);var s=getSelection();s.removeAllRanges();s.addRange(r);cp.textContent="המספר מסומן, אפשר להעתיק";}
-    try{navigator.clipboard.writeText("0536670760").then(function(){cp.textContent="המספר הועתק";},sel);}catch(e){sel();}
+    function sel(){var r=document.createRange();r.selectNodeContents(n);var s=getSelection();s.removeAllRanges();s.addRange(r);cpd.textContent="המספר מסומן, אפשר להעתיק";}
+    try{navigator.clipboard.writeText("0536670760").then(function(){cpd.textContent="המספר הועתק";},sel);}catch(e){sel();}
   });
 })();
 </script>
