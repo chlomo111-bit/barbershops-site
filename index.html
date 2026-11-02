@@ -213,6 +213,20 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .final{text-align:center}
 .final h2{font-size:clamp(34px,5vw,56px)}
 .final .lede{margin-inline:auto}
+.lead{max-width:620px;margin:34px auto 0;text-align:right;background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:28px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 18px}
+.lead .full{grid-column:1/-1}
+.lead label{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:15px}
+.lead input,.lead select{font:inherit;font-weight:500;font-size:16px;min-height:50px;padding:0 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--text)}
+.lead input:focus,.lead select:focus{border-color:var(--brass);outline:none}
+.lead .chk{flex-direction:row;align-items:flex-start;gap:10px;font-weight:500;color:var(--muted);font-size:14.5px}
+.lead .chk input{min-height:auto;width:20px;height:20px;margin-top:3px;accent-color:var(--brass)}
+.lead .btn{width:100%}
+.lead .err{color:var(--pole-r);font-size:14.5px;min-height:20px;margin:0}
+.lead-ok{max-width:620px;margin:34px auto 0;padding:28px;border-radius:24px;border:1.5px solid var(--ok);background:color-mix(in srgb,var(--ok) 12%,var(--surface));text-align:center}
+.lead-ok h3{font-size:24px;margin-bottom:8px}
+.lead-ok p{color:var(--muted)}
+.or{color:var(--muted);font-size:15px;margin-top:30px}
+@media (max-width:560px){.lead{grid-template-columns:1fr;padding:22px}}
 .contact{display:inline-flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px;margin-top:30px}
 .num{direction:ltr;font-weight:800;font-size:20px;letter-spacing:.04em;padding:10px 18px;border:1px dashed var(--line);border-radius:12px;user-select:all}
 .copied{color:var(--ok);font-size:14px;min-height:20px;margin-top:10px}
@@ -438,8 +452,24 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   <div class="wrap">
     <span class="eyebrow">בוא נדבר</span>
     <h2>רוצה אפליקציה כזאת למספרה שלך?</h2>
-    <p class="lede">שלח הודעה בוואטסאפ עם שם המספרה והעיר. נחזור אליך עם הצעה.</p>
-    <div class="contact">
+    <p class="lede">השאר פרטים ושלמה יחזור אליך עם הצעה למספרה שלך.</p>
+    <form class="lead" id="leadForm" novalidate>
+      <label>שם מלא<input id="fName" name="name" autocomplete="name" required placeholder="למשל: אריאל כהן"></label>
+      <label>שם המספרה<input id="fSalon" name="salon" required placeholder="למשל: אריאל ספר"></label>
+      <label>טלפון<input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:right" required placeholder="050-000-0000"></label>
+      <label>עיר<input id="fCity" name="city" autocomplete="address-level2" required placeholder="למשל: חולון"></label>
+      <label class="full">מתי נוח שנחזור אליך?<select id="fTime" name="time"><option>מתי שנוח</option><option>בבוקר</option><option>בצהריים</option><option>בערב</option></select></label>
+      <label class="chk full"><input type="checkbox" id="fConsent" required><span>אני מסכים/ה ששלמה מ-BarberShops יחזור אליי בוואטסאפ או בטלפון לגבי השירות. <a href="privacy.html">מדיניות פרטיות</a></span></label>
+      <p class="err full" id="fErr" aria-live="polite"></p>
+      <button class="btn gold full" type="submit">אני רוצה אפליקציה למספרה שלי</button>
+    </form>
+    <div class="lead-ok" id="leadOk" hidden>
+      <h3>כמעט סיימנו ✓</h3>
+      <p>וואטסאפ נפתח עם הפרטים שלך. לחצו "שליחה" כדי שהם יגיעו אלינו, ושלמה יחזור אליך.</p>
+      <p style="margin-top:10px"><a href="#" id="leadAgain">וואטסאפ לא נפתח? לחצו כאן</a></p>
+    </div>
+    <p class="or">או כתבו ישירות בוואטסאפ:</p>
+    <div class="contact" style="margin-top:12px">
       <a class="btn gold" href="https://wa.me/972536670760?text=%D7%94%D7%99%D7%99%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%90%D7%A4%D7%9C%D7%99%D7%A7%D7%A6%D7%99%D7%94%20%D7%9C%D7%9E%D7%A1%D7%A4%D7%A8%D7%94%20%D7%A9%D7%9C%D7%99" target="_blank" rel="noopener">שליחת הודעה בוואטסאפ ↗</a>
       <span class="num" id="num">053-667-0760</span>
       <button class="btn line sm" type="button" id="copyNum">העתקת המספר</button>
@@ -550,6 +580,25 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!intro.hidden)closeIntro();});
   document.getElementById("watchBtn").addEventListener("click",function(){openIntro(true);});
   openIntro(false);
+
+  /* ---------- lead form -> WhatsApp ---------- */
+  var lf=document.getElementById("leadForm"),lok=document.getElementById("leadOk"),lerr=document.getElementById("fErr"),waUrl="";
+  lf.addEventListener("submit",function(e){
+    e.preventDefault();
+    var v=function(id){return document.getElementById(id).value.trim();};
+    var name=v("fName"),salon=v("fSalon"),phone=v("fPhone"),city=v("fCity"),time=v("fTime");
+    var digits=phone.replace(/\D/g,"");
+    if(!name||!salon||!city){lerr.textContent="מלאו שם, שם המספרה ועיר.";return;}
+    if(digits.length<9||digits.length>12){lerr.textContent="בדקו את מספר הטלפון, למשל 050-000-0000.";document.getElementById("fPhone").focus();return;}
+    if(!document.getElementById("fConsent").checked){lerr.textContent="סמנו את תיבת ההסכמה כדי שנוכל לחזור אליכם.";return;}
+    lerr.textContent="";
+    var msg="היי שלמה, אני רוצה אפליקציה למספרה 💈\n\nשם: "+name+"\nמספרה: "+salon+"\nעיר: "+city+"\nטלפון: "+phone+"\nזמן נוח לחזור: "+time;
+    waUrl="https://wa.me/972536670760?text="+encodeURIComponent(msg);
+    window.open(waUrl,"_blank","noopener");
+    lf.hidden=true;lok.hidden=false;lok.scrollIntoView({behavior:"smooth",block:"center"});
+  });
+  document.getElementById("leadAgain").addEventListener("click",function(e){e.preventDefault();if(waUrl)location.href=waUrl;});
+  [].forEach.call(document.querySelectorAll('a[href="#contact"]'),function(a){a.addEventListener("click",function(){setTimeout(function(){var f=document.getElementById("fName");if(f&&!lf.hidden)f.focus({preventScroll:true});},500);});});
 
   /* ---------- copy number ---------- */
   var cp=document.getElementById("copied");
