@@ -387,7 +387,7 @@ function waMessage(){
 $("custom").addEventListener("change",function(){$("customWrap").hidden=!this.checked;$("setupPrice").textContent=this.checked?"199":"99";if(this.checked)$("customTxt").focus();save()});
 var waUrl="";
 /* le facteur Cloudflare range la commande dans le panel BarberShops (silencieux : WhatsApp reste la voie principale) */
-var FACTEUR_URL="";
+var FACTEUR_URL="https://barbershops-facteur.chlomo111.workers.dev";
 function postOrder(){if(!FACTEUR_URL)return;try{fetch(FACTEUR_URL+"/commande",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:waMessage()}),keepalive:true}).catch(function(){})}catch(_){}}
 function send(){postOrder();waUrl="https://wa.me/"+OWNER_WA+"?text="+encodeURIComponent(waMessage());window.open(waUrl,"_blank","noopener")}
 /* paiement : mettre ici le lien de paiement par carte (Morning / PayBox / autre) quand il existe */
