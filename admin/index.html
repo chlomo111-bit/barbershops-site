@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>BarberShops Admin</title>
+<meta name="theme-color" content="#0b0907">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap">
+<style>
+:root{--bg:#0b0907;--s1:#16120d;--s2:#1d1811;--line:#30281c;--ink:#f6efe2;--soft:#b5a890;--acc:#ffc24b;--acc-ink:#1a1206;--gold:#d0a858;--ok:#8fd0a3;--bad:#f0a08c;--blue:#8fb8f0;--f:"Heebo",system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+a{color:var(--acc)}
+.wrap{max-width:1100px;margin:0 auto;padding:18px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(11,9,7,.92);backdrop-filter:blur(10px);z-index:5}
+.brand{font-weight:900;font-size:19px}.brand b{color:var(--gold)}
+.btn{font:inherit;font-weight:800;font-size:14px;border-radius:12px;border:1.5px solid #3d3324;background:transparent;color:var(--ink);padding:9px 14px;cursor:pointer;white-space:nowrap}
+.btn:disabled{opacity:.5;cursor:default}
+.btn.main{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.btn.ok{background:#1f3a2a;border-color:#2f5e43;color:var(--ok)}
+.btn.sm{padding:6px 10px;font-size:13px}
+input,select,textarea{font:inherit;font-size:15px;color:var(--ink);background:#0f0c08;border:1.5px solid #3a3022;border-radius:10px;padding:9px 11px;width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:6px 0 16px}
+.stat{background:var(--s1);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.stat b{display:block;font-size:26px;font-weight:900}.stat span{color:var(--soft);font-size:13px;font-weight:700}
+.tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.tabs button{font:inherit;font-weight:800;border-radius:999px;border:1.5px solid #3d3324;background:transparent;color:var(--ink);padding:8px 16px;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tabs .n{display:inline-block;min-width:20px;padding:0 6px;border-radius:999px;background:var(--acc);color:var(--acc-ink);font-size:12px;margin-left:6px}
+.order{display:grid;grid-template-columns:1fr auto;gap:10px 16px;align-items:start}
+.order h3{margin:0 0 4px;font-size:18px}
+.meta{color:var(--soft);font-size:14px;line-height:1.6}
+.meta b{color:var(--ink)}
+.pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12.5px;font-weight:800}
+.p-attente{background:#3a2f12;color:var(--acc)}.p-en_cours{background:#16263d;color:var(--blue)}.p-construction{background:#16263d;color:var(--blue)}
+.p-actif{background:#1f3a2a;color:var(--ok)}.p-erreur,.p-retard{background:#3d1d17;color:var(--bad)}.p-refuse,.p-arrete{background:#2a2620;color:var(--soft)}
+.acts{display:flex;flex-direction:column;gap:6px;align-items:stretch;min-width:210px}
+details{margin-top:8px}summary{cursor:pointer;color:var(--soft);font-size:13px;font-weight:700}
+pre{white-space:pre-wrap;word-break:break-word;background:#0f0c08;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;max-height:260px;overflow:auto;direction:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;color:var(--soft);font-size:12.5px;font-weight:800;padding:8px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px 6px;border-bottom:1px solid #221c14;vertical-align:middle}
+td input,td select{padding:6px 8px;font-size:14px}
+tr.late td{background:#2a1512}
+.login{max-width:420px;margin:60px auto}
+.login h1{font-size:28px;margin:0 0 6px}.login p{color:var(--soft);line-height:1.6}
+.login label{display:block;font-weight:700;font-size:14px;color:var(--soft);margin:12px 0 6px}
+.msg{min-height:20px;font-size:14px;font-weight:700;margin-top:8px}.msg.bad{color:var(--bad)}.msg.good{color:var(--ok)}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--s2);border:1px solid var(--line);border-radius:12px;padding:10px 16px;font-weight:700;z-index:9}
+.empty{color:var(--soft);text-align:center;padding:30px}
+.scroll{overflow-x:auto}
+@media (max-width:700px){.order{grid-template-columns:1fr}.acts{min-width:0}}
+</style>
+</head>
+<body>
+<header><div class="brand">Barber<b>Shops</b> Admin</div>
+  <div style="display:flex;gap:8px;align-items:center"><span id="sync" class="meta"></span><button class="btn sm" id="notifBtn" hidden>🔔 Activer les notifications</button><button class="btn sm" id="logout" hidden>Déconnexion</button></div>
+</header>
+
+<!-- connexion -->
+<section class="login wrap" id="loginBox" hidden>
+  <h1>Connexion</h1>
+  <p id="loginHint">Première fois sur cet appareil : colle ta clé GitHub du panel (dépôt <b>barbershops-factory</b>), puis choisis un mot de passe. Ensuite, seul le mot de passe sera demandé.</p>
+  <form id="loginForm">
+    <div id="tokWrap"><label for="tok">Clé GitHub du panel</label><input id="tok" autocomplete="off" spellcheck="false" placeholder="github_pat_…"></div>
+    <label for="pw">Mot de passe (10 caractères minimum)</label><input id="pw" type="password" autocomplete="current-password">
+    <div style="display:flex;gap:8px;margin-top:14px"><button class="btn main" type="submit" style="flex:1">Entrer</button><button class="btn" type="button" id="resetTok" hidden>Changer de clé</button></div>
+    <div class="msg" id="loginMsg" aria-live="polite"></div>
+  </form>
+</section>
+
+<!-- appli -->
+<main class="wrap" id="app" hidden>
+  <div class="stats" id="stats"></div>
+  <div class="tabs" role="tablist">
+    <button role="tab" data-tab="cmd" aria-selected="true">Commandes<span class="n" id="nAtt" hidden></span></button>
+    <button role="tab" data-tab="abo" aria-selected="false">Abonnements</button>
+    <button role="tab" data-tab="add" aria-selected="false">+ Ajouter à la main</button>
+  </div>
+  <section id="tab-cmd"></section>
+  <section id="tab-abo" hidden></section>
+  <section id="tab-add" hidden>
+    <div class="card">
+      <p class="meta" style="margin-top:0">Colle ici le message WhatsApp d'un barbier (le formulaire du site, ou une commande prise au téléphone au même format).</p>
+      <textarea id="addTxt" rows="12" placeholder="שם המספרה: …"></textarea>
+      <div style="margin-top:10px"><button class="btn main" id="addBtn">Ajouter la commande</button></div>
+      <div class="msg" id="addMsg"></div>
+    </div>
+  </section>
+</main>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(function(){
+var REPO="chlomo111-bit/barbershops-factory",WF="creer-salon.yml",KEY="bsAdminTok",$=function(i){return document.getElementById(i)};
+var token=null,orders=[],shas={},seen=null,timer=null;
+
+/* ---------- petits outils ---------- */
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function toast(t){var e=$("toast");e.textContent=t;e.hidden=false;clearTimeout(e._t);e._t=setTimeout(function(){e.hidden=true},3500)}
+function b64e(b){var s="";b=new Uint8Array(b);for(var i=0;i<b.length;i++)s+=String.fromCharCode(b[i]);return btoa(s)}
+function b64d(s){var a=atob(s),b=new Uint8Array(a.length);for(var i=0;i<a.length;i++)b[i]=a.charCodeAt(i);return b}
+function u8(s){return b64e(new TextEncoder().encode(s))}
+function month(d){d=d||new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")}
+async function kdf(pw,salt){var k=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveKey"]);return crypto.subtle.deriveKey({name:"PBKDF2",salt:salt,iterations:200000,hash:"SHA-256"},k,{name:"AES-GCM",length:256},false,["encrypt","decrypt"])}
+async function seal(pw,txt){var s=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));var c=await crypto.subtle.encrypt({name:"AES-GCM",iv:iv},await kdf(pw,s),new TextEncoder().encode(txt));return {s:b64e(s),iv:b64e(iv),c:b64e(c)}}
+async function open_(pw,o){var p=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64d(o.iv)},await kdf(pw,b64d(o.s)),b64d(o.c));return new TextDecoder().decode(p)}
+
+/* ---------- GitHub ---------- */
+async function gh(method,path,body,raw){
+  var r=await fetch("https://api.github.com/repos/"+REPO+path,{method:method,cache:"no-store",headers:{Authorization:"Bearer "+token,Accept:raw?"application/vnd.github.raw+json":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"},body:body?JSON.stringify(body):undefined});
+  if(r.status===404&&method==="GET")return null;
+  if(!r.ok){var e=new Error("GitHub "+r.status);e.status=r.status;throw e}
+  if(r.status===204)return {};return raw?r.text():r.json();
+}
+async function loadAll(){
+  var list=await gh("GET","/contents/commandes?t="+Date.now())||[];
+  var files=list.filter(function(f){return /\.json$/.test(f.name)});
+  var res=await Promise.all(files.map(async function(f){var t=await gh("GET","/contents/commandes/"+f.name+"?t="+Date.now(),null,true);shas[f.name]=f.sha;try{return JSON.parse(t)}catch(_){return null}}));
+  orders=res.filter(Boolean).sort(function(a,b){return a.at<b.at?1:-1});
+}
+async function saveOrder(o,msg){
+  var name=o.id+".json";
+  for(var i=0;i<3;i++){
+    try{var cur=await gh("GET","/contents/commandes/"+name);var j=await gh("PUT","/contents/commandes/"+name,{message:msg||("Commande "+o.id),content:u8(JSON.stringify(o,null,1)),sha:cur?cur.sha:undefined});shas[name]=j.content.sha;return}
+    catch(e){if(e.status===409&&i<2)continue;throw e}
+  }
+}
+
+/* ---------- lecture du message du formulaire ---------- */
+function fields(o){
+  if(o._f)return o._f;var v={},m=o.message||"";
+  m.split(/\n/).forEach(function(l){var i=l.indexOf(":");if(i>0){var k=l.slice(0,i).trim(),x=l.slice(i+1).trim();if(!(k in v))v[k]=x}});
+  var bs=m.match(/BS1:([A-Za-z0-9+/=]+)/);if(bs){try{var j=JSON.parse(new TextDecoder().decode(b64d(bs[1])));v["שם לתצוגה"]=j.nomAffiche;v["השם שלי"]=j.proprietaire;v["וואטסאפ של המספרה"]=j.whatsapp;v["כתובת האתר"]=j.slug+".barbershops.company";v["כתובת"]=j.adresse}catch(_){}}
+  var custom=/^כן/.test(v["פאנל בהתאמה אישית"]||"");
+  o._f={salon:v["שם לתצוגה"]||v["שם המספרה"]||"?",owner:v["השם שלי"]||"",tel:v["וואטסאפ של המספרה"]||"",site:o.site||v["כתובת האתר"]||"",addr:v["כתובת"]||"",theme:v["עיצוב"]||"",custom:custom,req:v["הבקשות שלי לפאנל"]||"",setup:custom?199:99};
+  return o._f;
+}
+function isLate(o){if(o.status!=="actif")return false;var now=new Date();return (o.payeMois||"")<month(now)&&now.getDate()>=10}
+function label(s){return {attente:"En attente de paiement",en_cours:"Création en cours…",construction:"En ligne · bot à installer",actif:"Actif",erreur:"Erreur",refuse:"Refusée",arrete:"Arrêté"}[s]||s}
+
+/* ---------- affichage ---------- */
+function render(){
+  var act=orders.filter(function(o){return o.status==="actif"}),att=orders.filter(function(o){return o.status==="attente"}),late=orders.filter(isLate);
+  var rev=act.reduce(function(a,o){return a+(+o.mensuel||99)},0),inst=orders.reduce(function(a,o){return a+(o.installPayee?(+o.installation||fields(o).setup):0)},0);
+  var unpaid=act.filter(function(o){return (o.payeMois||"")<month()}).length;
+  $("stats").innerHTML=[["Salons actifs",act.length],["Revenu mensuel",rev+" ₪"],["Pas encore payé ce mois",unpaid],["En retard",late.length],["En attente de paiement",att.length],["Installations encaissées",inst+" ₪"]].map(function(s){return '<div class="stat"><span>'+s[0]+'</span><b>'+s[1]+'</b></div>'}).join("");
+  $("nAtt").hidden=!att.length;$("nAtt").textContent=att.length;
+  var open=orders.filter(function(o){return ["attente","en_cours","construction","erreur"].indexOf(o.status)>=0});
+  var old=orders.filter(function(o){return ["refuse"].indexOf(o.status)>=0});
+  $("tab-cmd").innerHTML=(open.length?open.map(card).join(""):'<div class="empty">Aucune commande en cours. Les nouvelles arrivent ici toutes seules depuis le formulaire.</div>')+(old.length?'<details><summary>Commandes refusées ('+old.length+')</summary>'+old.map(card).join("")+'</details>':"");
+  var subs=orders.filter(function(o){return ["actif","construction","arrete"].indexOf(o.status)>=0});
+  $("tab-abo").innerHTML=subs.length?'<div class="card scroll"><table><thead><tr><th>Salon</th><th>Statut</th><th>Payé ce mois</th><th>Mensuel ₪</th><th>Installation</th><th>Téléphone</th><th>Site</th><th>En ligne depuis</th><th>Notes</th></tr></thead><tbody>'+subs.map(row).join("")+'</tbody></table></div><button class="btn sm" id="ics">Exporter (CSV)</button>':'<div class="empty">Pas encore d\'abonnés. Un salon apparaît ici dès que sa commande est confirmée.</div>';
+  wire();
+}
+function card(o){
+  var f=fields(o),st=isLate(o)?"retard":o.status,d=new Date(o.at);
+  var acts="";
+  if(o.status==="attente")acts='<button class="btn ok" data-act="confirm" data-id="'+o.id+'">✅ Paiement reçu → créer l\'appli</button><button class="btn sm" data-act="refuse" data-id="'+o.id+'">Refuser</button>';
+  if(o.status==="en_cours")acts='<button class="btn sm" disabled>Création en cours (2-4 min)…</button>';
+  if(o.status==="erreur")acts='<button class="btn main" data-act="confirm" data-id="'+o.id+'">↻ Relancer la création</button>';
+  if(o.status==="construction")acts='<a class="btn sm" href="https://'+esc(f.site)+'/" target="_blank" rel="noopener" style="text-align:center;text-decoration:none">Ouvrir le site ↗</a><button class="btn ok" data-act="actif" data-id="'+o.id+'">Bot installé → Actif</button>';
+  if(o.status==="refuse")acts='<button class="btn sm" data-act="reopen" data-id="'+o.id+'">Remettre en attente</button>';
+  var logs=(o.log||[]).slice(-3).map(function(l){return "["+l.t+"]\n"+l.m}).join("\n\n");
+  return '<div class="card order"><div><h3>'+esc(f.salon)+' <span class="pill p-'+st+'">'+esc(isLate(o)?"En retard":label(o.status))+'</span></h3>'+
+    '<div class="meta"><b>'+esc(f.owner)+'</b> · <a href="https://wa.me/972'+esc(String(f.tel).replace(/\D/g,"").replace(/^0/,""))+'" target="_blank" rel="noopener">'+esc(f.tel)+'</a> · '+esc(f.addr)+'<br>🌐 '+esc(f.site)+' · 🎨 '+esc(f.theme)+' · Installation <b>'+f.setup+' ₪</b>'+(f.custom?' · <b style="color:var(--acc)">Panel sur mesure</b>':'')+'<br>Reçue le '+d.toLocaleDateString("fr-FR")+' à '+d.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"})+'</div>'+
+    (f.custom&&f.req?'<div class="meta" style="margin-top:6px">✍️ <b>Demandes :</b> <span dir="auto">'+esc(f.req)+'</span></div>':'')+
+    '<details><summary>Message complet</summary><pre dir="rtl">'+esc(o.message)+'</pre></details>'+(logs?'<details><summary>Journal de création</summary><pre>'+esc(logs)+'</pre></details>':'')+
+    '</div><div class="acts">'+acts+'</div></div>';
+}
+function row(o){
+  var f=fields(o),late=isLate(o),paid=(o.payeMois||"")>=month();
+  return '<tr class="'+(late?"late":"")+'" data-id="'+o.id+'"><td><b>'+esc(f.salon)+'</b><br><span class="meta">'+esc(f.owner)+'</span></td>'+
+    '<td><select data-f="status">'+["construction","actif","arrete"].map(function(s){return '<option value="'+s+'"'+(o.status===s?" selected":"")+'>'+label(s)+'</option>'}).join("")+'</select>'+(late?'<div class="pill p-retard" style="margin-top:4px">En retard</div>':'')+'</td>'+
+    '<td><label style="display:flex;gap:6px;align-items:center;white-space:nowrap"><input type="checkbox" data-f="paye" '+(paid?"checked":"")+' style="width:18px;height:18px"> '+(paid?"Payé":"Non")+'</label></td>'+
+    '<td><input data-f="mensuel" type="number" min="0" value="'+esc(o.mensuel||99)+'" style="width:80px"></td>'+
+    '<td>'+(o.installation||f.setup)+' ₪ '+(o.installPayee?"✓":"✗")+'</td>'+
+    '<td><a href="https://wa.me/972'+esc(String(f.tel).replace(/\D/g,"").replace(/^0/,""))+'" target="_blank" rel="noopener">'+esc(f.tel)+'</a></td>'+
+    '<td><a href="https://'+esc(f.site)+'/" target="_blank" rel="noopener">'+esc(f.site)+'</a></td>'+
+    '<td>'+esc(o.enLigneLe||"")+'</td>'+
+    '<td><input data-f="notes" value="'+esc(o.notes||"")+'" style="min-width:160px"></td></tr>';
+}
+function find(id){return orders.filter(function(o){return o.id===id})[0]}
+function wire(){
+  [].forEach.call(document.querySelectorAll("[data-act]"),function(b){b.onclick=function(){act(b.dataset.act,b.dataset.id,b)}});
+  [].forEach.call(document.querySelectorAll("tr[data-id] [data-f]"),function(el){el.onchange=async function(){
+    var o=find(el.closest("tr").dataset.id),k=el.dataset.f;
+    if(k==="paye")o.payeMois=el.checked?month():"";else if(k==="mensuel")o.mensuel=+el.value||0;else if(k==="status")o.status=el.value;else o[k]=el.value;
+    try{await saveOrder(o,"Abonnement "+o.id);toast("✓ Enregistré");render()}catch(e){toast("Erreur d'enregistrement : "+e.message)}}});
+  var x=$("ics");if(x)x.onclick=function(){var rows=[["Salon","Statut","Payé ce mois","Mensuel","Installation","Téléphone","Site","En ligne depuis","Notes"]].concat(orders.filter(function(o){return ["actif","construction","arrete"].indexOf(o.status)>=0}).map(function(o){var f=fields(o);return [f.salon,label(o.status),(o.payeMois||"")>=month()?"oui":"non",o.mensuel||99,o.installation||f.setup,f.tel,f.site,o.enLigneLe||"",o.notes||""]}));
+    var csv="﻿"+rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"'}).join(",")}).join("\n");var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="abonnements-barbershops.csv";a.click()};
+}
+async function act(what,id,btn){
+  var o=find(id);if(!o)return;btn.disabled=true;
+  try{
+    if(what==="confirm"){
+      if(!confirm("Paiement de "+fields(o).salon+" bien reçu ? L'appli va être créée et mise en ligne."))return btn.disabled=false;
+      o.status="en_cours";o.installPayee=true;o.installation=fields(o).setup;o.mensuel=o.mensuel||99;o.payeLe=new Date().toISOString();
+      await saveOrder(o,"Paiement confirmé "+o.id);
+      await gh("POST","/actions/workflows/"+WF+"/dispatches",{ref:"main",inputs:{order_id:o.id}});
+      toast("✓ Création lancée, compte 2 à 4 minutes");watch();
+    }
+    if(what==="refuse"){if(!confirm("Refuser cette commande ?"))return btn.disabled=false;o.status="refuse";await saveOrder(o)}
+    if(what==="reopen"){o.status="attente";await saveOrder(o)}
+    if(what==="actif"){o.status="actif";o.payeMois=o.payeMois||"";await saveOrder(o,"Salon actif "+o.id);toast("✓ "+fields(o).salon+" est actif")}
+    render();
+  }catch(e){toast("Erreur : "+(e.status===403||e.status===404?"la clé GitHub n'a pas les droits (Contents + Actions en écriture)":e.message));btn.disabled=false}
+}
+
+/* ---------- notifications + mise à jour ---------- */
+function notify(t,b){try{if(window.Notification&&Notification.permission==="granted")new Notification(t,{body:b,icon:"icon-192.png"})}catch(_){};toast(t+(b?" · "+b:""))}
+async function refresh(first){
+  try{
+    var before={};orders.forEach(function(o){before[o.id]=o.status});
+    await loadAll();$("sync").textContent="à jour "+new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
+    if(!first){orders.forEach(function(o){var f=fields(o);
+      if(!(o.id in before)&&o.status==="attente")notify("🆕 Nouvelle commande",f.salon+" · "+f.owner);
+      if(before[o.id]==="en_cours"&&o.status==="construction")notify("✅ Appli en ligne",f.salon+" · "+f.site);
+      if(before[o.id]==="en_cours"&&o.status==="erreur")notify("⚠️ Erreur de création",f.salon+" · voir le journal");
+    })}else{var late=orders.filter(isLate);if(late.length)notify("⚠️ Abonnements en retard",late.map(function(o){return fields(o).salon}).join(", "))}
+    var n=orders.filter(function(o){return o.status==="attente"}).length;document.title=(n?"("+n+") ":"")+"BarberShops Admin";
+    render();
+  }catch(e){$("sync").textContent=e.status===401?"clé GitHub refusée":"hors ligne";if(e.status===401){logout()}}
+}
+function watch(){clearInterval(timer);timer=setInterval(function(){refresh(false)},orders.some(function(o){return o.status==="en_cours"})?15000:60000)}
+
+/* ---------- connexion ---------- */
+function stored(){try{return JSON.parse(localStorage.getItem(KEY)||"null")}catch(_){return null}}
+function showLogin(){var s=stored();$("app").hidden=true;$("loginBox").hidden=false;$("logout").hidden=true;$("notifBtn").hidden=true;$("tokWrap").hidden=!!s;$("resetTok").hidden=!s;$("loginHint").hidden=!!s;$("pw").focus()}
+function logout(){token=null;clearInterval(timer);showLogin()}
+$("resetTok").onclick=function(){if(confirm("Oublier la clé GitHub enregistrée sur cet appareil ?")){localStorage.removeItem(KEY);showLogin()}};
+$("logout").onclick=logout;
+$("loginForm").onsubmit=async function(e){e.preventDefault();var m=$("loginMsg"),pw=$("pw").value,s=stored();m.className="msg";m.textContent="";
+  if(pw.length<10){m.className="msg bad";m.textContent="Mot de passe : 10 caractères minimum.";return}
+  try{if(s){token=await open_(pw,s)}else{var t=$("tok").value.trim();if(!/^(github_pat_|ghp_)/.test(t)){m.className="msg bad";m.textContent="Colle une clé GitHub (github_pat_… ou ghp_…).";return}token=t}}
+  catch(_){m.className="msg bad";m.textContent="Mot de passe incorrect.";return}
+  m.textContent="Connexion…";
+  try{await gh("GET","");}catch(err){token=null;m.className="msg bad";m.textContent=err.status===404?"Dépôt barbershops-factory introuvable avec cette clé.":"Clé GitHub refusée.";return}
+  if(!s)localStorage.setItem(KEY,JSON.stringify(await seal(pw,token)));
+  $("pw").value="";$("tok").value="";start();
+};
+async function start(){$("loginBox").hidden=true;$("app").hidden=false;$("logout").hidden=false;
+  if(window.Notification&&Notification.permission==="default")$("notifBtn").hidden=false;
+  await refresh(true);watch();}
+$("notifBtn").onclick=function(){Notification.requestPermission().then(function(p){$("notifBtn").hidden=p!=="default";if(p==="granted")toast("🔔 Notifications activées")})};
+[].forEach.call(document.querySelectorAll("[data-tab]"),function(b){b.onclick=function(){[].forEach.call(document.querySelectorAll("[data-tab]"),function(x){x.setAttribute("aria-selected",x===b);$("tab-"+x.dataset.tab).hidden=x!==b})}});
+$("addBtn").onclick=async function(){var t=$("addTxt").value.trim(),m=$("addMsg");
+  if(!/שם המספרה:|BS1:/.test(t)){m.className="msg bad";m.textContent="Ce n'est pas un message du formulaire (il manque « שם המספרה: »).";return}
+  var id=new Date().toISOString().slice(0,10).replace(/-/g,"")+"-"+Math.random().toString(36).slice(2,8);
+  var o={id:id,at:new Date().toISOString(),status:"attente",message:t,source:"manuel"};
+  try{await saveOrder(o,"Commande ajoutée à la main "+id);orders.unshift(o);$("addTxt").value="";m.className="msg good";m.textContent="✓ Ajoutée dans Commandes";render()}catch(e){m.className="msg bad";m.textContent="Erreur : "+e.message}};
+document.addEventListener("visibilitychange",function(){if(!document.hidden&&token)refresh(false)});
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(function(){});
+
+showLogin();
+})();
+</script>
+</body>
+</html>
