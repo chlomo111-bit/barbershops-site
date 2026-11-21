@@ -231,8 +231,8 @@ input[dir=ltr]{text-align:right}
 <section class="step done" data-step="7" hidden>
   <div class="ic">✅</div>
   <h1>קיבלנו! <em>מתחילים לבנות</em></h1>
-  <p class="lede">וואטסאפ נפתח עם כל הפרטים. שלחו את ההודעה ושלמה יחזור אליכם עם קישור לאפליקציה שלכם.</p>
-  <p><a href="#" id="waAgain" class="btn wa">וואטסאפ לא נפתח? לחצו כאן</a></p>
+  <p class="lede" id="doneTxt">שולחים את הפרטים…</p>
+  <p><a href="#" id="waAgain" class="btn wa" hidden>וואטסאפ לא נפתח? לחצו כאן</a></p>
   <div class="card pay" style="text-align:right;margin-top:24px">
     <h2>תשלום דמי ההקמה · <span id="payAmt">99</span> ₪</h2>
     <p class="hint">אפשר לשלם כבר עכשיו כדי שנתחיל מיד, או אחרי שנדבר. האפליקציה עולה לאוויר אחרי התשלום, ותקבלו קבלה. התשלום החודשי (99 ₪) מתחיל רק מהחודש שבו האפליקציה באוויר.</p>
@@ -388,8 +388,17 @@ $("custom").addEventListener("change",function(){$("customWrap").hidden=!this.ch
 var waUrl="";
 /* le facteur Cloudflare range la commande dans le panel BarberShops (silencieux : WhatsApp reste la voie principale) */
 var FACTEUR_URL="https://barbershops-facteur.chlomo111.workers.dev";
-function postOrder(){if(!FACTEUR_URL)return;try{fetch(FACTEUR_URL+"/commande",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:waMessage()}),keepalive:true}).catch(function(){})}catch(_){}}
-function send(){postOrder();waUrl="https://wa.me/"+OWNER_WA+"?text="+encodeURIComponent(waMessage());window.open(waUrl,"_blank","noopener")}
+/* la commande part directement dans le panel ; WhatsApp seulement si le facteur ne répond pas */
+function send(){
+  waUrl="https://wa.me/"+OWNER_WA+"?text="+encodeURIComponent(waMessage());
+  var fallback=function(){$("doneTxt").textContent="לא הצלחנו לשלוח אוטומטית, אז פתחנו לך וואטסאפ עם כל הפרטים. רק לשלוח את ההודעה.";$("waAgain").hidden=false;window.open(waUrl,"_blank","noopener")};
+  if(!FACTEUR_URL)return fallback();
+  $("doneTxt").textContent="שולחים את הפרטים…";$("waAgain").hidden=true;
+  var ctl=window.AbortController?new AbortController():null,tm=setTimeout(function(){if(ctl)ctl.abort()},12000);
+  fetch(FACTEUR_URL+"/commande",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:waMessage()}),signal:ctl?ctl.signal:undefined})
+   .then(function(r){clearTimeout(tm);if(!r.ok)throw 0;$("doneTxt").textContent="הפרטים הגיעו לשלמה ✓ הוא יחזור אליך בוואטסאפ, ואחרי התשלום האפליקציה שלך עולה לאוויר."})
+   .catch(function(){clearTimeout(tm);fallback()});
+}
 /* paiement : mettre ici le lien de paiement par carte (Morning / PayBox / autre) quand il existe */
 var PAY_CARD_URL="";
 if(PAY_CARD_URL){$("payCard").href=PAY_CARD_URL;$("payCard").hidden=false}
@@ -401,7 +410,7 @@ function show(n){
   cur=n;[].forEach.call(document.querySelectorAll(".step"),function(s){s.hidden=+s.dataset.step!==n});
   $("bar").style.width=Math.min(100,n/STEPS*100)+"%";$("stepTxt").textContent=n>STEPS?"נשלח ✓":"שלב "+n+" מתוך "+STEPS;
   $("back").hidden=n===1||n>STEPS;$("nav").hidden=n>STEPS;
-  $("next").textContent=n===STEPS?"שליחה בוואטסאפ ✓":"המשך ←";$("next").className="btn "+(n===STEPS?"wa":"main");
+  $("next").textContent=n===STEPS?"שליחה ✓":"המשך ←";$("next").className="btn "+(n===STEPS?"wa":"main");
   if(n===6&&$("custom").checked&&!$("customTxt").value.trim())return bad($("customTxt"),"ספר לנו בקצרה מה חשוב לך שיהיה בפאנל");
   if(n===6){if(!slugTouched&&!$("slug").value)$("slug").value=toSlug($("nom").value);updUrl();summary()}
   $("err").textContent="";window.scrollTo({top:0,behavior:"smooth"});save();
