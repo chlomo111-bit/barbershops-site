@@ -41,7 +41,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
 .meta b{color:var(--ink)}
 .pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12.5px;font-weight:800}
 .p-attente{background:#3a2f12;color:var(--acc)}.p-en_cours{background:#16263d;color:var(--blue)}.p-construction{background:#16263d;color:var(--blue)}
-.p-actif{background:#1f3a2a;color:var(--ok)}.p-erreur,.p-retard{background:#3d1d17;color:var(--bad)}.p-refuse,.p-arrete{background:#2a2620;color:var(--soft)}
+.p-actif{background:#1f3a2a;color:var(--ok)}.p-gratuit{background:#2b2240;color:#c9b3ff}.p-erreur,.p-retard{background:#3d1d17;color:var(--bad)}.p-refuse,.p-arrete{background:#2a2620;color:var(--soft)}
 .acts{display:flex;flex-direction:column;gap:6px;align-items:stretch;min-width:210px}
 details{margin-top:8px}summary{cursor:pointer;color:var(--soft);font-size:13px;font-weight:700}
 pre{white-space:pre-wrap;word-break:break-word;background:#0f0c08;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:12.5px;max-height:260px;overflow:auto;direction:auto}
@@ -144,20 +144,20 @@ function fields(o){
   o._f={salon:v["שם לתצוגה"]||v["שם המספרה"]||"?",owner:v["השם שלי"]||"",tel:v["וואטסאפ של המספרה"]||"",site:o.site||v["כתובת האתר"]||"",addr:v["כתובת"]||"",theme:v["עיצוב"]||"",custom:custom,req:v["הבקשות שלי לפאנל"]||"",setup:custom?199:99};
   return o._f;
 }
-function isLate(o){if(o.status!=="actif")return false;var now=new Date();return (o.payeMois||"")<month(now)&&now.getDate()>=10}
-function label(s){return {attente:"En attente de paiement",en_cours:"Création en cours…",construction:"En ligne · bot à installer",actif:"Actif",erreur:"Erreur",refuse:"Refusée",arrete:"Arrêté"}[s]||s}
+function isLate(o){if(o.status!=="actif"||!(+o.mensuel))return false;var now=new Date();return (o.payeMois||"")<month(now)&&now.getDate()>=10}
+function label(s){return {attente:"En attente de paiement",en_cours:"Création en cours…",construction:"En ligne · bot à installer",actif:"Actif",gratuit:"Gratuit",erreur:"Erreur",refuse:"Refusée",arrete:"Arrêté"}[s]||s}
 
 /* ---------- affichage ---------- */
 function render(){
-  var act=orders.filter(function(o){return o.status==="actif"}),att=orders.filter(function(o){return o.status==="attente"}),late=orders.filter(isLate);
+  var act=orders.filter(function(o){return o.status==="actif"}),free=orders.filter(function(o){return o.status==="gratuit"}),att=orders.filter(function(o){return o.status==="attente"}),late=orders.filter(isLate);
   var rev=act.reduce(function(a,o){return a+(+o.mensuel||99)},0),inst=orders.reduce(function(a,o){return a+(o.installPayee?(+o.installation||fields(o).setup):0)},0);
   var unpaid=act.filter(function(o){return (o.payeMois||"")<month()}).length;
-  $("stats").innerHTML=[["Salons actifs",act.length],["Revenu mensuel",rev+" ₪"],["Pas encore payé ce mois",unpaid],["En retard",late.length],["En attente de paiement",att.length],["Installations encaissées",inst+" ₪"]].map(function(s){return '<div class="stat"><span>'+s[0]+'</span><b>'+s[1]+'</b></div>'}).join("");
+  $("stats").innerHTML=[["Salons actifs",act.length+(free.length?" (+"+free.length+" gratuit)":"")],["Revenu mensuel",rev+" ₪"],["Pas encore payé ce mois",unpaid],["En retard",late.length],["En attente de paiement",att.length],["Installations encaissées",inst+" ₪"]].map(function(s){return '<div class="stat"><span>'+s[0]+'</span><b>'+s[1]+'</b></div>'}).join("");
   $("nAtt").hidden=!att.length;$("nAtt").textContent=att.length;
   var open=orders.filter(function(o){return ["attente","en_cours","construction","erreur"].indexOf(o.status)>=0});
   var old=orders.filter(function(o){return ["refuse"].indexOf(o.status)>=0});
   $("tab-cmd").innerHTML=(open.length?open.map(card).join(""):'<div class="empty">Aucune commande en cours. Les nouvelles arrivent ici toutes seules depuis le formulaire.</div>')+(old.length?'<details><summary>Commandes refusées ('+old.length+')</summary>'+old.map(card).join("")+'</details>':"");
-  var subs=orders.filter(function(o){return ["actif","construction","arrete"].indexOf(o.status)>=0});
+  var subs=orders.filter(function(o){return ["actif","gratuit","construction","arrete"].indexOf(o.status)>=0});
   $("tab-abo").innerHTML=subs.length?'<div class="card scroll"><table><thead><tr><th>Salon</th><th>Statut</th><th>Payé ce mois</th><th>Mensuel ₪</th><th>Installation</th><th>Téléphone</th><th>Site</th><th>En ligne depuis</th><th>Notes</th></tr></thead><tbody>'+subs.map(row).join("")+'</tbody></table></div><button class="btn sm" id="ics">Exporter (CSV)</button>':'<div class="empty">Pas encore d\'abonnés. Un salon apparaît ici dès que sa commande est confirmée.</div>';
   wire();
 }
@@ -171,18 +171,19 @@ function card(o){
   if(o.status==="refuse")acts='<button class="btn sm" data-act="reopen" data-id="'+o.id+'">Remettre en attente</button>';
   var logs=(o.log||[]).slice(-3).map(function(l){return "["+l.t+"]\n"+l.m}).join("\n\n");
   return '<div class="card order"><div><h3>'+esc(f.salon)+' <span class="pill p-'+st+'">'+esc(isLate(o)?"En retard":label(o.status))+'</span></h3>'+
-    '<div class="meta"><b>'+esc(f.owner)+'</b> · <a href="https://wa.me/972'+esc(String(f.tel).replace(/\D/g,"").replace(/^0/,""))+'" target="_blank" rel="noopener">'+esc(f.tel)+'</a> · '+esc(f.addr)+'<br>🌐 '+esc(f.site)+' · 🎨 '+esc(f.theme)+' · Installation <b>'+f.setup+' ₪</b>'+(f.custom?' · <b style="color:var(--acc)">Panel sur mesure</b>':'')+'<br>Reçue le '+d.toLocaleDateString("fr-FR")+' à '+d.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"})+'</div>'+
+    '<div class="meta"><b>'+esc(f.owner)+'</b> · <a href="https://wa.me/972'+esc(String(f.tel).replace(/\D/g,"").replace(/^0/,""))+'" target="_blank" rel="noopener">'+esc(f.tel)+'</a> · '+esc(f.addr)+'<br>🌐 '+esc(f.site)+' · 🎨 '+esc(f.theme)+' · 1er paiement <b>'+(f.setup+99)+' ₪</b> (install. '+f.setup+' + 1er mois 99)'+(f.custom?' · <b style="color:var(--acc)">Panel sur mesure</b>':'')+'<br>Reçue le '+d.toLocaleDateString("fr-FR")+' à '+d.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"})+'</div>'+
     (f.custom&&f.req?'<div class="meta" style="margin-top:6px">✍️ <b>Demandes :</b> <span dir="auto">'+esc(f.req)+'</span></div>':'')+
     '<details><summary>Message complet</summary><pre dir="rtl">'+esc(o.message)+'</pre></details>'+(logs?'<details><summary>Journal de création</summary><pre>'+esc(logs)+'</pre></details>':'')+
     '</div><div class="acts">'+acts+'</div></div>';
 }
 function row(o){
   var f=fields(o),late=isLate(o),paid=(o.payeMois||"")>=month();
+  if(o.status==="gratuit")paid=true;
   return '<tr class="'+(late?"late":"")+'" data-id="'+o.id+'"><td><b>'+esc(f.salon)+'</b><br><span class="meta">'+esc(f.owner)+'</span></td>'+
-    '<td><select data-f="status">'+["construction","actif","arrete"].map(function(s){return '<option value="'+s+'"'+(o.status===s?" selected":"")+'>'+label(s)+'</option>'}).join("")+'</select>'+(late?'<div class="pill p-retard" style="margin-top:4px">En retard</div>':'')+'</td>'+
-    '<td><label style="display:flex;gap:6px;align-items:center;white-space:nowrap"><input type="checkbox" data-f="paye" '+(paid?"checked":"")+' style="width:18px;height:18px"> '+(paid?"Payé":"Non")+'</label></td>'+
-    '<td><input data-f="mensuel" type="number" min="0" value="'+esc(o.mensuel||99)+'" style="width:80px"></td>'+
-    '<td>'+(o.installation||f.setup)+' ₪ '+(o.installPayee?"✓":"✗")+'</td>'+
+    '<td><select data-f="status">'+["construction","actif","gratuit","arrete"].map(function(s){return '<option value="'+s+'"'+(o.status===s?" selected":"")+'>'+label(s)+'</option>'}).join("")+'</select>'+(late?'<div class="pill p-retard" style="margin-top:4px">En retard</div>':'')+'</td>'+
+    '<td><label style="display:flex;gap:6px;align-items:center;white-space:nowrap"><input type="checkbox" data-f="paye" '+(paid?"checked":"")+' style="width:18px;height:18px"> '+(o.status==="gratuit"?"Gratuit":paid?"Payé":"Non")+'</label></td>'+
+    '<td><input data-f="mensuel" type="number" min="0" value="'+esc(o.mensuel!=null?o.mensuel:99)+'" style="width:80px"></td>'+
+    '<td>'+(o.status==="gratuit"?"—":(o.installation!=null?o.installation:f.setup)+' ₪ '+(o.installPayee?"✓":"✗"))+'</td>'+
     '<td><a href="https://wa.me/972'+esc(String(f.tel).replace(/\D/g,"").replace(/^0/,""))+'" target="_blank" rel="noopener">'+esc(f.tel)+'</a></td>'+
     '<td><a href="https://'+esc(f.site)+'/" target="_blank" rel="noopener">'+esc(f.site)+'</a></td>'+
     '<td>'+esc(o.enLigneLe||"")+'</td>'+
@@ -195,15 +196,15 @@ function wire(){
     var o=find(el.closest("tr").dataset.id),k=el.dataset.f;
     if(k==="paye")o.payeMois=el.checked?month():"";else if(k==="mensuel")o.mensuel=+el.value||0;else if(k==="status")o.status=el.value;else o[k]=el.value;
     try{await saveOrder(o,"Abonnement "+o.id);toast("✓ Enregistré");render()}catch(e){toast("Erreur d'enregistrement : "+e.message)}}});
-  var x=$("ics");if(x)x.onclick=function(){var rows=[["Salon","Statut","Payé ce mois","Mensuel","Installation","Téléphone","Site","En ligne depuis","Notes"]].concat(orders.filter(function(o){return ["actif","construction","arrete"].indexOf(o.status)>=0}).map(function(o){var f=fields(o);return [f.salon,label(o.status),(o.payeMois||"")>=month()?"oui":"non",o.mensuel||99,o.installation||f.setup,f.tel,f.site,o.enLigneLe||"",o.notes||""]}));
+  var x=$("ics");if(x)x.onclick=function(){var rows=[["Salon","Statut","Payé ce mois","Mensuel","Installation","Téléphone","Site","En ligne depuis","Notes"]].concat(orders.filter(function(o){return ["actif","gratuit","construction","arrete"].indexOf(o.status)>=0}).map(function(o){var f=fields(o);return [f.salon,label(o.status),(o.payeMois||"")>=month()?"oui":"non",o.mensuel||99,o.installation||f.setup,f.tel,f.site,o.enLigneLe||"",o.notes||""]}));
     var csv="﻿"+rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"'}).join(",")}).join("\n");var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="abonnements-barbershops.csv";a.click()};
 }
 async function act(what,id,btn){
   var o=find(id);if(!o)return;btn.disabled=true;
   try{
     if(what==="confirm"){
-      if(!confirm("Paiement de "+fields(o).salon+" bien reçu ? L'appli va être créée et mise en ligne."))return btn.disabled=false;
-      o.status="en_cours";o.installPayee=true;o.installation=fields(o).setup;o.mensuel=o.mensuel||99;o.payeLe=new Date().toISOString();
+      if(!confirm("Paiement de "+fields(o).salon+" bien reçu ("+(fields(o).setup+99)+" ₪ : installation + 1er mois) ? L'appli va être créée et mise en ligne."))return btn.disabled=false;
+      o.status="en_cours";o.installPayee=true;o.installation=fields(o).setup;o.mensuel=o.mensuel||99;o.payeMois=month();o.payeLe=new Date().toISOString();
       await saveOrder(o,"Paiement confirmé "+o.id);
       await gh("POST","/actions/workflows/"+WF+"/dispatches",{ref:"main",inputs:{order_id:o.id}});
       toast("✓ Création lancée, compte 2 à 4 minutes");watch();

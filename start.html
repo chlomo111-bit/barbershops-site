@@ -223,7 +223,7 @@ input[dir=ltr]{text-align:right}
     <label class="f" id="customWrap" hidden style="margin-top:10px">מה חשוב לך שיהיה בפאנל?
       <textarea id="customTxt" rows="4" maxlength="600" placeholder="למשל: מעקב אחרי מלאי מוצרים, מחיר שונה בסופ״ש, כמה ספרים במספרה עם יומן לכל אחד…"></textarea></label>
   </div>
-  <div class="price-note"><span>הקמה חד־פעמית <span id="setupPrice">99</span> ₪<br><small style="font-weight:600;color:var(--ink-soft)">ואחר כך מחיר קבוע לכל החיים</small></span><b>99 ₪ לחודש</b></div>
+  <div class="price-note"><span>הקמה חד־פעמית <span id="setupPrice">99</span> ₪ + 99 ₪ לחודש<br><small style="font-weight:600;color:var(--ink-soft)">תשלום ראשון: הקמה + חודש ראשון · מחיר חודשי קבוע לתמיד</small></span><b><span id="firstPay">198</span> ₪</b></div>
   <p style="margin:6px 0 0;font-size:12.5px;color:#8b8170">מחירים סופיים · עוסק פטור, ללא מע״מ</p>
   <label class="chk"><input type="checkbox" id="consent"><span>אני מאשר/ת ששלמה מ-BarberShops יקים לי את האפליקציה ויחזור אליי בוואטסאפ. <a href="privacy.html" target="_blank">מדיניות פרטיות</a> · <a href="terms.html" target="_blank">תנאי שימוש</a></span></label>
 </section>
@@ -234,8 +234,9 @@ input[dir=ltr]{text-align:right}
   <p class="lede" id="doneTxt">שולחים את הפרטים…</p>
   <p><a href="#" id="waAgain" class="btn wa" hidden>וואטסאפ לא נפתח? לחצו כאן</a></p>
   <div class="card pay" style="text-align:right;margin-top:24px">
-    <h2>תשלום דמי ההקמה · <span id="payAmt">99</span> ₪</h2>
-    <p class="hint">אפשר לשלם כבר עכשיו כדי שנתחיל מיד, או אחרי שנדבר. האפליקציה עולה לאוויר אחרי התשלום, ותקבלו קבלה. התשלום החודשי (99 ₪) מתחיל רק מהחודש שבו האפליקציה באוויר.</p>
+    <h2>תשלום ראשון · <span id="payAmt">198</span> ₪</h2>
+    <p class="meta" style="margin:0 0 8px;font-weight:700">הקמה <span id="paySetup">99</span> ₪ + חודש ראשון 99 ₪</p>
+    <p class="hint">אפשר לשלם כבר עכשיו כדי שנתחיל מיד, או אחרי שנדבר. האפליקציה עולה לאוויר אחרי התשלום, ותקבלו קבלה. מהחודש השני, 99 ₪ בחודש, מחיר קבוע לתמיד.</p>
     <a class="btn main" id="payCard" href="#" target="_blank" rel="noopener" hidden style="width:100%">תשלום בכרטיס אשראי ←</a>
     <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px">
       <span style="font-weight:800">העברה בביט למספר <span dir="ltr">053-667-0760</span></span>
@@ -384,7 +385,7 @@ function waMessage(){
   L.push("תודה!");
   return L.join("\n");
 }
-$("custom").addEventListener("change",function(){$("customWrap").hidden=!this.checked;$("setupPrice").textContent=this.checked?"199":"99";if(this.checked)$("customTxt").focus();save()});
+$("custom").addEventListener("change",function(){$("customWrap").hidden=!this.checked;$("setupPrice").textContent=this.checked?"199":"99";$("firstPay").textContent=this.checked?"298":"198";if(this.checked)$("customTxt").focus();save()});
 var waUrl="";
 /* le facteur Cloudflare range la commande dans le panel BarberShops (silencieux : WhatsApp reste la voie principale) */
 var FACTEUR_URL="https://barbershops-facteur.chlomo111.workers.dev";
@@ -415,10 +416,10 @@ function show(n){
   if(n===6){if(!slugTouched&&!$("slug").value)$("slug").value=toSlug($("nom").value);updUrl();summary()}
   $("err").textContent="";window.scrollTo({top:0,behavior:"smooth"});save();
 }
-$("next").onclick=function(){if(!check(cur))return;if(cur===STEPS){$("payAmt").textContent=$("custom").checked?"199":"99";send();show(STEPS+1);return}show(cur+1)};
+$("next").onclick=function(){if(!check(cur))return;if(cur===STEPS){$("payAmt").textContent=$("custom").checked?"298":"198";$("paySetup").textContent=$("custom").checked?"199":"99";send();show(STEPS+1);return}show(cur+1)};
 $("back").onclick=function(){if(cur>1)show(cur-1)};
 
-load();$("customWrap").hidden=!$("custom").checked;$("setupPrice").textContent=$("custom").checked?"199":"99";show(1);
+load();$("customWrap").hidden=!$("custom").checked;$("setupPrice").textContent=$("custom").checked?"199":"99";$("firstPay").textContent=$("custom").checked?"298":"198";show(1);
 })();
 </script>
 </body>
