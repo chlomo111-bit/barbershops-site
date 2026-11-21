@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /start.html
+Sitemap: https://barbershops.company/sitemap.xml
