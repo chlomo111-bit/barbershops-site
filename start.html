@@ -351,9 +351,9 @@ function summary(){
 function b64(s){return btoa(unescape(encodeURIComponent(s)))}
 function waMessage(){
   var f=fiche(),th=THEMES.filter(function(t){return t.id===f.theme})[0];
-  return ["היי שלמה! 💈 אני רוצה אפליקציה ל-"+f.nomAffiche,
-    "👤 "+f.proprietaire,"📍 "+f.adresse,"🌐 "+f.slug+".barbershops.company","🎨 "+th.n,
-    "✂️ "+f.services.map(function(s){return s.nom+" "+s.prix+"₪"}).join(", "),"",
+  return ["היי שלמה, אני רוצה אפליקציה ל-"+f.nomAffiche,
+    "שם: "+f.proprietaire,"כתובת: "+f.adresse,"אתר: "+f.slug+".barbershops.company","עיצוב: "+th.n,
+    "שירותים: "+f.services.map(function(s){return s.nom+" "+s.prix+" ש״ח"}).join(", "),"",
     "קוד הגדרות (לא לשנות):","BS1:"+b64(JSON.stringify(f))].join("\n");
 }
 var waUrl="";
