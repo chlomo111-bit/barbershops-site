@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>בונים את האפליקציה שלך · BarberShops</title>
+<meta name="description" content="ממלאים את פרטי המספרה, בוחרים עיצוב, ותוך 24 שעות האפליקציה שלך באוויר.">
+<meta name="theme-color" content="#0b0907">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap">
+<style>
+:root{
+  --canvas:#0b0907; --surface:#16120d; --surface-2:#1d1811; --line:#30281c;
+  --ink:#f6efe2; --ink-soft:#b5a890; --accent:#ffc24b; --accent-ink:#1a1206;
+  --gold:#d0a858; --wa:#25d366; --ok:#8fd0a3; --err:#f0a08c;
+  --f:"Heebo",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --ease:cubic-bezier(.23,1,.32,1);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--f);-webkit-font-smoothing:antialiased}
+body{min-height:100vh;padding-bottom:110px;background:radial-gradient(120% 60% at 50% -10%,#2a2112 0,transparent 60%) var(--canvas)}
+a{color:var(--accent)}
+[hidden]{display:none!important}
+.top{position:sticky;top:0;z-index:5;background:rgba(11,9,7,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-in{max-width:760px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:900;font-size:18px;text-decoration:none;color:var(--ink)}
+.brand b{color:var(--gold)}
+.brand img{width:26px;height:26px}
+.steps-txt{font-size:13px;color:var(--ink-soft);font-weight:700}
+.bar{height:3px;background:var(--line)}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--accent));transition:width .45s var(--ease)}
+.wrap{max-width:760px;margin:0 auto;padding:26px 18px}
+h1{font-size:clamp(28px,6vw,40px);line-height:1.1;margin:6px 0 10px;font-weight:900;letter-spacing:-.01em}
+h1 em{font-style:normal;color:var(--accent)}
+.lede{color:var(--ink-soft);font-size:17px;line-height:1.6;margin:0 0 22px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px;box-shadow:inset 0 1px 0 rgba(255,240,210,.06)}
+.card h2{margin:0 0 4px;font-size:19px;font-weight:800}
+.card .hint{margin:0 0 14px;color:var(--ink-soft);font-size:14px;line-height:1.5}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.full{grid-column:1/-1}
+label.f{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700;color:var(--ink-soft)}
+label.f small{font-weight:500;color:#8b8170}
+input,select,textarea{font:inherit;font-size:16px;color:var(--ink);background:#0f0c08;border:1.5px solid #3a3022;border-radius:12px;padding:12px 13px;width:100%;min-height:48px;outline:none;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--gold)}
+input.bad{border-color:var(--err)}
+input[dir=ltr]{text-align:right}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 26px;border-radius:14px;font:inherit;font-weight:800;font-size:17px;text-decoration:none;cursor:pointer;border:1.5px solid transparent;white-space:nowrap;transition:transform .14s var(--ease),background-color .16s}
+.btn:active{transform:scale(.97)}
+.btn.main{background:var(--accent);color:var(--accent-ink);box-shadow:0 10px 24px -12px rgba(255,194,75,.55),inset 0 1px 0 rgba(255,255,255,.35)}
+.btn.ghost{border-color:#3d3324;color:var(--ink);background:rgba(22,18,13,.6)}
+.btn.wa{background:var(--wa);color:#06220f}
+.btn.sm{min-height:40px;padding:0 14px;font-size:14px}
+.nav{position:fixed;inset:auto 0 0 0;z-index:6;background:rgba(11,9,7,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 18px calc(12px + env(safe-area-inset-bottom,0px))}
+.nav-in{max-width:760px;margin:0 auto;display:flex;gap:10px}
+.nav .btn{flex:1}
+.nav .btn.ghost{flex:0 0 auto}
+.err{color:var(--err);font-size:14px;font-weight:700;min-height:20px;margin:6px 0 0}
+/* services */
+.svc{display:grid;grid-template-columns:1fr 92px 86px 40px;gap:8px;align-items:center;margin-bottom:8px}
+.svc-h{font-size:12px;color:#8b8170;font-weight:700}
+.x{width:40px;height:40px;border-radius:10px;border:1px solid #3a3022;background:transparent;color:var(--ink-soft);font-size:18px;cursor:pointer}
+/* hours */
+.day{display:grid;grid-template-columns:72px 1fr 1fr 92px;gap:8px;align-items:center;margin-bottom:8px}
+.day b{font-size:15px}
+.day.closed input[type=time]{opacity:.35;pointer-events:none}
+.sw{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-soft);font-weight:700;cursor:pointer}
+.sw input{width:20px;height:20px;min-height:0;accent-color:var(--gold)}
+/* bot options */
+.opt{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line);cursor:pointer}
+.opt:first-of-type{border-top:0;padding-top:0}
+.opt input{width:22px;height:22px;min-height:0;margin-top:2px;flex:0 0 auto;accent-color:var(--gold)}
+.opt b{display:block;font-size:15px}
+.opt span{font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+/* themes */
+.themes{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.th{position:relative;border:2px solid var(--line);border-radius:18px;background:var(--surface-2);padding:8px;cursor:pointer;text-align:center;transition:border-color .15s,transform .15s}
+.th img{display:block;width:100%;aspect-ratio:1/2;object-fit:cover;border-radius:12px;background:#000}
+.th b{display:block;margin:8px 0 2px;font-size:15px}
+.th .dots{display:flex;justify-content:center;gap:5px;margin-bottom:4px}
+.th .dots i{width:12px;height:12px;border-radius:50%}
+.th[aria-checked=true]{border-color:var(--accent);transform:translateY(-2px)}
+.th[aria-checked=true]::after{content:"✓";position:absolute;top:14px;left:14px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:900;display:grid;place-items:center}
+.pv{display:flex;gap:8px;justify-content:center;margin:14px 0 0}
+.pv button{font:inherit;font-weight:700;font-size:14px;border-radius:999px;border:1.5px solid #3d3324;background:transparent;color:var(--ink);padding:8px 14px;cursor:pointer}
+.pv button[aria-pressed=true]{background:var(--ink);color:var(--canvas);border-color:var(--ink)}
+.big-prev{display:flex;gap:14px;justify-content:center;margin-top:16px}
+.big-prev img{width:min(46%,230px);border-radius:24px;border:6px solid #221c13;box-shadow:0 30px 60px -30px #000}
+/* summary */
+.sum{font-size:15px;line-height:1.7}
+.sum dt{color:var(--ink-soft);font-size:13px;font-weight:700;margin-top:10px}
+.sum dd{margin:0;font-weight:700}
+.url{direction:ltr;text-align:center;font-weight:900;font-size:clamp(17px,4.6vw,22px);color:var(--accent);background:#0f0c08;border:1.5px dashed #4a3d28;border-radius:14px;padding:14px;margin:6px 0 4px;word-break:break-all}
+.slugrow{display:flex;direction:ltr;align-items:center;gap:0}
+.slugrow input{border-radius:12px 0 0 12px;text-align:left}
+.slugrow span{background:#221c13;border:1.5px solid #3a3022;border-left:0;border-radius:0 12px 12px 0;padding:12px;white-space:nowrap;color:var(--ink-soft);font-weight:700;min-height:48px;display:flex;align-items:center}
+.done{text-align:center;padding:30px 10px}
+.done .ic{font-size:56px}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--ink-soft);line-height:1.5;margin-top:12px;cursor:pointer}
+.chk input{width:22px;height:22px;min-height:0;flex:0 0 auto;accent-color:var(--gold)}
+.price-note{display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:800;background:#1b160f;border:1px solid #3a3022;border-radius:14px;padding:12px 14px;margin-top:12px}
+.price-note b{color:var(--accent);font-size:20px}
+@media (max-width:520px){
+  .grid{grid-template-columns:1fr}
+  .svc{grid-template-columns:1fr 70px 70px 36px}
+  .day{grid-template-columns:54px 1fr 1fr 70px;gap:6px}
+  .x{width:36px;height:36px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="./"><img src="favicon.svg" alt="">Barber<b>Shops</b></a>
+    <span class="steps-txt" id="stepTxt">שלב 1 מתוך 6</span>
+  </div>
+  <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+</header>
+
+<main class="wrap">
+<form id="wiz" novalidate>
+
+<!-- 1 · העסק -->
+<section class="step" data-step="1">
+  <h1>בונים את <em>האפליקציה שלך</em> 💈</h1>
+  <p class="lede">5 דקות של מילוי, ואנחנו מקימים לך אתר תורים, פאנל ניהול ובוט וואטסאפ עם השם שלך. ההקמה בחינם.</p>
+  <div class="card">
+    <h2>המספרה</h2>
+    <p class="hint">ככה הלקוחות יראו אותך באתר ובהודעות.</p>
+    <div class="grid">
+      <label class="f">שם המספרה (קצר) <input id="nom" required maxlength="16" placeholder="למשל: אריאל"><small>מופיע בלוגו ובהודעות</small></label>
+      <label class="f">שם מלא לתצוגה <input id="nomAffiche" required maxlength="30" placeholder="למשל: אריאל ספר"></label>
+      <label class="f">סוג העסק
+        <select id="type">
+          <option>ספר גברים</option><option>מספרה</option><option>מספרת נשים</option><option>ברבר שופ</option><option>מספרה לילדים</option>
+        </select></label>
+      <label class="f">למי השירות <input id="public" placeholder="למשל: גברים וילדים"></label>
+      <label class="f">עיר <input id="ville" required placeholder="למשל: חולון"></label>
+      <label class="f">כתובת מלאה <input id="adresse" required placeholder="למשל: דגניה 27, חולון"></label>
+      <label class="f full">משפט קצר מתחת לשם <input id="slogan" maxlength="40" placeholder="לא מחכים בתור"></label>
+    </div>
+  </div>
+  <div class="card">
+    <h2>יצירת קשר</h2>
+    <div class="grid">
+      <label class="f">השם שלך <input id="owner" required autocomplete="name" placeholder="שם פרטי ומשפחה"></label>
+      <label class="f">וואטסאפ של המספרה <input id="whatsapp" required type="tel" inputmode="tel" dir="ltr" placeholder="050-000-0000"><small>לשם הלקוחות כותבים לך</small></label>
+      <label class="f full">מספרים שיקבלו התראה על כל תור חדש <input id="admins" type="tel" inputmode="tel" dir="ltr" placeholder="050-000-0000, 052-000-0000"><small>אפשר כמה מספרים, מופרדים בפסיק. ריק = הוואטסאפ של המספרה</small></label>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · שירותים -->
+<section class="step" data-step="2" hidden>
+  <h1>השירותים <em>והמחירים</em></h1>
+  <p class="lede">הלקוח בוחר שירות כשהוא קובע תור. תמיד אפשר לשנות אחר כך מהפאנל.</p>
+  <div class="card">
+    <div class="svc svc-h"><span>שם השירות</span><span>משך (דק׳)</span><span>מחיר ₪</span><span></span></div>
+    <div id="svcList"></div>
+    <button class="btn ghost sm" type="button" id="svcAdd">+ שירות נוסף</button>
+  </div>
+</section>
+
+<!-- 3 · שעות -->
+<section class="step" data-step="3" hidden>
+  <h1>שעות <em>הפעילות</em></h1>
+  <p class="lede">הלקוחות יראו רק שעות פנויות בתוך השעות האלה.</p>
+  <div class="card">
+    <div id="hoursList"></div>
+  </div>
+  <div class="card">
+    <h2>חוקי היומן</h2>
+    <div class="grid">
+      <label class="f">כל כמה זמן יש תור
+        <select id="slot"><option value="15">כל 15 דקות</option><option value="20">כל 20 דקות</option><option value="30" selected>כל 30 דקות</option><option value="45">כל 45 דקות</option><option value="60">כל שעה</option></select></label>
+      <label class="f">כמה ימים קדימה אפשר לקבוע
+        <select id="days"><option value="7">שבוע</option><option value="14" selected>שבועיים</option><option value="21">3 שבועות</option><option value="30">חודש</option></select></label>
+      <label class="f">הכי מאוחר לקבוע לפני התור
+        <select id="lead"><option value="0">עד הרגע האחרון</option><option value="30">חצי שעה לפני</option><option value="60" selected>שעה לפני</option><option value="120">שעתיים לפני</option><option value="1440">יום לפני</option></select></label>
+      <label class="f">כמה תורים עתידיים ללקוח אחד
+        <select id="maxFut"><option>1</option><option selected>2</option><option>3</option><option>5</option></select></label>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · הבוט -->
+<section class="step" data-step="4" hidden>
+  <h1>הבוט <em>בוואטסאפ</em> 🤖</h1>
+  <p class="lede">הבוט עובד במקומך 24/7 ממספר וואטסאפ נפרד. בחר מה הוא עושה (הכל ניתן לשינוי בפאנל).</p>
+  <div class="card">
+    <label class="opt"><input type="checkbox" id="bConfirm" checked><div><b>אישור תור ללקוח</b><span>מיד אחרי הקביעה: יום, שעה, כתובת וקישור ליומן</span></div></label>
+    <label class="opt"><input type="checkbox" id="bReminder" checked><div><b>תזכורת לפני התור</b><span>פחות לקוחות שלא מגיעים</span></div></label>
+    <label class="opt"><input type="checkbox" id="bAdmin" checked><div><b>התראה אליך על כל תור חדש וביטול</b><span>למספרים שהגדרת בשלב הראשון</span></div></label>
+    <label class="opt"><input type="checkbox" id="bReview" checked><div><b>בקשת ביקורת אחרי התספורת</b><span>ביקורות אמיתיות ומאומתות שמופיעות באתר</span></div></label>
+    <label class="opt"><input type="checkbox" id="bWinback" checked><div><b>הודעת ״מתגעגעים״ ללקוחות שלא חזרו</b><span>רק ללקוחות שהסכימו, עם אפשרות הסרה</span></div></label>
+    <p class="hint" style="margin:12px 0 0">ותמיד: קוד אימות ללקוח, ביטול בהודעה אחת, ותשובה אוטומטית עם הקישור למי שכותב לבוט.</p>
+  </div>
+</section>
+
+<!-- 5 · עיצוב -->
+<section class="step" data-step="5" hidden>
+  <h1>בוחרים <em>עיצוב</em> 🎨</h1>
+  <p class="lede">אותו אתר, אותו פאנל ניהול, באותם צבעים. הלוגו נבנה עם השם שלך.</p>
+  <div class="themes" id="themes" role="radiogroup" aria-label="עיצוב"></div>
+  <div class="pv" role="group" aria-label="תצוגה"><button type="button" data-pv="home" aria-pressed="true">מסך פתיחה</button><button type="button" data-pv="day" aria-pressed="false">בחירת יום</button></div>
+  <div class="big-prev"><img id="pvHome" alt="תצוגה: מסך הפתיחה"><img id="pvDay" alt="תצוגה: בחירת יום"></div>
+</section>
+
+<!-- 6 · סיכום -->
+<section class="step" data-step="6" hidden>
+  <h1>עוד רגע <em>באוויר</em> 🚀</h1>
+  <p class="lede">זו הכתובת של האפליקציה שלך. אפשר לשנות אותה (באנגלית בלבד).</p>
+  <div class="card">
+    <div class="slugrow"><input id="slug" dir="ltr" maxlength="24" pattern="[a-z0-9-]{2,24}" placeholder="ariel"><span>.barbershops.company</span></div>
+    <div class="url" id="urlPrev"></div>
+  </div>
+  <div class="card"><h2>סיכום</h2><dl class="sum" id="sum"></dl></div>
+  <div class="price-note"><span>חבילה מלאה · הקמה בחינם</span><b>99 ₪ לחודש</b></div>
+  <label class="chk"><input type="checkbox" id="consent"><span>אני מאשר/ת ששלמה מ-BarberShops יקים לי את האפליקציה ויחזור אליי בוואטסאפ. <a href="privacy.html" target="_blank">מדיניות פרטיות</a> · <a href="terms.html" target="_blank">תנאי שימוש</a></span></label>
+</section>
+
+<section class="step done" data-step="7" hidden>
+  <div class="ic">✅</div>
+  <h1>קיבלנו! <em>מתחילים לבנות</em></h1>
+  <p class="lede">וואטסאפ נפתח עם כל הפרטים. שלחו את ההודעה ושלמה יחזור אליכם עם קישור לאפליקציה שלכם.</p>
+  <p><a href="#" id="waAgain" class="btn wa">וואטסאפ לא נפתח? לחצו כאן</a></p>
+  <p style="margin-top:18px"><a href="./">חזרה לאתר</a></p>
+</section>
+
+<p class="err" id="err" aria-live="polite"></p>
+</form>
+</main>
+
+<nav class="nav" id="nav">
+  <div class="nav-in">
+    <button class="btn ghost" type="button" id="back">חזרה</button>
+    <button class="btn main" type="button" id="next">המשך ←</button>
+  </div>
+</nav>
+
+<script>
+(function(){
+var $=function(id){return document.getElementById(id)};
+var STEPS=6,cur=1,KEY="bsStartDraft",OWNER_WA="972536670760";
+var THEMES=[
+  {id:"gold",n:"זהב קלאסי",c:["#0b0a08","#c9a45c","#f5efe3"]},
+  {id:"silver",n:"כסף מודרני",c:["#0a0b0c","#a7b0bb","#eef0f3"]},
+  {id:"blue",n:"כחול לילה",c:["#07090c","#4f93d6","#e6eef6"]},
+  {id:"rose",n:"רוז גולד",c:["#0c0809","#d36a86","#f6e6ea"]},
+  {id:"green",n:"ירוק אמרלד",c:["#070b09","#4fc08c","#e6f5ee"]}
+];
+var DAYS=["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
+var SVC={
+  "ספר גברים":[["תספורת גבר",30,70],["תספורת ילד",30,60],["תספורת + זקן",30,90],["סידור זקן",15,30]],
+  "ברבר שופ":[["תספורת גבר",30,70],["פייד",30,80],["תספורת + זקן",45,100],["סידור זקן",15,30]],
+  "מספרה לילדים":[["תספורת ילד",30,60],["תספורת ראשונה",30,80]],
+  "מספרת נשים":[["תספורת נשים",45,150],["פן",30,90],["צבע",90,300],["החלקה",120,600]],
+  "מספרה":[["תספורת נשים",45,150],["תספורת גבר",30,70],["פן",30,90],["צבע",90,300]]
+};
+var st={theme:"gold",svc:null,hours:null};
+
+/* ---------- services ---------- */
+function svcRow(s){
+  var d=document.createElement("div");d.className="svc";
+  d.innerHTML='<input aria-label="שם השירות" class="sn" maxlength="30"><input aria-label="משך בדקות" class="sd" type="number" inputmode="numeric" min="5" step="5" dir="ltr"><input aria-label="מחיר" class="sp" type="number" inputmode="numeric" min="0" dir="ltr"><button type="button" class="x" aria-label="מחיקה">×</button>';
+  d.querySelector(".sn").value=s[0]||"";d.querySelector(".sd").value=s[1]||30;d.querySelector(".sp").value=s[2]!=null?s[2]:"";
+  d.querySelector(".x").onclick=function(){d.remove();save()};
+  $("svcList").appendChild(d);
+}
+function fillSvc(list){$("svcList").innerHTML="";list.forEach(svcRow)}
+function readSvc(){return [].map.call(document.querySelectorAll("#svcList .svc"),function(d){return [d.querySelector(".sn").value.trim(),+d.querySelector(".sd").value||30,+d.querySelector(".sp").value||0]}).filter(function(s){return s[0]})}
+$("svcAdd").onclick=function(){svcRow(["",30,""]);var l=document.querySelectorAll("#svcList .sn");l[l.length-1].focus()};
+
+/* ---------- hours ---------- */
+function fillHours(h){
+  $("hoursList").innerHTML=DAYS.map(function(n,i){var x=h[i];
+    return '<div class="day'+(x.c?' closed':'')+'" data-i="'+i+'"><b>'+n+'</b><input type="time" class="ho" value="'+x.o+'" aria-label="פתיחה ביום '+n+'"><input type="time" class="hc" value="'+x.e+'" aria-label="סגירה ביום '+n+'"><label class="sw"><input type="checkbox" class="hx"'+(x.c?' checked':'')+'>סגור</label></div>'}).join("");
+  [].forEach.call(document.querySelectorAll("#hoursList .hx"),function(cb){cb.onchange=function(){cb.closest(".day").classList.toggle("closed",cb.checked);save()}});
+}
+function readHours(){return [].map.call(document.querySelectorAll("#hoursList .day"),function(d){return {o:d.querySelector(".ho").value,e:d.querySelector(".hc").value,c:d.querySelector(".hx").checked}})}
+var DEF_H=[0,1,2,3,4].map(function(){return {o:"10:00",e:"20:00",c:false}}).concat([{o:"09:00",e:"14:00",c:false},{o:"10:00",e:"14:00",c:true}]);
+
+/* ---------- themes ---------- */
+$("themes").innerHTML=THEMES.map(function(t){return '<div class="th" role="radio" tabindex="0" aria-checked="false" data-t="'+t.id+'"><img src="themes/'+t.id+'-home.jpg" alt="" loading="lazy"><b>'+t.n+'</b><div class="dots">'+t.c.map(function(c){return '<i style="background:'+c+'"></i>'}).join("")+'</div></div>'}).join("");
+function setTheme(id){st.theme=id;[].forEach.call(document.querySelectorAll(".th"),function(e){e.setAttribute("aria-checked",e.dataset.t===id)});$("pvHome").src="themes/"+id+"-home.jpg";$("pvDay").src="themes/"+id+"-day.jpg";save()}
+[].forEach.call(document.querySelectorAll(".th"),function(e){e.onclick=function(){setTheme(e.dataset.t)};e.onkeydown=function(k){if(k.key==="Enter"||k.key===" "){k.preventDefault();setTheme(e.dataset.t)}}});
+[].forEach.call(document.querySelectorAll(".pv button"),function(b){b.onclick=function(){[].forEach.call(document.querySelectorAll(".pv button"),function(x){x.setAttribute("aria-pressed",x===b)});$(b.dataset.pv==="home"?"pvHome":"pvDay").scrollIntoView({behavior:"smooth",block:"center",inline:"center"})}});
+
+/* ---------- helpers ---------- */
+function phone(v){var d=String(v||"").replace(/\D/g,"");if(d.indexOf("972")===0)d="0"+d.slice(3);return /^05\d{8}$/.test(d)?d:null}
+var TR={"א":"a","ב":"b","ג":"g","ד":"d","ה":"h","ו":"v","ז":"z","ח":"h","ט":"t","י":"y","כ":"k","ך":"k","ל":"l","מ":"m","ם":"m","נ":"n","ן":"n","ס":"s","ע":"a","פ":"p","ף":"f","צ":"tz","ץ":"tz","ק":"k","ר":"r","ש":"sh","ת":"t"};
+function toSlug(s){var a=String(s||"").toLowerCase().split(""),o=a.map(function(ch,i){var prev=a[i-1],next=a[i+1],word=!prev||prev===" ",end=!next||next===" ";
+  if(ch==="ו")return word?"v":"o";if(ch==="י")return word?"y":"i";if(ch==="ה"&&end)return "a";if(ch==="א"&&end)return "a";if(ch==="א"&&!word)return "";return TR[ch]!=null?TR[ch]:ch}).join("");o=o.replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,24);return o||"salon"}
+var slugTouched=false;
+function updUrl(){var s=$("slug").value.trim().toLowerCase();$("urlPrev").textContent=(s||"…")+".barbershops.company"}
+$("slug").addEventListener("input",function(){slugTouched=true;this.value=this.value.toLowerCase().replace(/[^a-z0-9-]/g,"");updUrl();save()});
+$("type").addEventListener("change",function(){if(!st.svcTouched){fillSvc(SVC[this.value]||SVC["ספר גברים"])}save()});
+$("svcList").addEventListener("input",function(){st.svcTouched=true;save()});
+$("nom").addEventListener("input",function(){if(!$("nomAffiche").dataset.t)$("nomAffiche").value=this.value?this.value+" "+($("type").value==="ספר גברים"?"ספר":$("type").value):"";if(!slugTouched){$("slug").value=toSlug(this.value);updUrl()}});
+$("nomAffiche").addEventListener("input",function(){this.dataset.t=1});
+
+/* ---------- draft ---------- */
+var FIELDS=["nom","nomAffiche","type","public","ville","adresse","slogan","owner","whatsapp","admins","slot","days","lead","maxFut","slug"],CHK=["bConfirm","bReminder","bAdmin","bReview","bWinback"];
+function save(){try{var d={theme:st.theme,svc:readSvc(),hours:readHours(),svcTouched:!!st.svcTouched,slugTouched:slugTouched,step:cur};FIELDS.forEach(function(f){d[f]=$(f).value});CHK.forEach(function(f){d[f]=$(f).checked});localStorage.setItem(KEY,JSON.stringify(d))}catch(_){}}
+function load(){var d=null;try{d=JSON.parse(localStorage.getItem(KEY)||"null")}catch(_){}
+  if(d){FIELDS.forEach(function(f){if(d[f]!=null)$(f).value=d[f]});CHK.forEach(function(f){if(d[f]!=null)$(f).checked=d[f]});st.svcTouched=d.svcTouched;slugTouched=d.slugTouched;if(d.nomAffiche)$("nomAffiche").dataset.t=1}
+  fillSvc(d&&d.svc&&d.svc.length?d.svc:SVC["ספר גברים"]);fillHours(d&&d.hours&&d.hours.length===7?d.hours:DEF_H);setTheme(d&&d.theme||"gold");updUrl();
+}
+document.addEventListener("input",function(e){if(e.target.closest("#wiz"))save()});
+
+/* ---------- validation ---------- */
+function bad(el,msg){el.classList.add("bad");el.focus();$("err").textContent=msg;return false}
+function check(n){
+  $("err").textContent="";[].forEach.call(document.querySelectorAll(".bad"),function(e){e.classList.remove("bad")});
+  if(n===1){
+    var req=[["nom","שם המספרה"],["nomAffiche","שם לתצוגה"],["ville","עיר"],["adresse","כתובת"],["owner","השם שלך"]];
+    for(var i=0;i<req.length;i++)if(!$(req[i][0]).value.trim())return bad($(req[i][0]),"חסר: "+req[i][1]);
+    if(!phone($("whatsapp").value))return bad($("whatsapp"),"מספר וואטסאפ לא תקין (05X-XXXXXXX)");
+    var a=$("admins").value.trim();if(a&&a.split(/[,\s]+/).filter(Boolean).some(function(x){return !phone(x)}))return bad($("admins"),"אחד ממספרי ההתראה לא תקין");
+  }
+  if(n===2&&!readSvc().length){$("err").textContent="צריך לפחות שירות אחד";return false}
+  if(n===3&&readHours().every(function(h){return h.c})){$("err").textContent="צריך לפחות יום פתוח אחד";return false}
+  if(n===3&&readHours().some(function(h){return !h.c&&(!h.o||!h.e||h.o>=h.e)})){$("err").textContent="בדקו את השעות: הסגירה צריכה להיות אחרי הפתיחה";return false}
+  if(n===6){
+    if(!/^[a-z0-9-]{2,24}$/.test($("slug").value))return bad($("slug"),"כתובת: אותיות באנגלית, ספרות או מקף (2–24)");
+    if(!$("consent").checked){$("err").textContent="צריך לאשר כדי לשלוח";return false}
+  }
+  return true;
+}
+
+/* ---------- fiche (same format as the generator nouveau-salon.py) ---------- */
+function fiche(){
+  var wa=phone($("whatsapp").value),ad=$("admins").value.trim()?$("admins").value.split(/[,\s]+/).filter(Boolean).map(phone):[wa];
+  if(ad.indexOf("0536670760")<0)ad.push("0536670760");
+  return {slug:$("slug").value,nom:$("nom").value.trim(),nomAffiche:$("nomAffiche").value.trim(),type:$("type").value,ville:$("ville").value.trim(),adresse:$("adresse").value.trim(),adresseCourte:$("ville").value.trim(),
+    public:$("public").value.trim(),slogan:$("slogan").value.trim()||"לא מחכים בתור",whatsapp:wa,adminsWhatsapp:ad,theme:st.theme,proprietaire:$("owner").value.trim(),
+    horaires:readHours().map(function(h){return h.c?"fermé":h.o+"-"+h.e}),
+    services:readSvc().map(function(s){return {nom:s[0],duree:s[1],prix:s[2]}}),
+    creneauMin:+$("slot").value,joursAvance:+$("days").value,delaiMinAvantRdv:+$("lead").value,
+    bot:{sendConfirm:$("bConfirm").checked,sendReminder:$("bReminder").checked,notifyAdmin:$("bAdmin").checked,reviewAsk:$("bReview").checked,winback:$("bWinback").checked,maxFuturePerPhone:+$("maxFut").value}};
+}
+function summary(){
+  var f=fiche(),th=THEMES.filter(function(t){return t.id===f.theme})[0];
+  var rows=[["מספרה",f.nomAffiche+" · "+f.type],["כתובת",f.adresse],["וואטסאפ",f.whatsapp],["שירותים",f.services.map(function(s){return s.nom+" ("+s.duree+" דק׳, "+s.prix+" ₪)"}).join(" · ")],
+    ["שעות",DAYS.map(function(d,i){return d+" "+(f.horaires[i]==="fermé"?"סגור":f.horaires[i])}).join(" · ")],["עיצוב",th.n]];
+  $("sum").innerHTML=rows.map(function(r){return "<dt>"+r[0]+"</dt><dd>"+r[1].replace(/[<>&]/g,"")+"</dd>"}).join("");
+}
+function b64(s){return btoa(unescape(encodeURIComponent(s)))}
+function waMessage(){
+  var f=fiche(),th=THEMES.filter(function(t){return t.id===f.theme})[0];
+  return ["היי שלמה! 💈 אני רוצה אפליקציה ל-"+f.nomAffiche,
+    "👤 "+f.proprietaire,"📍 "+f.adresse,"🌐 "+f.slug+".barbershops.company","🎨 "+th.n,
+    "✂️ "+f.services.map(function(s){return s.nom+" "+s.prix+"₪"}).join(", "),"",
+    "קוד הגדרות (לא לשנות):","BS1:"+b64(JSON.stringify(f))].join("\n");
+}
+var waUrl="";
+function send(){waUrl="https://wa.me/"+OWNER_WA+"?text="+encodeURIComponent(waMessage());window.open(waUrl,"_blank","noopener");}
+$("waAgain").onclick=function(e){e.preventDefault();if(waUrl)location.href=waUrl};
+
+/* ---------- navigation ---------- */
+function show(n){
+  cur=n;[].forEach.call(document.querySelectorAll(".step"),function(s){s.hidden=+s.dataset.step!==n});
+  $("bar").style.width=Math.min(100,n/STEPS*100)+"%";$("stepTxt").textContent=n>STEPS?"נשלח ✓":"שלב "+n+" מתוך "+STEPS;
+  $("back").hidden=n===1||n>STEPS;$("nav").hidden=n>STEPS;
+  $("next").textContent=n===STEPS?"שליחה בוואטסאפ ✓":"המשך ←";$("next").className="btn "+(n===STEPS?"wa":"main");
+  if(n===6){if(!slugTouched&&!$("slug").value)$("slug").value=toSlug($("nom").value);updUrl();summary()}
+  $("err").textContent="";window.scrollTo({top:0,behavior:"smooth"});save();
+}
+$("next").onclick=function(){if(!check(cur))return;if(cur===STEPS){send();show(STEPS+1);return}show(cur+1)};
+$("back").onclick=function(){if(cur>1)show(cur-1)};
+
+load();show(1);
+})();
+</script>
+</body>
+</html>
