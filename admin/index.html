@@ -130,7 +130,7 @@ async function loadAll(){
 async function saveOrder(o,msg){
   var name=o.id+".json";
   for(var i=0;i<3;i++){
-    try{var cur=await gh("GET","/contents/commandes/"+name);var j=await gh("PUT","/contents/commandes/"+name,{message:msg||("Commande "+o.id),content:u8(JSON.stringify(o,null,1)),sha:cur?cur.sha:undefined});shas[name]=j.content.sha;return}
+    try{var cur=await gh("GET","/contents/commandes/"+name);var j=await gh("PUT","/contents/commandes/"+name,{message:msg||("Commande "+o.id),content:u8(JSON.stringify(o,function(k,v){return k==="_f"?undefined:v},1)),sha:cur?cur.sha:undefined});shas[name]=j.content.sha;return}
     catch(e){if(e.status===409&&i<2)continue;throw e}
   }
 }
